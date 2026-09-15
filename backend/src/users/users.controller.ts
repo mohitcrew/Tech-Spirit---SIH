@@ -1,0 +1,4 @@
+import { Role, UserStatus, CourseLevel, CourseStatus, EnrollmentStatus, NotificationType, ResourceType } from '../common/enums';
+﻿import { Body, Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common'; import { AuthGuard } from '@nestjs/passport'; import { UsersService } from './users.service'; import { UpdateProfileDto } from './dto/user.dto'; import { Roles } from '../common/decorators/roles.decorator'; import { RolesGuard } from '../common/guards/roles.guard';  
+@UseGuards(AuthGuard('jwt'),RolesGuard) @Controller('users') export class UsersController {constructor(private s:UsersService){} @Get('me')me(@Req()r:any){return this.s.me(r.user.id)}@Patch('me')updateMe(@Req()r:any,@Body()d:UpdateProfileDto){return this.s.updateMe(r.user.id,d)} @Roles(Role.ADMIN)@Get()list(){return this.s.list()} @Roles(Role.ADMIN)@Patch(':id')update(@Param('id')id:string,@Body()d:any){return this.s.updateUser(id,d)}}
+

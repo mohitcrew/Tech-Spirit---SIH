@@ -1,0 +1,10 @@
+﻿export { default as TraineeDashboard } from './Dashboard';
+export { default as TraineeCourses } from './Courses';
+export { default as CourseDetail } from './CourseDetail';
+export { default as MyLearning } from './Learning';
+export { default as TakeAssessment } from './Assessment';
+export { default as Results } from './Results';
+export { default as Certificates } from './Certificates';
+export { default as TraineeProfile } from './Profile';
+export { default as Notifications } from './Notifications';
+export { default as KnowledgeHub } from './Knowledge';

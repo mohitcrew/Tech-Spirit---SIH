@@ -1,0 +1,1 @@
+import{Module}from'@nestjs/common';import{EnrollmentsController}from'./enrollments.controller';import{CoursesModule}from'../courses/courses.module';@Module({imports:[CoursesModule],controllers:[EnrollmentsController]})export class EnrollmentsModule{}

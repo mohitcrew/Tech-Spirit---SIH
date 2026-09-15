@@ -1,0 +1,10 @@
+export { default as AdminDashboard } from './Dashboard';
+export { default as AdminUsers } from './Users';
+export { default as AdminCourses } from './AdminCourses';
+export { default as AdminCertificates } from './AdminCertificates';
+export { default as Analytics } from './Analytics';
+export { default as AuditLogs } from './AuditLogs';
+export { default as Announcements } from './Announcements';
+export { default as AdminKnowledge } from './AdminKnowledge';
+export { default as AdminNotifications } from './AdminNotifications';
+export { default as Settings } from './Settings';

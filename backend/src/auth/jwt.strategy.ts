@@ -1,0 +1,2 @@
+import { Injectable, UnauthorizedException } from '@nestjs/common'; import { ConfigService } from '@nestjs/config'; import { PassportStrategy } from '@nestjs/passport'; import { ExtractJwt, Strategy } from 'passport-jwt';
+@Injectable() export class JwtStrategy extends PassportStrategy(Strategy) { constructor(c:ConfigService){super({jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken(),secretOrKey:c.getOrThrow('JWT_SECRET')})} validate(p:{sub:string;role:string;email:string}){if(!p.sub)throw new UnauthorizedException();return {id:p.sub,role:p.role,email:p.email}} }

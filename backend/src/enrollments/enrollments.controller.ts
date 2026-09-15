@@ -1,0 +1,1 @@
+import { Controller,Get,Req,UseGuards }from '@nestjs/common';import{AuthGuard}from '@nestjs/passport';import{CoursesService}from '../courses/courses.service';@UseGuards(AuthGuard('jwt'))@Controller('users/me/enrollments')export class EnrollmentsController{constructor(private s:CoursesService){}@Get()list(@Req()r:any){return this.s.enrollments(r.user.id)}}

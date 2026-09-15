@@ -1,0 +1,8 @@
+﻿export enum Role { ADMIN = 'ADMIN', TRAINER = 'TRAINER', TRAINEE = 'TRAINEE' }
+export enum UserStatus { PENDING = 'PENDING', ACTIVE = 'ACTIVE', INACTIVE = 'INACTIVE' }
+export enum CourseLevel { BEGINNER = 'BEGINNER', INTERMEDIATE = 'INTERMEDIATE', ADVANCED = 'ADVANCED' }
+export enum CourseStatus { DRAFT = 'DRAFT', PUBLISHED = 'PUBLISHED', ARCHIVED = 'ARCHIVED' }
+export enum EnrollmentStatus { ENROLLED = 'ENROLLED', COMPLETED = 'COMPLETED', DROPPED = 'DROPPED' }
+export enum ResourceType { PDF = 'PDF', VIDEO = 'VIDEO', PRESENTATION = 'PRESENTATION', GUIDELINES = 'GUIDELINES' }
+export enum NotificationType { SYSTEM = 'SYSTEM', COURSE = 'COURSE', ASSESSMENT = 'ASSESSMENT' }
+

@@ -1,12 +1,44 @@
 ﻿import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { api, unwrap } from '../../services/api';
-import { Library, CheckCircle, Clock } from 'lucide-react';
+import { Library, CheckCircle, Clock, Layers, MapPin, UserRound } from 'lucide-react';
+
+interface CourseRecord {
+  id: string;
+  [key: string]: unknown;
+}
+
+const COURSE_ALIASES: Record<string, string[]> = {
+  title: ['title', 'courseName', 'course_name', 'name'],
+  description: ['description', 'courseDescription', 'course_description'],
+  sector: ['sector', 'industry'],
+  domain: ['domain', 'category', 'subject'],
+  skills: ['skills', 'skill', 'techStack', 'technologies'],
+  competencies: ['competencies', 'competency', 'learningObjectives'],
+  level: ['level', 'difficulty'],
+  duration: ['duration', 'durationHours', 'hours'],
+  trainer: ['trainerName', 'instructor', 'instructorName'],
+  mode: ['trainingMode', 'training_mode', 'learningMode', 'mode'],
+  eligibility: ['eligibility', 'eligibilityCriteria', 'prerequisites'],
+  dates: ['dates', 'courseDates', 'startDate', 'endDate', 'schedule'],
+};
+
+function courseValue(course: CourseRecord, field: string): string {
+  const key = COURSE_ALIASES[field]?.find(alias => course[alias] !== undefined && course[alias] !== null && course[alias] !== '');
+  const value = key ? course[key] : undefined;
+  if (Array.isArray(value)) return value.join(', ');
+  return value === undefined || value === null ? '' : String(value);
+}
 
 export default function Learning() {
   const { data, isLoading } = useQuery({
     queryKey: ['enrollments'],
     queryFn: () => unwrap<any[]>(api.get('/users/me/enrollments')),
+  });
+  const { data: recommendedCourses = [] } = useQuery<CourseRecord[]>({
+    queryKey: ['courses'],
+    queryFn: () => unwrap<CourseRecord[]>(api.get('/courses')),
+    enabled: !isLoading && !data?.length,
   });
 
   if (isLoading) return <div className="state-box loading-pulse"><p>Loading your learning…</p></div>;
@@ -21,11 +53,69 @@ export default function Learning() {
       </div>
 
       {!data?.length && (
-        <div className="state-box">
-          <Library size={40} opacity={0.3} />
-          <p style={{ marginTop: 10 }}>You are not enrolled in any courses yet.</p>
-          <Link to="/trainee/courses" className="btn" style={{ marginTop: 14, display: 'inline-flex' }}>Browse Course Catalogue</Link>
-        </div>
+        <>
+          <div className="state-box">
+            <Library size={40} opacity={0.3} />
+            <p style={{ marginTop: 10 }}>You are not enrolled in any courses yet.</p>
+            <Link to="/trainee/courses" className="btn" style={{ marginTop: 14, display: 'inline-flex' }}>Browse Course Catalogue</Link>
+          </div>
+
+          {recommendedCourses.length > 0 && (
+            <section>
+              <div className="page-title" style={{ marginBottom: 16 }}>
+                <div className="page-title-text">
+                  <h2 style={{ fontSize: 18 }}>Recommended courses</h2>
+                  <p>Explore published programmes and start building your learning plan.</p>
+                </div>
+                <Link to="/trainee/courses" className="link">View all courses &rarr;</Link>
+              </div>
+              <div className="course-grid">
+                {recommendedCourses.slice(0, 3).map(course => {
+                  const title = courseValue(course, 'title') || 'Untitled course';
+                  const description = courseValue(course, 'description');
+                  const domain = courseValue(course, 'domain');
+                  const sector = courseValue(course, 'sector');
+                  const skills = courseValue(course, 'skills');
+                  const competencies = courseValue(course, 'competencies');
+                  const trainer = courseValue(course, 'trainer') || (course.trainer as { name?: string } | undefined)?.name || 'Assigned trainer';
+                  const duration = courseValue(course, 'duration');
+                  const mode = courseValue(course, 'mode');
+                  const level = courseValue(course, 'level');
+                  const eligibility = courseValue(course, 'eligibility');
+                  const dates = courseValue(course, 'dates');
+
+                  return (
+                    <article key={course.id} className="course-card">
+                      <div className="course-card-body">
+                        <div style={{ marginBottom: 8 }}>
+                          {level && <span className="badge badge-blue">{level}</span>}
+                          {domain && <span className="badge badge-gray" style={{ marginLeft: 6 }}>{domain}</span>}
+                          {sector && <span className="badge badge-teal" style={{ marginLeft: 6 }}>{sector}</span>}
+                        </div>
+                        <h3 className="course-card-title">{title}</h3>
+                        {description && <p className="course-card-desc">{description.slice(0, 140)}{description.length > 140 ? '…' : ''}</p>}
+                        <div className="course-card-meta">
+                          {duration && <span><Clock size={13} /> {duration}{/^\d+(\.\d+)?$/.test(duration) ? 'h' : ''}</span>}
+                          {mode && <span><MapPin size={13} /> {mode}</span>}
+                        </div>
+                        <div className="course-card-fields">
+                          <div><UserRound size={13} /><strong>Trainer</strong><span>{trainer}</span></div>
+                          {skills && <div><Layers size={13} /><strong>Skills</strong><span>{skills}</span></div>}
+                          {competencies && <div><strong>Competencies</strong><span>{competencies}</span></div>}
+                          {eligibility && <div><strong>Eligibility</strong><span>{eligibility}</span></div>}
+                          {dates && <div><strong>Dates</strong><span>{dates}</span></div>}
+                        </div>
+                      </div>
+                      <div className="course-card-footer">
+                        <Link to={`/trainee/courses/${course.id}`} className="btn" style={{ width: '100%', justifyContent: 'center' }}>View course</Link>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

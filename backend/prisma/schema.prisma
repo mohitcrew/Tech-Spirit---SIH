@@ -47,9 +47,16 @@ model Course {
   title              String
   description        String
   category           String
+  sector             String            @default("")
+  domain             String            @default("")
+  skills             String            @default("")
+  competencies       String            @default("")
   department         String
   level              String
   durationHours      Int
+  trainingMode       String            @default("")
+  eligibility        String            @default("")
+  courseDates        String            @default("")
   learningObjectives String
   thumbnailUrl       String?
   status             String              @default("DRAFT")

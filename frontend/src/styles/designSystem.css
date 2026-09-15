@@ -1,0 +1,261 @@
+/* ==========================================================================
+   CAPACITY CONNECT — Design System & Custom Modern EdTech Styles
+   ========================================================================== */
+
+:root {
+  /* Brand Primary Colors */
+  --cc-primary: #2563EB;
+  --cc-primary-hover: #1D4ED8;
+  --cc-navy: #0F172A;
+  --cc-green: #10B981;
+  --cc-purple: #8B5CF6;
+  --cc-amber: #F59E0B;
+  --cc-sky: #38BDF8;
+  --cc-cyan: #06B6D4;
+
+  /* Surfaces & Backgrounds */
+  --cc-bg: #F8FAFC;
+  --cc-surface: #FFFFFF;
+  --cc-surface-muted: #F1F5F9;
+
+  /* Neutrals & Borders */
+  --cc-neutral: #64748B;
+  --cc-light-border: #E2E8F0;
+  --cc-border-hover: #CBD5E1;
+
+  /* Soft Pastel Tints */
+  --cc-tint-green: #D1FAE5;
+  --cc-tint-blue: #DBEAFE;
+  --cc-tint-purple: #EDE9FE;
+  --cc-tint-amber: #FEF3C7;
+  --cc-tint-sky: #E0F2FE;
+
+  /* Shadows */
+  --cc-shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --cc-shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --cc-shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+  --cc-shadow-glow-blue: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+  --cc-shadow-glow-purple: 0 10px 25px -5px rgba(139, 92, 246, 0.25);
+}
+
+/* Typography font family default */
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--cc-bg);
+  color: var(--cc-navy);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Soft EdTech Card */
+.cc-card {
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-light-border);
+  border-radius: 20px;
+  box-shadow: var(--cc-shadow-md);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cc-card:hover {
+  box-shadow: var(--cc-shadow-lg);
+  border-color: var(--cc-border-hover);
+  transform: translateY(-2px);
+}
+
+.cc-card-flat {
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-light-border);
+  border-radius: 20px;
+}
+
+/* Rounded Cards */
+.rounded-card {
+  border-radius: 20px;
+}
+
+.rounded-card-lg {
+  border-radius: 24px;
+}
+
+/* Friendly Gradient Hero */
+.cc-hero-gradient {
+  background: linear-gradient(135deg, #EFF6FF 0%, #FAF5FF 50%, #F0FDF4 100%);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+}
+
+/* Primary & Action Buttons */
+.cc-btn-primary {
+  background-color: var(--cc-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 0.65rem 1.35rem;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.cc-btn-primary:hover {
+  background-color: var(--cc-primary-hover);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  transform: translateY(-1px);
+}
+
+.cc-btn-primary:active {
+  transform: translateY(0);
+}
+
+.cc-btn-secondary {
+  background-color: #FFFFFF;
+  color: var(--cc-navy);
+  border: 1.5px solid var(--cc-light-border);
+  font-weight: 600;
+  padding: 0.65rem 1.35rem;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.cc-btn-secondary:hover {
+  background-color: var(--cc-surface-muted);
+  border-color: var(--cc-neutral);
+  transform: translateY(-1px);
+}
+
+/* Badges & Pills */
+.cc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.cc-pill-blue {
+  background-color: var(--cc-tint-blue);
+  color: var(--cc-primary);
+}
+
+.cc-pill-green {
+  background-color: var(--cc-tint-green);
+  color: #047857;
+}
+
+.cc-pill-purple {
+  background-color: var(--cc-tint-purple);
+  color: #6D28D9;
+}
+
+.cc-pill-amber {
+  background-color: var(--cc-tint-amber);
+  color: #B45309;
+}
+
+/* Pulsing live dot */
+.cc-live-pulse {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #EF4444;
+}
+
+.cc-live-pulse::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: rgba(239, 68, 68, 0.4);
+  animation: cc-pulse-ring 1.6s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+@keyframes cc-pulse-ring {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+/* Floating animation for decorative items */
+@keyframes cc-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.cc-float {
+  animation: cc-float 4s ease-in-out infinite;
+}
+
+.cc-float-delayed {
+  animation: cc-float 4s ease-in-out 2s infinite;
+}
+
+/* Streak flame bounce */
+@keyframes cc-streak-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18) rotate(3deg); }
+}
+
+.cc-streak-flame {
+  display: inline-block;
+  animation: cc-streak-bounce 2s ease-in-out infinite;
+}
+
+/* Circular Progress Graphic */
+.cc-circular-progress {
+  transform: rotate(-90deg);
+}
+
+.cc-circular-progress-bg {
+  stroke: var(--cc-light-border);
+}
+
+.cc-circular-progress-val {
+  transition: stroke-dashoffset 0.8s ease;
+  stroke-linecap: round;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Confetti Canvas Container */
+#cc-confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}

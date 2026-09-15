@@ -1,4 +1,7 @@
-﻿export const Button = ({ children, className = '', variant = 'primary', size = 'md', ...props }: any) => {
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+export const Button = ({ children, className = '', variant = 'primary', size = 'md', ...props }: any) => {
   const cls = `btn ${variant === 'outline' ? 'btn-outline' : variant === 'danger' ? 'btn-danger' : variant === 'success' ? 'btn-success' : ''} ${size === 'sm' ? 'btn-sm' : ''} ${className}`;
   return <button className={cls} {...props}>{children}</button>;
 };
@@ -20,6 +23,10 @@ export const Loading = ({ text = 'Loading data…' }: any) => (
   </div>
 );
 
+export const Alert = ({ type = 'info', children }: any) => (
+  <div className={`alert alert-${type}`}>{children}</div>
+);
+
 export const Empty = ({ children = 'No records found.', icon }: any) => (
   <div className="state-box">
     {icon || (
@@ -31,9 +38,25 @@ export const Empty = ({ children = 'No records found.', icon }: any) => (
   </div>
 );
 
+export const EmptyState = ({ message = 'No items found.', action }: any) => (
+  <div className="state-box">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="12" cy="12" r="10"/><path d="M8 12h8"/>
+    </svg>
+    <p>{message}</p>
+    {action && <div style={{ marginTop: 12 }}>{action}</div>}
+  </div>
+);
+
 export const ErrorState = ({ message = 'Something went wrong.' }: any) => (
   <div className="state-box">
     <p style={{ color: '#dc2626' }}>{message}</p>
+  </div>
+);
+
+export const Table = ({ children, className = '' }: any) => (
+  <div className="table-wrap">
+    <table className={className}>{children}</table>
   </div>
 );
 
@@ -48,7 +71,6 @@ export const PageTitle = ({ title, subtitle, action }: any) => (
 );
 
 export const TextLink = ({ to, children, className = '' }: any) => {
-  const { Link } = require('react-router-dom');
   return <Link className={`link ${className}`} to={to}>{children}</Link>;
 };
 
@@ -56,10 +78,6 @@ export const ProgressBar = ({ value, color = 'teal' }: any) => (
   <div className="progress-bar">
     <div className={`progress-fill${color === 'blue' ? ' progress-fill-blue' : ''}`} style={{ width: `${Math.min(100, Math.max(0, value))}%` }} />
   </div>
-);
-
-export const Alert = ({ type = 'info', children }: any) => (
-  <div className={`alert alert-${type}`}>{children}</div>
 );
 
 export const StatCard = ({ label, value, sub, icon }: any) => (

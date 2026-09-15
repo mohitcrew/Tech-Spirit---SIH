@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { PortalLayout } from './layouts/PortalLayout';
@@ -24,7 +24,7 @@ const Settings    = lazy(() => import('./pages/shared/SettingsPage'));
 
 // ── Trainer-specific ──────────────────────────────────────────────────────
 const CreateCourse = lazy(() => import('./pages/trainer/CreateCourse').then(m => ({ default: m.CreateCourse })));
-const Trainees    = lazy(() => import('./pages/trainer/Trainees').then(m => ({ default: m.Trainees })));
+const Trainees    = lazy(() => import('./pages/trainer/Trainees'));
 
 // ── Admin-specific ────────────────────────────────────────────────────────
 const AdminUsers  = lazy(() => import('./pages/admin/Users').then(m => ({ default: m.AdminUsers })));

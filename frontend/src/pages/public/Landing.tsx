@@ -18,43 +18,38 @@ import { WhySkillSync } from '../../components/public/WhySkillSync';
 import { FinalCta } from '../../components/public/FinalCta';
 import { SkillSyncFooter } from '../../components/public/SkillSyncFooter';
 import { SkillSyncChatbot } from '../../components/ai/SkillSyncChatbot';
-import { AuthModal } from '../../components/public/AuthModal';
 import { PublicCourse, PublicCompetency, PublicTrainer } from '../../data/skillsyncData';
 
 export function Landing() {
   const navigate = useNavigate();
 
-  // Auth modal state
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authIntent, setAuthIntent] = useState('access your personalized SkillSync dashboard');
-  const [redirectTarget, setRedirectTarget] = useState<string | undefined>(undefined);
-
   // Chatbot state
   const [chatbotOpen, setChatbotOpen] = useState(false);
 
-  const openAuthWithIntent = (intentText: string, target?: string) => {
-    setAuthIntent(intentText);
-    setRedirectTarget(target);
-    setAuthModalOpen(true);
+  const navigateToLoginWithIntent = (intentText: string, target?: string) => {
+    const params = new URLSearchParams();
+    if (intentText) params.set('intent', intentText);
+    if (target) params.set('redirect', target);
+    navigate(`/login?${params.toString()}`);
   };
 
   const handleEnrollCourse = (course: PublicCourse) => {
-    openAuthWithIntent(`enroll in "${course.title}" and access the course room`, `/trainee/courses`);
+    navigateToLoginWithIntent(`enroll in "${course.title}" and access the course room`, `/trainee/courses`);
   };
 
   const handleAnalyzeGap = (competency: PublicCompetency) => {
-    openAuthWithIntent(`run a personalized diagnostic on "${competency.title}"`, `/trainee/learning`);
+    navigateToLoginWithIntent(`run a personalized diagnostic on "${competency.title}"`, `/trainee/learning`);
   };
 
   const handleConnectTrainer = (trainer: PublicTrainer) => {
-    openAuthWithIntent(`schedule 1-on-1 mentorship with ${trainer.name}`, `/trainee/dashboard`);
+    navigateToLoginWithIntent(`schedule 1-on-1 mentorship with ${trainer.name}`, `/trainee/dashboard`);
   };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
       {/* Sticky Premium Navbar */}
       <SkillSyncNavbar
-        onOpenAuthModal={(intent) => openAuthWithIntent(intent || 'create your free account')}
+        onOpenAuthModal={(intent) => navigateToLoginWithIntent(intent || 'create your free account')}
         onOpenAi={() => setChatbotOpen(true)}
       />
 
@@ -64,7 +59,7 @@ export function Landing() {
           const el = document.getElementById('courses');
           el?.scrollIntoView({ behavior: 'smooth' });
         }}
-        onRegisterClick={() => openAuthWithIntent('create your free SkillSync account')}
+        onRegisterClick={() => navigateToLoginWithIntent('create your free SkillSync account')}
         onOpenAi={() => setChatbotOpen(true)}
       />
 
@@ -100,7 +95,7 @@ export function Landing() {
 
       {/* 10. My Capacity Journey Preview */}
       <CapacityJourneyPreview
-        onBuildJourney={() => openAuthWithIntent('build your personalized capacity roadmap')}
+        onBuildJourney={() => navigateToLoginWithIntent('build your personalized capacity roadmap')}
       />
 
       {/* 11. Training Opportunity Radar */}
@@ -123,7 +118,7 @@ export function Landing() {
           const el = document.getElementById('skills');
           el?.scrollIntoView({ behavior: 'smooth' });
         }}
-        onRegisterTrainer={() => openAuthWithIntent('apply as a verified SkillSync trainer', '/trainer/dashboard')}
+        onRegisterTrainer={() => navigateToLoginWithIntent('apply as a verified SkillSync trainer', '/trainer/dashboard')}
       />
 
       {/* 15. Final Call to Action */}
@@ -132,7 +127,7 @@ export function Landing() {
           const el = document.getElementById('courses');
           el?.scrollIntoView({ behavior: 'smooth' });
         }}
-        onRegister={() => openAuthWithIntent('create your free SkillSync account')}
+        onRegister={() => navigateToLoginWithIntent('create your free SkillSync account')}
       />
 
       {/* Footer */}
@@ -142,15 +137,7 @@ export function Landing() {
       <SkillSyncChatbot
         isOpen={chatbotOpen}
         onClose={() => setChatbotOpen(false)}
-        onOpenAuthModal={(intent) => openAuthWithIntent(intent || 'access personalized AI')}
-      />
-
-      {/* Universal Action-Driven Authentication Modal */}
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        intent={authIntent}
-        redirectTarget={redirectTarget}
+        onOpenAuthModal={(intent) => navigateToLoginWithIntent(intent || 'access personalized AI')}
       />
     </div>
   );

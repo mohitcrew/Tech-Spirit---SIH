@@ -14,7 +14,7 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
   onOpenAuthModal,
   onOpenAi,
 }) => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,11 +38,13 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
     { label: 'Knowledge Hub', path: '/knowledge', icon: BookMarked, desc: 'Lectures, guides & research' },
   ];
 
-  const handleAuthClick = (intent?: string) => {
-    if (onOpenAuthModal) {
-      onOpenAuthModal(intent);
+  const handleAuthClick = (type: 'login' | 'register' | 'trainee', intent?: string) => {
+    if (type === 'trainee') {
+      navigate('/login?role=trainee&redirect=/trainee/dashboard');
+    } else if (type === 'register') {
+      navigate(intent ? `/register?intent=${encodeURIComponent(intent)}` : '/register');
     } else {
-      navigate('/login');
+      navigate(intent ? `/login?intent=${encodeURIComponent(intent)}` : '/login');
     }
   };
 
@@ -166,30 +168,47 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
         </div>
 
         {/* Right Actions */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-2.5">
+          {/* Go to Portal (Trainee) - ALWAYS redirects to login page per specification */}
+          <Link
+            to="/login?role=trainee&redirect=/trainee/dashboard"
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 active:scale-95"
+            title="Access the Trainee learning portal through the SkillSync login gateway"
+          >
+            <span>Go to Portal (Trainee)</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+
           {user ? (
-            <Link
-              to={`/${user.role.toLowerCase()}/dashboard`}
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5"
-            >
-              <span>Go to Portal ({user.name.split(' ')[0]})</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
+              <Link
+                to={`/${user.role.toLowerCase()}/dashboard`}
+                className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-750 hover:border-slate-600 text-slate-200 hover:text-white text-xs font-bold transition-colors flex items-center gap-1.5"
+              >
+                <span>Dashboard ({user.role})</span>
+              </Link>
+              <button
+                onClick={logout}
+                className="px-2.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-rose-400 hover:bg-slate-900 transition-colors"
+                title="Sign out of current portal session"
+              >
+                Sign Out
+              </button>
+            </div>
           ) : (
             <>
               <button
                 onClick={() => handleAuthClick('login')}
-                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-200 hover:text-white hover:bg-slate-800 transition-colors"
+                className="px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
               >
                 Sign In
               </button>
 
               <button
                 onClick={() => handleAuthClick('register')}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/25 flex items-center gap-1.5 active:scale-95"
+                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20 flex items-center gap-1 active:scale-95"
               >
-                <span>Create Free Account</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span>Register</span>
               </button>
             </>
           )}
@@ -249,24 +268,45 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
           </div>
 
           <div className="pt-3 border-t border-slate-800 flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                handleAuthClick('login');
-              }}
-              className="w-full py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-white font-bold text-xs"
+            <Link
+              to="/login?role=trainee&redirect=/trainee/dashboard"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs flex items-center justify-center gap-1.5"
             >
-              Sign In
-            </button>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                handleAuthClick('register');
-              }}
-              className="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs"
-            >
-              Create Free Account
-            </button>
+              <span>Go to Portal (Trainee)</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleAuthClick('login');
+                }}
+                className="w-full py-2 rounded-xl border border-slate-800 bg-slate-900 text-white font-bold text-xs"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleAuthClick('register');
+                }}
+                className="w-full py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs"
+              >
+                Register
+              </button>
+            </div>
+            {user && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  logout();
+                }}
+                className="w-full py-1.5 text-xs text-rose-400 text-center font-medium"
+              >
+                Sign Out ({user.name})
+              </button>
+            )}
           </div>
         </div>
       )}

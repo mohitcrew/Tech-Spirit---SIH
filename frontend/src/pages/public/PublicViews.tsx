@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SkillSyncNavbar } from '../../components/public/SkillSyncNavbar';
 import { SkillSyncFooter } from '../../components/public/SkillSyncFooter';
 import { SkillSyncChatbot } from '../../components/ai/SkillSyncChatbot';
-import { AuthModal } from '../../components/public/AuthModal';
 import { CourseExplorer } from '../../components/public/CourseExplorer';
 import { SkillExplorer } from '../../components/public/SkillExplorer';
 import { CompetencyExplorer } from '../../components/public/CompetencyExplorer';
@@ -15,19 +15,19 @@ import { PublicCourse, PublicCompetency, PublicTrainer } from '../../data/skills
 import { Sparkles, Bot, Shield, CheckCircle2 } from 'lucide-react';
 
 function PageShell({ children, title, subtitle }: { children: React.ReactNode; title: string; subtitle: string }) {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authIntent, setAuthIntent] = useState('access SkillSync');
+  const navigate = useNavigate();
   const [chatbotOpen, setChatbotOpen] = useState(false);
 
-  const openAuth = (intent: string) => {
-    setAuthIntent(intent);
-    setAuthModalOpen(true);
+  const navigateToLogin = (intent?: string) => {
+    const params = new URLSearchParams();
+    if (intent) params.set('intent', intent);
+    navigate(`/login?${params.toString()}`);
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
       <SkillSyncNavbar
-        onOpenAuthModal={(intent) => openAuth(intent || 'create your account')}
+        onOpenAuthModal={(intent) => navigateToLogin(intent || 'create your free account')}
         onOpenAi={() => setChatbotOpen(true)}
       />
 
@@ -44,15 +44,17 @@ function PageShell({ children, title, subtitle }: { children: React.ReactNode; t
       <main className="flex-1">{children}</main>
 
       <SkillSyncFooter />
-      <SkillSyncChatbot isOpen={chatbotOpen} onClose={() => setChatbotOpen(false)} onOpenAuthModal={openAuth} />
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} intent={authIntent} />
+      <SkillSyncChatbot
+        isOpen={chatbotOpen}
+        onClose={() => setChatbotOpen(false)}
+        onOpenAuthModal={(intent) => navigateToLogin(intent || 'access personal AI')}
+      />
     </div>
   );
 }
 
 export function CoursesView() {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authIntent, setAuthIntent] = useState('');
+  const navigate = useNavigate();
 
   return (
     <PageShell
@@ -62,11 +64,9 @@ export function CoursesView() {
       <CourseExplorer
         showAllInitially={true}
         onEnrollCourse={(c) => {
-          setAuthIntent(`enroll in "${c.title}"`);
-          setAuthModalOpen(true);
+          navigate(`/login?intent=${encodeURIComponent(`enroll in "${c.title}"`)}&redirect=/trainee/courses`);
         }}
       />
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} intent={authIntent} />
     </PageShell>
   );
 }
@@ -83,8 +83,7 @@ export function SkillsView() {
 }
 
 export function CompetenciesView() {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authIntent, setAuthIntent] = useState('');
+  const navigate = useNavigate();
 
   return (
     <PageShell
@@ -93,18 +92,15 @@ export function CompetenciesView() {
     >
       <CompetencyExplorer
         onAnalyzeGap={(comp) => {
-          setAuthIntent(`run a diagnostic gap analysis on "${comp.title}"`);
-          setAuthModalOpen(true);
+          navigate(`/login?intent=${encodeURIComponent(`run diagnostic gap analysis on "${comp.title}"`)}&redirect=/trainee/learning`);
         }}
       />
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} intent={authIntent} />
     </PageShell>
   );
 }
 
 export function TrainersView() {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authIntent, setAuthIntent] = useState('');
+  const navigate = useNavigate();
 
   return (
     <PageShell
@@ -113,11 +109,9 @@ export function TrainersView() {
     >
       <TrainerExplorer
         onConnectTrainer={(tr) => {
-          setAuthIntent(`connect with ${tr.name}`);
-          setAuthModalOpen(true);
+          navigate(`/login?intent=${encodeURIComponent(`connect with trainer ${tr.name}`)}&redirect=/trainee/dashboard`);
         }}
       />
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} intent={authIntent} />
     </PageShell>
   );
 }
@@ -156,12 +150,17 @@ export function HowItWorksView() {
 }
 
 export function FeaturesView() {
+  const navigate = useNavigate();
+
   return (
     <PageShell
       title="Platform Features & Capabilities"
       subtitle="From granular skill tracking to enterprise-level capacity readiness dashboards."
     >
-      <WhySkillSync onExploreSkills={() => {}} onRegisterTrainer={() => {}} />
+      <WhySkillSync
+        onExploreSkills={() => navigate('/skills')}
+        onRegisterTrainer={() => navigate('/login?tab=register&role=trainer')}
+      />
     </PageShell>
   );
 }
@@ -199,7 +198,7 @@ export function AboutView() {
 }
 
 export function AiView() {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <PageShell
@@ -216,11 +215,13 @@ export function AiView() {
             SkillSync AI communicates securely with our NestJS API (`POST /api/v1/ai/chat`) to parse competency inquiries, recommend learning pathways, and guide learners.
           </p>
           <div className="flex justify-center">
-            <SkillSyncChatbot isOpen={true} onOpenAuthModal={() => setAuthModalOpen(true)} />
+            <SkillSyncChatbot
+              isOpen={true}
+              onOpenAuthModal={(intent) => navigate(`/login?intent=${encodeURIComponent(intent || 'access personal AI')}`)}
+            />
           </div>
         </div>
       </div>
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} intent="access personal AI capabilities" />
     </PageShell>
   );
 }

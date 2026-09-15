@@ -50,16 +50,31 @@ const defaultDemoUser: User = {
 const AuthContext = createContext<AuthContextType>(null as any);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(defaultDemoUser);
+  const [user, setUser] = useState<User | null>(() => {
+    const token = localStorage.getItem('cc_token');
+    const saved = localStorage.getItem('cc_user');
+    if (token && saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {}
+    }
+    return null;
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('cc_token');
-    if (!token) return;
+    if (!token) {
+      setUser(null);
+      return;
+    }
     unwrap<User>(api.get('/auth/me'))
-      .then(setUser)
+      .then((u) => {
+        setUser(u);
+        localStorage.setItem('cc_user', JSON.stringify(u));
+      })
       .catch(() => {
-        setUser(defaultDemoUser);
+        // keep local demo user if token is present
       });
   }, []);
 
@@ -67,6 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const d = await unwrap<any>(api.post('/auth/login', { email, password }));
       localStorage.setItem('cc_token', d.accessToken);
+      localStorage.setItem('cc_user', JSON.stringify(d.user));
       setUser(d.user);
       return d.user;
     } catch {
@@ -77,9 +93,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         : 'TRAINEE';
       const fallbackUser: User = {
         ...defaultDemoUser,
-        name: demoRole === 'ADMIN' ? 'Admin Director' : demoRole === 'TRAINER' ? 'Prof. Vikram Rao' : 'Priya Sharma',
+        name: demoRole === 'ADMIN' ? 'Dr. Rajesh Verma' : demoRole === 'TRAINER' ? 'Prof. Vikram Rao' : 'Priya Sharma',
         role: demoRole,
+        email,
       };
+      localStorage.setItem('cc_token', 'demo_token_' + Date.now());
+      localStorage.setItem('cc_user', JSON.stringify(fallbackUser));
       setUser(fallbackUser);
       return fallbackUser;
     }
@@ -87,21 +106,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem('cc_token');
+    localStorage.removeItem('cc_user');
     setUser(null);
   };
 
   const switchRole = (role: UserRole) => {
-    if (!user) return;
     const nameMap: Record<UserRole, string> = {
       TRAINEE: 'Priya Sharma',
       TRAINER: 'Prof. Vikram Rao',
-      ADMIN: 'Director Admin',
+      ADMIN: 'Dr. Rajesh Verma',
     };
-    setUser({
-      ...user,
+    const updatedUser: User = {
+      ...(user || defaultDemoUser),
       role,
       name: nameMap[role],
-    });
+    };
+    localStorage.setItem('cc_token', 'demo_token_' + Date.now());
+    localStorage.setItem('cc_user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
   };
 
   return (

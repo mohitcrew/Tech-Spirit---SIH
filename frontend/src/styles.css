@@ -1,14 +1,90 @@
 @import './styles/designSystem.css';
+@import './styles/premiumDashboard.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* DARK MODE TOKENS (Default) */
+  --bg-primary: #0F172A;
+  --bg-secondary: #111827;
+  --bg-tertiary: #172033;
+  --surface: #111827;
+  --surface-hover: #172033;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border: #1E293B;
+  --border-strong: #334155;
+
+  /* Legacy aliases for backward compatibility */
+  --background: var(--bg-primary);
+  --surface-secondary: var(--bg-primary);
+
+  /* Brand Accent Colors (Strictly Preserved) */
+  --color-primary: #2563EB;
+  --color-success: #10B981;
+  --color-purple: #8B5CF6;
+  --color-amber: #F59E0B;
+  --color-sky: #38BDF8;
+  --color-cyan: #06B6D4;
+}
+
+html.dark, :root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-primary: #0F172A;
+  --bg-secondary: #111827;
+  --bg-tertiary: #172033;
+  --surface: #111827;
+  --surface-hover: #172033;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border: #1E293B;
+  --border-strong: #334155;
+
+  --background: var(--bg-primary);
+  --surface-secondary: var(--bg-primary);
+}
+
+html.light, :root[data-theme="light"], .light {
+  color-scheme: light;
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #F1F5F9;
+  --surface: #FFFFFF;
+  --surface-hover: #F8FAFC;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --border: #E2E8F0;
+  --border-strong: #CBD5E1;
+
+  --background: var(--bg-primary);
+  --surface-secondary: var(--bg-primary);
+}
+
 /* ── Reset & Base ─────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 250ms ease, color 200ms ease, border-color 200ms ease;
+}
+#root {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; }
 button { cursor: pointer; font: inherit; }
+
 
 /* ── App Shell ────────────────────────────── */
 .shell { display: flex; min-height: 100vh; }
@@ -338,16 +414,22 @@ textarea { resize: vertical; min-height: 100px; }
   header .header-left { display: none; }
 }
 
-/* ── SkillSync Light Mode Global Theme ─────────────────────── */
-html.light, .light {
+/* ═══════════════════════════════════════════════════════════════════════════
+   SkillSync Global Theme System (Light / Dark Tokens & Overrides)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Light Mode System Overrides ────────────────────────────────────────── */
+html.light, :root[data-theme="light"], .light {
   color-scheme: light;
 }
 
-html.light body {
-  background-color: #f8fafc;
-  color: #0f172a;
+html.light body,
+:root[data-theme="light"] body {
+  background-color: var(--background) !important;
+  color: var(--text-primary) !important;
 }
 
+<<<<<<< HEAD
 /* Light mode background surface overrides */
 html.light .bg-slate-950,
 html.light .bg-slate-950\/95,
@@ -370,25 +452,128 @@ html.light .bg-slate-900\/90 {
 }
 html.light .bg-slate-900\/80 {
   background-color: rgba(255, 255, 255, 0.92) !important;
+=======
+/* 1. Surfaces & Backgrounds in Light Mode */
+.skill-background-effects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+html.light .skill-background-effects,
+html.light [class*="blur-3xl"],
+html.light [class*="blur-2xl"],
+html.light [class*="blur-[120px]"],
+html.light [class*="blur-[100px]"] {
+  opacity: 0.06 !important;
+}
+
+html.light .bg-slate-950,
+html.light [class*="bg-slate-950"] {
+  background-color: #F8FAFC !important;
+}
+html.light .bg-slate-900,
+html.light [class*="bg-slate-900"] {
+  background-color: #FFFFFF !important;
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
 }
 html.light .bg-slate-850,
-html.light .bg-slate-800 {
-  background-color: #f1f5f9 !important;
+html.light .bg-slate-800,
+html.light [class*="bg-slate-800"] {
+  background-color: #F1F5F9 !important;
 }
-html.light .bg-slate-800\/80 {
-  background-color: rgba(241, 245, 249, 0.9) !important;
+html.light .bg-slate-750,
+html.light .bg-slate-700 {
+  background-color: #E2E8F0 !important;
 }
 
-/* Border overrides */
-html.light .border-slate-800,
-html.light .border-slate-800\/80,
+html.light .bg-blue-950,
+html.light [class*="bg-blue-950"] {
+  background-color: #EFF6FF !important;
+}
+html.light .bg-indigo-950,
+html.light [class*="bg-indigo-950"] {
+  background-color: #EEF2FF !important;
+}
+html.light .bg-cyan-950,
+html.light [class*="bg-cyan-950"] {
+  background-color: #ECFEFF !important;
+}
+
+/* Soft transparent card overlays */
+html.light .bg-slate-950\/90,
+html.light .bg-slate-950\/80,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-950\/60,
+html.light .bg-slate-950\/50,
+html.light .bg-slate-950\/40 {
+  background-color: rgba(248, 250, 252, 0.95) !important;
+}
+html.light .bg-slate-900\/95,
+html.light .bg-slate-900\/90,
+html.light .bg-slate-900\/80,
+html.light .bg-slate-900\/70,
+html.light .bg-slate-900\/60,
+html.light .bg-slate-900\/50,
+html.light .bg-slate-900\/40,
+html.light .bg-slate-900\/20 {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+}
+
+/* 2. Gradients in Light Mode (No dark bands on scroll) */
+html.light [class*="from-slate-950"] {
+  --tw-gradient-from: #F8FAFC var(--tw-gradient-from-position) !important;
+}
+html.light [class*="via-slate-950"] {
+  --tw-gradient-via: #F8FAFC var(--tw-gradient-via-position) !important;
+}
+html.light [class*="to-slate-950"] {
+  --tw-gradient-to: #F8FAFC var(--tw-gradient-to-position) !important;
+}
+html.light [class*="from-slate-900"] {
+  --tw-gradient-from: #FFFFFF var(--tw-gradient-from-position) !important;
+}
+html.light [class*="via-slate-900"] {
+  --tw-gradient-via: #FFFFFF var(--tw-gradient-via-position) !important;
+}
+html.light [class*="to-slate-900"] {
+  --tw-gradient-to: #FFFFFF var(--tw-gradient-to-position) !important;
+}
+html.light [class*="from-blue-950"] {
+  --tw-gradient-from: #EFF6FF var(--tw-gradient-from-position) !important;
+}
+html.light [class*="to-blue-950"] {
+  --tw-gradient-to: #EFF6FF var(--tw-gradient-to-position) !important;
+}
+html.light [class*="from-indigo-950"] {
+  --tw-gradient-from: #EEF2FF var(--tw-gradient-from-position) !important;
+}
+html.light [class*="to-indigo-950"] {
+  --tw-gradient-to: #EEF2FF var(--tw-gradient-to-position) !important;
+}
+
+/* 3. Borders in Light Mode */
+html.light .border-slate-950,
+html.light .border-slate-900,
 html.light .border-slate-850,
+html.light .border-slate-800,
+html.light [class*="border-slate-800"],
 html.light .border-slate-750,
 html.light .border-slate-700,
-html.light .border-slate-700\/80 {
-  border-color: #e2e8f0 !important;
+html.light [class*="border-slate-700"],
+html.light .border-slate-600 {
+  border-color: #E2E8F0 !important;
+}
+html.light .border-blue-950,
+html.light .border-blue-900,
+html.light .border-blue-800,
+html.light [class*="border-blue-800"] {
+  border-color: #DBEAFE !important;
 }
 
+<<<<<<< HEAD
 /* Base text overrides in light mode */
 html.light body,
 html.light h1,
@@ -400,11 +585,21 @@ html.light .text-slate-100 {
 }
 html.light .text-slate-200 {
   color: #1e293b;
+=======
+/* 4. Text Contrast in Light Mode */
+html.light .text-white,
+html.light .text-slate-100 {
+  color: #0F172A !important;
+}
+html.light .text-slate-200 {
+  color: #1E293B !important;
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
 }
 html.light .text-slate-300 {
   color: #334155;
 }
 html.light .text-slate-400 {
+<<<<<<< HEAD
   color: #64748b;
 }
 
@@ -435,23 +630,1529 @@ html.light a[class*="bg-blue-"],
 html.light button[class*="bg-indigo-"],
 html.light a[class*="bg-indigo-"] {
   color: #ffffff !important;
+=======
+  color: #64748B !important;
+}
+html.light .text-slate-500 {
+  color: #64748B !important;
 }
 
+/* Exception: Text inside saturated action buttons/badges MUST remain white */
+html.light button.bg-blue-600,
+html.light a.bg-blue-600,
+html.light button.bg-blue-500,
+html.light a.bg-blue-500,
+html.light button.bg-indigo-600,
+html.light a.bg-indigo-600,
+html.light button.bg-cyan-600,
+html.light a.bg-cyan-600,
+html.light button.bg-emerald-600,
+html.light a.bg-emerald-600,
+html.light button.bg-rose-600,
+html.light a.bg-rose-600 {
+  color: #FFFFFF !important;
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+}
 html.light button.bg-blue-600 *,
 html.light a.bg-blue-600 *,
 html.light button.bg-blue-500 *,
 html.light a.bg-blue-500 *,
 html.light button.bg-indigo-600 *,
+<<<<<<< HEAD
 html.light a.bg-indigo-600 *,
 html.light button[class*="bg-gradient"] *,
 html.light a[class*="bg-gradient"] * {
   color: #ffffff !important;
+=======
+html.light a.bg-indigo-600 * {
+  color: #FFFFFF !important;
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
 }
 
-/* Soft card shadow in light mode */
-html.light .bg-slate-900,
-html.light .bg-slate-900\/90,
-html.light .bg-slate-900\/80 {
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+/* Gradient Headings: Preserve text transparency & clip on both themes */
+.bg-clip-text,
+[class*="bg-clip-text"],
+.text-transparent,
+[class*="text-transparent"] {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
 }
+
+/* Ensure Light Mode Gradients have rich, vibrant contrast against white surfaces */
+html.light [class*="from-blue-400"][class*="bg-clip-text"] {
+  --tw-gradient-from: #2563EB var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: #0891B2 var(--tw-gradient-to-position) !important;
+}
+html.light [class*="via-indigo-300"][class*="bg-clip-text"] {
+  --tw-gradient-via: #4F46E5 var(--tw-gradient-via-position) !important;
+}
+html.light [class*="to-cyan-400"][class*="bg-clip-text"],
+html.light [class*="to-cyan-300"][class*="bg-clip-text"] {
+  --tw-gradient-to: #0891B2 var(--tw-gradient-to-position) !important;
+}
+
+/* 5. Inputs & Form Controls in Light Mode */
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+}
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* 6. Hovers in Light Mode */
+html.light .hover\:bg-slate-900:hover,
+html.light .hover\:bg-slate-850:hover {
+  background-color: #F1F5F9 !important;
+}
+html.light .hover\:bg-slate-800:hover,
+html.light [class*="hover\:bg-slate-800"]:hover {
+  background-color: #E2E8F0 !important;
+}
+html.light .hover\:border-slate-700:hover,
+html.light .hover\:border-slate-600:hover {
+  border-color: #CBD5E1 !important;
+}
+
+/* 7. Card Elevation in Light Mode */
+html.light .bg-slate-900,
+html.light [class*="bg-slate-900"] {
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+}
+
+/* ── Dark Mode Portal & Dashboard Overrides ──────────────────────────────── */
+html.dark, :root[data-theme="dark"], .dark {
+  color-scheme: dark;
+}
+
+html.dark body,
+:root[data-theme="dark"] body {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+}
+
+/* Dark mode overrides for portal components */
+html.dark .cc-card,
+html.dark .card,
+html.dark header,
+html.dark aside,
+html.dark .modern-top-nav,
+html.dark .modern-sidebar {
+  background-color: #111827 !important;
+  border-color: #1E293B !important;
+  color: #F8FAFC !important;
+}
+
+html.dark .bg-white {
+  background-color: #111827 !important;
+}
+html.dark .bg-slate-50 {
+  background-color: #0F172A !important;
+}
+html.dark .bg-slate-100,
+html.dark [class*="bg-slate-100"] {
+  background-color: #1E293B !important;
+}
+html.dark .border-slate-200,
+html.dark [class*="border-slate-200"],
+html.dark .border-slate-100 {
+  border-color: #1E293B !important;
+}
+
+html.dark .text-slate-900 {
+  color: #F8FAFC !important;
+}
+html.dark .text-slate-800 {
+  color: #E2E8F0 !important;
+}
+html.dark .text-slate-700 {
+  color: #CBD5E1 !important;
+}
+html.dark .text-slate-600 {
+  color: #94A3B8 !important;
+}
+
+html.dark .hover\:bg-slate-50:hover {
+  background-color: #1F2937 !important;
+}
+html.dark .hover\:bg-slate-100:hover {
+  background-color: #1E293B !important;
+}
+html.dark .hover\:bg-slate-200:hover {
+  background-color: #374151 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SkillSync Master Micro-Animation System (GPU-accelerated, Distinct Motion)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Global Button Click Press (100–150ms) */
+button,
+a.btn,
+.btn,
+.hero-btn-hover {
+  transition: transform 140ms ease, box-shadow 140ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+button:active:not(:disabled),
+a.btn:active,
+.btn:active {
+  transform: scale(0.98) !important;
+}
+
+/* ── 1. Navbar: SkillSync Logo Falling/Sliding Entrance ───────────────────── */
+@keyframes ssLogoFallIn {
+  0% {
+    opacity: 0;
+    transform: translate(-30px, -15px) rotate(-4deg) scale(0.94);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1.01);
+    box-shadow: 0 0 14px rgba(6, 182, 212, 0.3);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  }
+}
+.skillsync-logo-entrance {
+  opacity: 0;
+  animation: ssLogoFallIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 30ms forwards;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.skillsync-logo-entrance:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 18px rgba(6, 182, 212, 0.4);
+}
+
+/* ── 2. Navbar Items: Individual Distinct Entrances & Hover Personalities ─── */
+
+/* Home (From Above) */
+@keyframes ssNavHomeIn {
+  0% { opacity: 0; transform: translateY(-12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.nav-item-home {
+  opacity: 0;
+  animation: ssNavHomeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 60ms forwards;
+  transition: background-color 200ms ease, color 200ms ease, transform 180ms ease;
+}
+.nav-item-home:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+html.light .nav-item-home:hover {
+  background-color: rgba(15, 23, 42, 0.05);
+}
+
+/* Explore (Slide from Left) */
+@keyframes ssNavExploreIn {
+  0% { opacity: 0; transform: translateX(-15px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.nav-item-explore {
+  opacity: 0;
+  animation: ssNavExploreIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 80ms forwards;
+  transition: color 200ms ease, background-color 200ms ease;
+}
+.nav-arrow-explore {
+  transition: transform 200ms ease;
+}
+.nav-item-explore:hover .nav-arrow-explore {
+  transform: rotate(15deg);
+}
+
+/* How It Works (Slide from Right) */
+@keyframes ssNavHowIn {
+  0% { opacity: 0; transform: translateX(15px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.nav-item-how {
+  opacity: 0;
+  position: relative;
+  animation: ssNavHowIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+  transition: color 200ms ease;
+}
+.nav-item-how::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #06B6D4;
+  transition: width 200ms ease, left 200ms ease;
+  border-radius: 999px;
+  pointer-events: none;
+}
+.nav-item-how:hover::after {
+  width: 70%;
+  left: 15%;
+}
+
+/* Features (From Below) */
+@keyframes ssNavFeaturesIn {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.nav-item-features {
+  opacity: 0;
+  animation: ssNavFeaturesIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 120ms forwards;
+  transition: transform 180ms ease, color 200ms ease;
+}
+.nav-item-features:hover {
+  transform: translateY(-2px);
+}
+
+/* About (Small Downward Reveal) */
+@keyframes ssNavAboutIn {
+  0% { opacity: 0; transform: translateY(-12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.nav-item-about {
+  opacity: 0;
+  animation: ssNavAboutIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 140ms forwards;
+  transition: transform 180ms ease, color 200ms ease;
+}
+.nav-item-about:hover {
+  transform: translateY(-1px);
+}
+
+/* AI Assistant Nav Item (Sparkle First, then Text) */
+@keyframes ssNavAiSparkleIn {
+  0% { opacity: 0; transform: scale(0.6) rotate(-15deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes ssNavAiTextIn {
+  0% { opacity: 0; transform: translateX(4px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.nav-ai-sparkle {
+  opacity: 0;
+  animation: ssNavAiSparkleIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+  transition: transform 220ms ease;
+}
+.nav-ai-text {
+  opacity: 0;
+  animation: ssNavAiTextIn 300ms cubic-bezier(0.16, 1, 0.3, 1) 180ms forwards;
+}
+.nav-item-ai:hover .nav-ai-sparkle {
+  transform: scale(1.2) rotate(12deg);
+}
+
+/* Theme Toggle (Scale + Rotate) */
+@keyframes ssNavThemeIn {
+  0% { opacity: 0; transform: scale(0.75) rotate(-60deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+.nav-item-theme {
+  opacity: 0;
+  animation: ssNavThemeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 120ms forwards;
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+.nav-theme-icon {
+  transition: transform 250ms ease;
+}
+.nav-item-theme:hover .nav-theme-icon {
+  transform: rotate(25deg);
+}
+
+/* Go to Portal Button (Expand) */
+@keyframes ssNavPortalIn {
+  0% { opacity: 0; transform: scaleX(0.9); }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+.nav-item-portal {
+  opacity: 0;
+  animation: ssNavPortalIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 160ms forwards;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.nav-item-portal:hover {
+  transform: translateY(-2px);
+}
+.nav-portal-arrow {
+  transition: transform 200ms ease;
+}
+.nav-item-portal:hover .nav-portal-arrow {
+  transform: translateX(4px);
+}
+
+/* Dashboard Button (From Right) */
+@keyframes ssNavDashboardIn {
+  0% { opacity: 0; transform: translateX(20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.nav-item-dashboard {
+  opacity: 0;
+  animation: ssNavDashboardIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 180ms forwards;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+.nav-item-dashboard:hover {
+  border-color: rgba(56, 189, 248, 0.45) !important;
+}
+
+/* Sign Out Button (Blur to Sharp) */
+@keyframes ssNavSignoutIn {
+  0% { opacity: 0; filter: blur(3px); transform: translateY(4px); }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+.nav-item-signout {
+  opacity: 0;
+  animation: ssNavSignoutIn 350ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
+  transition: opacity 200ms ease, color 200ms ease;
+}
+.nav-item-signout:hover {
+  opacity: 1;
+}
+
+/* ── 4. Hero Badge Entrance (100ms) with Subtle Periodic Shimmer ─────────── */
+@keyframes ssHeroBadgeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes ssHeroBadgeGlow {
+  0%, 80%, 100% { border-color: rgba(51, 65, 85, 0.7); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+  90% { border-color: rgba(56, 189, 248, 0.45); box-shadow: 0 0 12px rgba(6, 182, 212, 0.2); }
+}
+.hero-badge-anim {
+  opacity: 0;
+  animation: ssHeroBadgeIn 500ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards, ssHeroBadgeGlow 8s ease-in-out infinite 800ms;
+}
+
+/* ── 5. Hero Heading Controlled 3-Line Assembly (200ms Start) ─────────────── */
+@keyframes ssWordTopDrop {
+  0% { opacity: 0; transform: translateY(-18px) scale(0.96); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes ssWordRightSlide {
+  0% { opacity: 0; transform: translateX(22px) scale(0.96); filter: blur(3px); }
+  100% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+@keyframes ssWordLeftSlide {
+  0% { opacity: 0; transform: translateX(-22px) scale(0.96); filter: blur(3px); }
+  100% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+@keyframes ssWordUpReveal {
+  0% { opacity: 0; transform: translateY(18px) scale(0.96); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.hero-word-build-skills {
+  opacity: 0;
+  display: inline-block;
+  animation: ssWordTopDrop 500ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
+}
+.hero-word-grow {
+  opacity: 0;
+  display: inline-block;
+  animation: ssWordRightSlide 500ms cubic-bezier(0.16, 1, 0.3, 1) 260ms forwards;
+}
+.hero-word-competencies {
+  opacity: 0;
+  display: inline-block;
+  animation: ssWordLeftSlide 500ms cubic-bezier(0.16, 1, 0.3, 1) 320ms forwards;
+}
+.hero-word-shape-your {
+  opacity: 0;
+  display: inline-block;
+  animation: ssWordUpReveal 500ms cubic-bezier(0.16, 1, 0.3, 1) 380ms forwards;
+}
+.hero-word-future {
+  opacity: 0;
+  display: inline-block;
+  animation: ssWordUpReveal 500ms cubic-bezier(0.16, 1, 0.3, 1) 440ms forwards;
+}
+
+/* ── 6. Hero Gradient Shimmer (Grow & Competencies) ───────────────────────── */
+@keyframes ssHeroGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hero-gradient-text-anim {
+  background-image: linear-gradient(135deg, #2563EB 0%, #38BDF8 25%, #8B5CF6 50%, #06B6D4 75%, #2563EB 100%) !important;
+  background-size: 250% 250% !important;
+  animation: ssHeroGradientShift 7s ease infinite;
+  display: inline-block;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  will-change: background-position;
+}
+
+/* ── 7. Hero Description Soft Reveal (450ms) ─────────────────────────────── */
+@keyframes ssHeroDescSoftIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.hero-desc-anim {
+  opacity: 0;
+  animation: ssHeroDescSoftIn 500ms cubic-bezier(0.16, 1, 0.3, 1) 450ms forwards;
+}
+
+/* ── 8. Hero CTA Buttons (600ms) & Micro Link ────────────────────────────── */
+@keyframes ssBtnExploreIn {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes ssBtnCreateIn {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes ssLinkAiIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero-btn-explore-anim {
+  opacity: 0;
+  animation: ssBtnExploreIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 600ms forwards;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.hero-btn-explore-anim:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+.hero-btn-explore-anim .btn-arrow-explore {
+  transition: transform 180ms ease;
+}
+.hero-btn-explore-anim:hover .btn-arrow-explore {
+  transform: translateX(4px);
+}
+
+.hero-btn-create-anim {
+  opacity: 0;
+  animation: ssBtnCreateIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 650ms forwards;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.hero-btn-create-anim:hover {
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+}
+
+.hero-link-ai-anim {
+  opacity: 0;
+  animation: ssLinkAiIn 400ms cubic-bezier(0.16, 1, 0.3, 1) 700ms forwards;
+}
+@keyframes ssArrowBreath {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+.ai-link-arrow-pulse {
+  animation: ssArrowBreath 3s ease-in-out infinite 1000ms;
+}
+
+/* ── 9. Ambient Background Orbs ──────────────────────────────────────────── */
+@keyframes ssSlowOrbFloat1 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(40px, -30px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes ssSlowOrbFloat2 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-35px, 25px); }
+  100% { transform: translate(0, 0); }
+}
+.ambient-orb-1 {
+  animation: ssSlowOrbFloat1 24s ease-in-out infinite;
+  will-change: transform;
+}
+.ambient-orb-2 {
+  animation: ssSlowOrbFloat2 28s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── 10. Intelligence Loop Section (Exact Step-by-Step Construction) ─────── */
+@keyframes loopBadgeIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes loopHeadingIn {
+  0% { opacity: 0; filter: blur(4px); transform: translateY(15px); }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+.loop-badge-anim {
+  opacity: 0;
+  animation: loopBadgeIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.loop-heading-anim {
+  opacity: 0;
+  animation: loopHeadingIn 500ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+}
+
+/* 8 Distinct Sequential Card Entrance Keyframes */
+@keyframes loopCardRoleIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes loopCardCompIn {
+  0% { opacity: 0; transform: translateX(-30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes loopCardSkillsIn {
+  0% { opacity: 0; transform: translate(20px, 25px); }
+  100% { opacity: 1; transform: translate(0, 0); }
+}
+@keyframes loopCardGapIn {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes loopCardPathIn {
+  0% { opacity: 0; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes loopCardTrainerIn {
+  0% { opacity: 0; transform: translateY(15px) rotate(-8deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+@keyframes loopCardAssessIn {
+  0% { opacity: 0; transform: translateY(25px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes loopCardImproveIn {
+  0% { opacity: 0; filter: blur(5px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+
+.card-anim-role-bottom         { opacity: 0; animation: loopCardRoleIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.card-anim-comp-left           { opacity: 0; animation: loopCardCompIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.card-anim-skills-bottomright  { opacity: 0; animation: loopCardSkillsIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.card-anim-gap-right           { opacity: 0; animation: loopCardGapIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.card-anim-path-scale          { opacity: 0; animation: loopCardPathIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.card-anim-trainer-rotate      { opacity: 0; animation: loopCardTrainerIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.card-anim-assess-up           { opacity: 0; animation: loopCardAssessIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.card-anim-improve-blur        { opacity: 0; animation: loopCardImproveIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* Individual Card Hover Behaviors */
+.loop-node-card {
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+.hover-role:hover {
+  transform: translateY(-4px);
+}
+.hover-comp:hover .icon-comp {
+  transform: rotate(8deg);
+}
+.hover-skills:hover .icon-skills {
+  transform: scale(1.08);
+}
+.hover-gap:hover {
+  border-color: #F59E0B !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.3);
+}
+.hover-path:hover .icon-path {
+  transform: translateX(3px);
+}
+.hover-trainer:hover .icon-trainer {
+  transform: translateY(-3px);
+}
+.hover-assess:hover .icon-assess {
+  transform: rotate(12deg);
+}
+.hover-improve:hover .icon-improve {
+  transform: scale(1.2) rotate(10deg);
+}
+.icon-trans {
+  transition: transform 220ms ease;
+}
+
+/* ── 11. AI Assistant Floating Button ─────────────────────────────────────── */
+@keyframes ssAiBtnIn {
+  0% { opacity: 0; transform: translate(35px, 30px) scale(0.9); }
+  100% { opacity: 1; transform: translate(0, 0) scale(1); }
+}
+@keyframes ssAiBtnFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+.global-ai-btn-anim {
+  opacity: 0;
+  animation: ssAiBtnIn 600ms cubic-bezier(0.16, 1, 0.3, 1) 1000ms forwards;
+}
+.global-ai-btn-inner {
+  animation: ssAiBtnFloat 6s ease-in-out infinite 1600ms;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.global-ai-btn-inner:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* AI Assistant Panel Open */
+@keyframes ssAiPanelOpen {
+  0% { opacity: 0; transform: translateY(15px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.ai-panel-open-anim {
+  animation: ssAiPanelOpen 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── 12. Homepage-Wide Section Scroll-Reveal System ──────────────────────── */
+.reveal-on-scroll {
+  opacity: 0;
+  transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1), transform 650ms cubic-bezier(0.16, 1, 0.3, 1), filter 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-fade-up {
+  transform: translateY(28px);
+}
+.reveal-slide-left {
+  transform: translateX(-35px);
+}
+.reveal-slide-right {
+  transform: translateX(35px);
+}
+.reveal-scale {
+  transform: scale(0.94);
+}
+.reveal-blur {
+  filter: blur(6px);
+  transform: translateY(15px);
+}
+.reveal-expand {
+  transform: scale(0.96);
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+  filter: blur(0) !important;
+}
+
+/* ── 13. Register Button Navbar Hover ────────────────────────────────────── */
+.nav-item-register {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.nav-item-register:hover {
+  transform: scale(1.02);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   14. SKILLSYNC TRAINEE DASHBOARD PREMIUM ANIMATION & MICRO-INTERACTIONS
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── A. Sidebar Logo Diagonal Falling Entrance & Hover Glow ───────────────── */
+@keyframes dbSidebarLogoIn {
+  0% {
+    opacity: 0;
+    transform: translate(-40px, -25px) rotate(-6deg) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0) scale(1);
+  }
+}
+.db-sidebar-logo-anim {
+  opacity: 0;
+  animation: dbSidebarLogoIn 500ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.db-sidebar-logo-anim:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 16px rgba(37, 99, 235, 0.3);
+}
+
+/* ── B. Sidebar Navigation Items Staggered Entrances (40-70ms stagger) ─────── */
+@keyframes dbSbSlideLeft {
+  0% { opacity: 0; transform: translateX(-14px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes dbSbSlideRight {
+  0% { opacity: 0; transform: translateX(14px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes dbSbSlideUp {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes dbSbScale {
+  0% { opacity: 0; transform: scale(0.93); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* 11 Specific Entrances */
+.db-sb-item-dashboard   { opacity: 0; animation: dbSbSlideLeft   340ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards; }
+.db-sb-item-learning    { opacity: 0; animation: dbSbSlideRight  340ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards; }
+.db-sb-item-courses     { opacity: 0; animation: dbSbSlideLeft   340ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards; }
+.db-sb-item-paths       { opacity: 0; animation: dbSbSlideUp     340ms cubic-bezier(0.16, 1, 0.3, 1) 250ms forwards; }
+.db-sb-item-skills      { opacity: 0; animation: dbSbScale       340ms cubic-bezier(0.16, 1, 0.3, 1) 300ms forwards; }
+.db-sb-item-certs       { opacity: 0; animation: dbSbSlideRight  340ms cubic-bezier(0.16, 1, 0.3, 1) 350ms forwards; }
+.db-sb-item-knowledge   { opacity: 0; animation: dbSbSlideLeft   340ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards; }
+.db-sb-item-community   { opacity: 0; animation: dbSbSlideUp     340ms cubic-bezier(0.16, 1, 0.3, 1) 450ms forwards; }
+.db-sb-item-leaderboard { opacity: 0; animation: dbSbSlideRight  340ms cubic-bezier(0.16, 1, 0.3, 1) 500ms forwards; }
+.db-sb-item-calendar    { opacity: 0; animation: dbSbSlideLeft   340ms cubic-bezier(0.16, 1, 0.3, 1) 550ms forwards; }
+.db-sb-item-help        { opacity: 0; animation: dbSbScale       340ms cubic-bezier(0.16, 1, 0.3, 1) 600ms forwards; }
+
+/* ── C. Sidebar Active Item Indicator & Dot Soft Pulse ─────────────────────── */
+@keyframes sbActiveDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.8;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0);
+  }
+}
+.db-active-dot-pulse {
+  animation: sbActiveDotPulse 3s ease-in-out infinite;
+}
+
+/* ── D. 3D Hover, Light Sweep & Nav Item Surface ──────────────────────────── */
+.db-sb-nav-item-wrap {
+  perspective: 600px;
+  transform-style: preserve-3d;
+}
+
+.db-sidebar-nav-link {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transform-style: preserve-3d;
+}
+
+/* Subtle Light Sweep Effect on Hover (Single Trigger) */
+.db-sidebar-nav-link::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 70%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+.db-sidebar-nav-link:hover::before {
+  opacity: 1;
+  animation: dbLightSweep 480ms cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
+}
+@keyframes dbLightSweep {
+  0% { left: -120%; opacity: 0; }
+  15% { opacity: 1; }
+  100% { left: 180%; opacity: 0; }
+}
+
+/* Active State Depth & Border */
+.db-sidebar-nav-active {
+  background: #eff6ff !important;
+  color: #2563eb !important;
+  border-color: rgba(191, 219, 254, 0.8) !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+.dark .db-sidebar-nav-active, [data-theme="dark"] .db-sidebar-nav-active {
+  background: rgba(37, 99, 235, 0.16) !important;
+  color: #60a5fa !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ── E. Sidebar Navigation Icon Hover Micro-Interactions (250-450ms) ───────── */
+.db-nav-icon {
+  transition: transform 200ms ease, filter 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 1. Dashboard: scale slightly + tiny pulse */
+@keyframes dbIconDashPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.24); }
+  100% { transform: scale(1.15); }
+}
+.db-icon-dash:hover .db-nav-icon, a:hover .db-icon-dash .db-nav-icon {
+  animation: dbIconDashPulse 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 2. My Learning: book icon gently tilts / open-like motion */
+@keyframes dbIconBookTilt {
+  0% { transform: rotate(0); }
+  50% { transform: rotate(-14deg) translateY(-2px) scale(1.1); }
+  100% { transform: rotate(-8deg) translateY(-1px) scale(1.06); }
+}
+.db-icon-learning:hover .db-nav-icon, a:hover .db-icon-learning .db-nav-icon {
+  animation: dbIconBookTilt 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 3. Explore Courses: compass rotates slightly */
+@keyframes dbIconCompassRot {
+  0% { transform: rotate(0); }
+  50% { transform: rotate(20deg) scale(1.12); }
+  100% { transform: rotate(14deg) scale(1.08); }
+}
+.db-icon-courses:hover .db-nav-icon, a:hover .db-icon-courses .db-nav-icon {
+  animation: dbIconCompassRot 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 4. Learning Paths: path/route animates subtly */
+@keyframes dbIconRouteShift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(3.5px, -1.5px) scale(1.1); }
+  100% { transform: translate(2.5px, -1px) scale(1.06); }
+}
+.db-icon-paths:hover .db-nav-icon, a:hover .db-icon-paths .db-nav-icon {
+  animation: dbIconRouteShift 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 5. Skills: target/ring icon creates a small radial pulse */
+@keyframes dbIconSkillPulse {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.3); }
+  75% { transform: scale(1.15); }
+  100% { transform: scale(1.2); }
+}
+.db-icon-skills:hover .db-nav-icon, a:hover .db-icon-skills .db-nav-icon {
+  animation: dbIconSkillPulse 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 6. Certificates: badge rises 2px and settles */
+@keyframes dbIconCertRise {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3.5px) scale(1.12); }
+  100% { transform: translateY(-2px) scale(1.06); }
+}
+.db-icon-certs:hover .db-nav-icon, a:hover .db-icon-certs .db-nav-icon {
+  animation: dbIconCertRise 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 7. Knowledge Hub: layers/book icon shifts slightly */
+@keyframes dbIconKnowledgeShift {
+  0% { transform: translate(0, 0) rotate(0); }
+  50% { transform: translateY(-2.5px) rotate(6deg) scale(1.1); }
+  100% { transform: translateY(-1.5px) rotate(4deg) scale(1.06); }
+}
+.db-icon-knowledge:hover .db-nav-icon, a:hover .db-icon-knowledge .db-nav-icon {
+  animation: dbIconKnowledgeShift 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 8. Community: people/community gently separates or scales */
+@keyframes dbIconUsersScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.24); }
+  100% { transform: scale(1.14); }
+}
+.db-icon-community:hover .db-nav-icon, a:hover .db-icon-community .db-nav-icon {
+  animation: dbIconUsersScale 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 9. Leaderboard: trophy icon rises slightly */
+@keyframes dbIconTrophyLift {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px) scale(1.14); }
+  100% { transform: translateY(-3px) scale(1.08); }
+}
+.db-icon-leaderboard:hover .db-nav-icon, a:hover .db-icon-leaderboard .db-nav-icon {
+  animation: dbIconTrophyLift 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 10. Calendar: calendar icon gently tilts */
+@keyframes dbIconCalendarTilt {
+  0% { transform: rotate(0); }
+  50% { transform: rotate(12deg) scale(1.12); }
+  100% { transform: rotate(8deg) scale(1.06); }
+}
+.db-icon-calendar:hover .db-nav-icon, a:hover .db-icon-calendar .db-nav-icon {
+  animation: dbIconCalendarTilt 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 11. Help & Support: question/help icon rotates 5-8 degrees */
+@keyframes dbIconHelpRot {
+  0% { transform: rotate(0); }
+  50% { transform: rotate(10deg) scale(1.15); filter: drop-shadow(0 0 5px rgba(37,99,235,0.45)); }
+  100% { transform: rotate(7deg) scale(1.1); filter: drop-shadow(0 0 3px rgba(37,99,235,0.3)); }
+}
+.db-icon-help:hover .db-nav-icon, a:hover .db-icon-help .db-nav-icon {
+  animation: dbIconHelpRot 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 12. Create Course: plus icon rotates 90deg and scales */
+@keyframes dbIconCreatePlus {
+  0% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(90deg) scale(1.22); }
+  100% { transform: rotate(90deg) scale(1.12); }
+}
+.db-icon-create-course:hover .db-nav-icon, a:hover .db-icon-create-course .db-nav-icon {
+  animation: dbIconCreatePlus 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 13. Manage Learners / Trainees: learners wave tilt */
+@keyframes dbIconLearnersWave {
+  0% { transform: scale(1) rotate(0); }
+  50% { transform: scale(1.18) rotate(-6deg); }
+  100% { transform: scale(1.1) rotate(-3deg); }
+}
+.db-icon-manage-learners:hover .db-nav-icon, a:hover .db-icon-manage-learners .db-nav-icon,
+.db-icon-trainees-admin:hover .db-nav-icon, a:hover .db-icon-trainees-admin .db-nav-icon {
+  animation: dbIconLearnersWave 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 14. Assignments & Quizzes: checkmark badge rise */
+@keyframes dbIconAssignCheck {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.18) translateY(-2.5px); }
+  100% { transform: scale(1.1) translateY(-1px); }
+}
+.db-icon-assignments:hover .db-nav-icon, a:hover .db-icon-assignments .db-nav-icon {
+  animation: dbIconAssignCheck 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 15. Live Sessions: red video pulse */
+@keyframes dbIconLivePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.22); filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5)); }
+  100% { transform: scale(1.12); filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.3)); }
+}
+.db-icon-live-sessions:hover .db-nav-icon, a:hover .db-icon-live-sessions .db-nav-icon {
+  animation: dbIconLivePulse 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 16. Analytics / Reports: chart rise */
+@keyframes dbIconAnalyticsShift {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.16) translateY(-2px); }
+  100% { transform: scale(1.08) translateY(-1px); }
+}
+.db-icon-analytics:hover .db-nav-icon, a:hover .db-icon-analytics .db-nav-icon {
+  animation: dbIconAnalyticsShift 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 17. Settings / System Settings: gear rotation */
+@keyframes dbIconSettingsRot {
+  0% { transform: rotate(0); }
+  50% { transform: rotate(45deg) scale(1.15); }
+  100% { transform: rotate(30deg) scale(1.08); }
+}
+.db-icon-settings:hover .db-nav-icon, a:hover .db-icon-settings .db-nav-icon {
+  animation: dbIconSettingsRot 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 18. User Management: shield scale */
+@keyframes dbIconUsersShield {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2) translateY(-1px); }
+  100% { transform: scale(1.1) translateY(-0.5px); }
+}
+.db-icon-users-admin:hover .db-nav-icon, a:hover .db-icon-users-admin .db-nav-icon {
+  animation: dbIconUsersShield 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 19. Trainer Management: briefcase lift */
+@keyframes dbIconBriefcaseLift {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px) scale(1.14); }
+  100% { transform: translateY(-1.5px) scale(1.08); }
+}
+.db-icon-trainers-admin:hover .db-nav-icon, a:hover .db-icon-trainers-admin .db-nav-icon {
+  animation: dbIconBriefcaseLift 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 20. Course Management: layers lift */
+@keyframes dbIconCoursesLayers {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.16); }
+  100% { transform: translateY(-1px) scale(1.08); }
+}
+.db-icon-courses-admin:hover .db-nav-icon, a:hover .db-icon-courses-admin .db-nav-icon {
+  animation: dbIconCoursesLayers 360ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Role Transition Animations */
+@keyframes dbRoleItemsFadeIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes dbRoleItemsFadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+.db-role-items-enter {
+  animation: dbRoleItemsFadeIn 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.db-role-items-exit {
+  animation: dbRoleItemsFadeOut 120ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes dbRoleItemStagger {
+  0% { opacity: 0; transform: translateX(-12px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.db-role-item-stagger {
+  opacity: 0;
+  animation: dbRoleItemStagger 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── F. Sidebar Profile Card Entrance & Hover ──────────────────────────────── */
+@keyframes dbProfileCardIn {
+  0% { opacity: 0; transform: scale(0.97); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.db-profile-card-anim {
+  opacity: 0;
+  animation: dbProfileCardIn 400ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+.db-profile-card-anim:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+.db-profile-avatar-anim {
+  transition: transform 200ms ease;
+}
+.db-profile-card-anim:hover .db-profile-avatar-anim {
+  transform: scale(1.04);
+}
+
+/* ── F. Top Navigation Search Bar ─────────────────────────────────────────── */
+@keyframes dbSearchIn {
+  0% { opacity: 0; transform: translateX(-15px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.db-top-search-anim {
+  opacity: 0;
+  animation: dbSearchIn 380ms cubic-bezier(0.16, 1, 0.3, 1) 300ms forwards;
+}
+.db-kbd-badge {
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+.db-top-search-anim:hover .db-kbd-badge,
+.db-top-search-anim input:focus ~ .db-kbd-badge {
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* ── G. Top Controls Micro-Interactions ────────────────────────────────────── */
+@keyframes dbTopControlsIn {
+  0% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.db-top-controls-anim {
+  opacity: 0;
+  animation: dbTopControlsIn 380ms cubic-bezier(0.16, 1, 0.3, 1) 350ms forwards;
+}
+
+@keyframes dbFlamePulseHover {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.24) rotate(4deg); }
+}
+.db-flame-hover:hover svg {
+  animation: dbFlamePulseHover 600ms ease-in-out;
+}
+
+.db-star-hover {
+  transition: transform 200ms ease;
+}
+.db-star-hover:hover svg {
+  transform: rotate(25deg) scale(1.15);
+}
+
+@keyframes dbBellShake {
+  0% { transform: rotate(0); }
+  20% { transform: rotate(8deg); }
+  40% { transform: rotate(-8deg); }
+  60% { transform: rotate(6deg); }
+  80% { transform: rotate(-4deg); }
+  100% { transform: rotate(0); }
+}
+.db-bell-shake-anim {
+  animation: dbBellShake 800ms ease-in-out 1200ms 1;
+}
+
+.db-help-icon {
+  transition: transform 180ms ease;
+}
+.db-help-icon:hover {
+  transform: scale(1.12);
+}
+
+.db-profile-pill {
+  transition: box-shadow 200ms ease, transform 180ms ease;
+}
+.db-profile-pill:hover img {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.4);
+}
+
+/* Dropdown Menu Entrance (180-250ms) */
+@keyframes dbDropdownIn {
+  0% { opacity: 0; transform: translateY(-5px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.db-dropdown-anim {
+  animation: dbDropdownIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── H. Dashboard Hero Elements ────────────────────────────────────────────── */
+@keyframes dbHeroBadgeIn {
+  0% { opacity: 0; transform: translateY(-12px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.db-hero-badge-anim {
+  opacity: 0;
+  animation: dbHeroBadgeIn 420ms cubic-bezier(0.16, 1, 0.3, 1) 450ms forwards;
+}
+
+/* Individual Heading Word Entrances */
+@keyframes dbWordTopLeft {
+  0% { opacity: 0; transform: translate(-10px, -12px); filter: blur(3px); }
+  100% { opacity: 1; transform: translate(0, 0); filter: blur(0); }
+}
+@keyframes dbWordTop {
+  0% { opacity: 0; transform: translateY(-14px); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes dbWordLeft {
+  0% { opacity: 0; transform: translateX(-14px); filter: blur(3px); }
+  100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+@keyframes dbWordBottom {
+  0% { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes dbWordRight {
+  0% { opacity: 0; transform: translateX(14px); filter: blur(3px); }
+  100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+
+.db-word-build    { display: inline-block; opacity: 0; animation: dbWordTopLeft 420ms cubic-bezier(0.16, 1, 0.3, 1) 550ms forwards; }
+.db-word-skills   { display: inline-block; opacity: 0; animation: dbWordTop     420ms cubic-bezier(0.16, 1, 0.3, 1) 590ms forwards; }
+@keyframes dbWordGradientIn {
+  0% { opacity: 0; filter: blur(3px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+.db-word-gradient { display: inline; opacity: 0; animation: dbWordGradientIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 640ms forwards; }
+.db-word-create   { display: inline-block; opacity: 0; animation: dbWordLeft    420ms cubic-bezier(0.16, 1, 0.3, 1) 630ms forwards; }
+.db-word-impact   { display: inline-block; opacity: 0; animation: dbWordBottom  420ms cubic-bezier(0.16, 1, 0.3, 1) 670ms forwards; }
+.db-word-together { display: inline-block; opacity: 0; animation: dbWordRight   420ms cubic-bezier(0.16, 1, 0.3, 1) 710ms forwards; }
+
+/* Hero Description Blur Reveal */
+@keyframes dbHeroDescIn {
+  0% { opacity: 0; filter: blur(3px); transform: translateY(8px); }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+.db-hero-desc-anim {
+  opacity: 0;
+  animation: dbHeroDescIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 700ms forwards;
+}
+
+/* Hero CTA Buttons */
+@keyframes dbHeroBtn1In {
+  0% { opacity: 0; transform: translateX(-15px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes dbHeroBtn2In {
+  0% { opacity: 0; transform: scale(0.94); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.db-hero-btn1-anim {
+  opacity: 0;
+  animation: dbHeroBtn1In 400ms cubic-bezier(0.16, 1, 0.3, 1) 850ms forwards;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.db-hero-btn1-anim:hover {
+  transform: translateY(-2px);
+}
+.db-hero-btn2-anim {
+  opacity: 0;
+  animation: dbHeroBtn2In 400ms cubic-bezier(0.16, 1, 0.3, 1) 850ms forwards;
+  transition: transform 180ms ease;
+}
+.db-hero-btn2-anim:hover {
+  transform: translateY(-2px);
+}
+
+/* Hero Visual / Image Entrance & Floating Cards */
+@keyframes dbHeroVisualIn {
+  0% { opacity: 0; transform: translateX(20px) scale(0.96); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+.db-hero-visual-anim {
+  opacity: 0;
+  animation: dbHeroVisualIn 480ms cubic-bezier(0.16, 1, 0.3, 1) 950ms forwards;
+}
+
+@keyframes dbHeroFloatStreakIn {
+  0% { opacity: 0; transform: translateY(-10px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes dbHeroFloatXpIn {
+  0% { opacity: 0; transform: translateY(10px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.db-float-streak-anim {
+  opacity: 0;
+  animation: dbHeroFloatStreakIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 1100ms forwards;
+  transition: transform 200ms ease;
+}
+.db-float-streak-anim:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+.db-float-xp-anim {
+  opacity: 0;
+  animation: dbHeroFloatXpIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 1200ms forwards;
+  transition: transform 200ms ease;
+}
+.db-float-xp-anim:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Hero Background Ambient Motion */
+@keyframes dbHeroAmbient1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(14px, -14px) scale(1.08); }
+}
+@keyframes dbHeroAmbient2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-12px, 12px) scale(1.06); }
+}
+.db-ambient-orb-1 {
+  animation: dbHeroAmbient1 24s ease-in-out infinite;
+  pointer-events: none;
+}
+.db-ambient-orb-2 {
+  animation: dbHeroAmbient2 28s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── I. Weekly Progress Banner ────────────────────────────────────────────── */
+@keyframes dbProgressBannerIn {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.db-progress-banner-anim {
+  opacity: 0;
+  animation: dbProgressBannerIn 450ms cubic-bezier(0.16, 1, 0.3, 1) 1100ms forwards;
+}
+
+@keyframes dbRocketLaunch {
+  0% { transform: translateY(3px) scale(0.92); }
+  50% { transform: translateY(-2px) scale(1.08); }
+  100% { transform: translateY(0) scale(1); }
+}
+.db-rocket-anim {
+  animation: dbRocketLaunch 800ms cubic-bezier(0.16, 1, 0.3, 1) 1250ms 1;
+}
+
+.db-prog-btn {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.db-prog-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+.db-prog-btn:hover svg {
+  transform: translateX(3px);
+}
+
+/* ── J. Quick Actions Section (6 Staggered Cards) ──────────────────────────── */
+@keyframes dbQaHeadingIn {
+  0% { opacity: 0; filter: blur(3px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+.db-qa-heading-anim {
+  opacity: 0;
+  animation: dbQaHeadingIn 400ms cubic-bezier(0.16, 1, 0.3, 1) 1200ms forwards;
+}
+
+@keyframes dbQaCard1In { 0% { opacity: 0; transform: translateX(-18px); } 100% { opacity: 1; transform: translateX(0); } }
+@keyframes dbQaCard2In { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes dbQaCard3In { 0% { opacity: 0; transform: translateX(18px); } 100% { opacity: 1; transform: translateX(0); } }
+@keyframes dbQaCard4In { 0% { opacity: 0; transform: scale(0.92); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes dbQaCard5In { 0% { opacity: 0; transform: translateY(14px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes dbQaCard6In { 0% { opacity: 0; filter: blur(4px); transform: translateY(10px); } 100% { opacity: 1; filter: blur(0); transform: translateY(0); } }
+
+.db-qa-card-1 { opacity: 0; animation: dbQaCard1In 400ms cubic-bezier(0.16, 1, 0.3, 1) 1250ms forwards; }
+.db-qa-card-2 { opacity: 0; animation: dbQaCard2In 400ms cubic-bezier(0.16, 1, 0.3, 1) 1310ms forwards; }
+.db-qa-card-3 { opacity: 0; animation: dbQaCard3In 400ms cubic-bezier(0.16, 1, 0.3, 1) 1370ms forwards; }
+.db-qa-card-4 { opacity: 0; animation: dbQaCard4In 400ms cubic-bezier(0.16, 1, 0.3, 1) 1430ms forwards; }
+.db-qa-card-5 { opacity: 0; animation: dbQaCard5In 400ms cubic-bezier(0.16, 1, 0.3, 1) 1490ms forwards; }
+.db-qa-card-6 { opacity: 0; animation: dbQaCard6In 400ms cubic-bezier(0.16, 1, 0.3, 1) 1550ms forwards; }
+
+.db-qa-card {
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.db-qa-card:hover {
+  transform: translateY(-3.5px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+/* Quick Action Individual Icon Micro-Interactions */
+.db-qa-icon-browse:hover svg, .db-qa-card:hover .db-qa-icon-browse svg {
+  transform: rotate(12deg) scale(1.1);
+}
+@keyframes dbVideoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+.db-qa-icon-video:hover svg, .db-qa-card:hover .db-qa-icon-video svg {
+  animation: dbVideoPulse 500ms ease-in-out;
+}
+.db-qa-icon-quiz:hover svg, .db-qa-card:hover .db-qa-icon-quiz svg {
+  transform: scale(1.15);
+}
+.db-qa-icon-mentor:hover svg, .db-qa-card:hover .db-qa-icon-mentor svg {
+  transform: translateY(-3px) scale(1.08);
+}
+.db-qa-icon-share:hover svg, .db-qa-card:hover .db-qa-icon-share svg {
+  transform: translateX(3px) translateY(-1px) scale(1.08);
+}
+.db-qa-icon-cert:hover svg, .db-qa-card:hover .db-qa-icon-cert svg {
+  transform: translateY(-2px) rotate(-6deg) scale(1.1);
+}
+
+/* ── K. Learning Journey & Competency Interactive Elements ─────────────────── */
+.db-course-card {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+.db-course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.09);
+}
+
+.db-skill-card {
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.db-skill-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+.db-metric-card {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.db-metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07);
+}
+
+/* ── 15. Reduced Motion (All Pages) ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .skillsync-logo-entrance,
+  .nav-item-home,
+  .nav-item-explore,
+  .nav-item-how,
+  .nav-item-features,
+  .nav-item-about,
+  .nav-ai-sparkle,
+  .nav-ai-text,
+  .nav-item-theme,
+  .nav-item-portal,
+  .nav-item-dashboard,
+  .nav-item-signout,
+  .nav-item-register,
+  .hero-badge-anim,
+  .hero-word-build-skills,
+  .hero-word-grow,
+  .hero-word-competencies,
+  .hero-word-shape-your,
+  .hero-word-future,
+  .hero-gradient-text-anim,
+  .hero-desc-anim,
+  .hero-btn-explore-anim,
+  .hero-btn-create-anim,
+  .hero-link-ai-anim,
+  .ai-link-arrow-pulse,
+  .ambient-orb-1,
+  .ambient-orb-2,
+  .loop-badge-anim,
+  .loop-heading-anim,
+  .card-anim-role-bottom,
+  .card-anim-comp-left,
+  .card-anim-skills-bottomright,
+  .card-anim-gap-right,
+  .card-anim-path-scale,
+  .card-anim-trainer-rotate,
+  .card-anim-assess-up,
+  .card-anim-improve-blur,
+  .global-ai-btn-anim,
+  .global-ai-btn-inner,
+  .ai-panel-open-anim,
+  .reveal-on-scroll,
+  .db-sidebar-logo-anim,
+  .db-sb-item-dashboard,
+  .db-sb-item-learning,
+  .db-sb-item-courses,
+  .db-sb-item-paths,
+  .db-sb-item-skills,
+  .db-sb-item-certs,
+  .db-sb-item-knowledge,
+  .db-sb-item-community,
+  .db-sb-item-leaderboard,
+  .db-sb-item-calendar,
+  .db-sb-item-help,
+  .db-sb-nav-item-wrap,
+  .db-sidebar-nav-link,
+  .db-nav-item-1,
+  .db-nav-item-2,
+  .db-nav-item-3,
+  .db-nav-item-4,
+  .db-nav-item-5,
+  .db-nav-item-6,
+  .db-nav-item-7,
+  .db-nav-item-8,
+  .db-nav-item-9,
+  .db-nav-item-10,
+  .db-nav-item-11,
+  .db-active-dot-pulse,
+  .db-profile-card-anim,
+  .db-top-search-anim,
+  .db-top-controls-anim,
+  .db-hero-badge-anim,
+  .db-word-build,
+  .db-word-skills,
+  .db-word-gradient,
+  .db-word-create,
+  .db-word-impact,
+  .db-word-together,
+  .db-hero-desc-anim,
+  .db-hero-btn1-anim,
+  .db-hero-btn2-anim,
+  .db-hero-visual-anim,
+  .db-float-streak-anim,
+  .db-float-xp-anim,
+  .db-ambient-orb-1,
+  .db-ambient-orb-2,
+  .db-progress-banner-anim,
+  .db-rocket-anim,
+  .db-qa-heading-anim,
+  .db-qa-card-1,
+  .db-qa-card-2,
+  .db-qa-card-3,
+  .db-qa-card-4,
+  .db-qa-card-5,
+  .db-qa-card-6,
+  .db-bell-shake-anim,
+  .db-dropdown-anim,
+  .db-role-items-enter,
+  .db-role-items-exit,
+  .db-role-item-stagger {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+
 

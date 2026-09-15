@@ -10,7 +10,26 @@
     <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Immediate Theme Initialization (prevents flash of wrong theme) -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('skillsync-theme') || localStorage.getItem('skillsync_theme');
+          var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+          var root = document.documentElement;
+          root.setAttribute('data-theme', theme);
+          if (theme === 'light') {
+            root.classList.remove('dark');
+            root.classList.add('light');
+            root.style.colorScheme = 'light';
+          } else {
+            root.classList.remove('light');
+            root.classList.add('dark');
+            root.style.colorScheme = 'dark';
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

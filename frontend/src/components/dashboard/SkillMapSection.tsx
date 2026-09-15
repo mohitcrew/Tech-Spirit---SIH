@@ -72,7 +72,7 @@ export const SkillMapSection: React.FC<SkillMapSectionProps> = ({ onSelectSkill 
             <div
               key={skill.name}
               onClick={() => onSelectSkill(skill)}
-              className="p-4 rounded-2xl border border-slate-200/80 bg-white hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+              className="p-4 rounded-2xl border border-slate-200/80 bg-white hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between db-skill-card"
             >
               <div>
                 <div className="flex items-center justify-between mb-2">

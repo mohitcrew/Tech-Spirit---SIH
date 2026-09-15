@@ -14,6 +14,32 @@
   --cc-cyan: #06B6D4;
 
   /* Surfaces & Backgrounds */
+  --cc-bg: #0F172A;
+  --cc-surface: #111827;
+  --cc-surface-muted: #1E293B;
+
+  /* Neutrals & Borders */
+  --cc-neutral: #94A3B8;
+  --cc-light-border: #1E293B;
+  --cc-border-hover: #334155;
+
+  /* Soft Pastel Tints */
+  --cc-tint-green: rgba(16, 185, 129, 0.15);
+  --cc-tint-blue: rgba(37, 99, 235, 0.15);
+  --cc-tint-purple: rgba(139, 92, 246, 0.15);
+  --cc-tint-amber: rgba(245, 158, 11, 0.15);
+  --cc-tint-sky: rgba(56, 189, 248, 0.15);
+
+  /* Shadows */
+  --cc-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --cc-shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.3), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
+  --cc-shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 10px -2px rgba(0, 0, 0, 0.2);
+  --cc-shadow-glow-blue: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
+  --cc-shadow-glow-purple: 0 10px 25px -5px rgba(139, 92, 246, 0.25);
+}
+
+html.light, :root[data-theme="light"] {
+  /* Light Mode Surfaces & Backgrounds */
   --cc-bg: #F8FAFC;
   --cc-surface: #FFFFFF;
   --cc-surface-muted: #F1F5F9;
@@ -22,6 +48,7 @@
   --cc-neutral: #64748B;
   --cc-light-border: #E2E8F0;
   --cc-border-hover: #CBD5E1;
+  --cc-navy: #0F172A;
 
   /* Soft Pastel Tints */
   --cc-tint-green: #D1FAE5;
@@ -34,9 +61,41 @@
   --cc-shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
   --cc-shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
   --cc-shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
-  --cc-shadow-glow-blue: 0 10px 25px -5px rgba(37, 99, 235, 0.25);
-  --cc-shadow-glow-purple: 0 10px 25px -5px rgba(139, 92, 246, 0.25);
 }
+
+html.dark, :root[data-theme="dark"] {
+  --cc-bg: #0F172A;
+  --cc-surface: #111827;
+  --cc-surface-muted: #1E293B;
+  --cc-neutral: #94A3B8;
+  --cc-light-border: #1E293B;
+  --cc-border-hover: #334155;
+  --cc-navy: #F8FAFC;
+
+  --cc-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --cc-shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.4), 0 2px 6px -1px rgba(0, 0, 0, 0.25);
+  --cc-shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.5), 0 4px 10px -2px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .cc-hero-gradient,
+:root[data-theme="dark"] .cc-hero-gradient {
+  background: linear-gradient(135deg, #172033 0%, #1E293B 50%, #111827 100%);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+html.dark .cc-btn-secondary,
+:root[data-theme="dark"] .cc-btn-secondary {
+  background-color: #172033;
+  color: #F8FAFC;
+  border-color: #334155;
+}
+
+html.dark .cc-btn-secondary:hover,
+:root[data-theme="dark"] .cc-btn-secondary:hover {
+  background-color: #1E293B;
+  border-color: #475569;
+}
+
 
 /* Typography font family default */
 body {
@@ -55,13 +114,13 @@ body {
   border: 1px solid var(--cc-light-border);
   border-radius: 20px;
   box-shadow: var(--cc-shadow-md);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
 .cc-card:hover {
   box-shadow: var(--cc-shadow-lg);
   border-color: var(--cc-border-hover);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .cc-card-flat {
@@ -96,7 +155,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
   border: none;
   cursor: pointer;
@@ -105,11 +164,15 @@ body {
 .cc-btn-primary:hover {
   background-color: var(--cc-primary-hover);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .cc-btn-primary:active {
-  transform: translateY(0);
+  transform: scale(0.98);
+}
+
+.cc-btn-primary:hover svg:last-child {
+  transform: translateX(4px);
 }
 
 .cc-btn-secondary {
@@ -123,14 +186,18 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
   cursor: pointer;
 }
 
 .cc-btn-secondary:hover {
   background-color: var(--cc-surface-muted);
   border-color: var(--cc-neutral);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+}
+
+.cc-btn-secondary:active {
+  transform: scale(0.98);
 }
 
 /* Badges & Pills */

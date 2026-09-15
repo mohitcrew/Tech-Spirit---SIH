@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  Sparkles, ChevronDown, Menu, X, BookOpen, Target, Users, Globe, BookMarked, Layers, ArrowRight, ShieldCheck, Sun, Moon
+  Sparkles, ChevronDown, Menu, X, BookOpen, Target, Users, Globe, BookMarked, Layers, ArrowRight, Sun, Moon
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useAIAssistant } from '../../context/AIAssistantContext';
 
 interface SkillSyncNavbarProps {
   onOpenAuthModal?: (intent?: string) => void;
@@ -13,15 +14,24 @@ interface SkillSyncNavbarProps {
 
 export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
   onOpenAuthModal,
-  onOpenAi,
+  onOpenAi: propOnOpenAi,
 }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme, isDark } = useTheme();
+  const { openAI } = useAIAssistant();
   const navigate = useNavigate();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [exploreDropdownOpen, setExploreDropdownOpen] = useState(false);
+
+  const handleOpenAi = () => {
+    if (propOnOpenAi) {
+      propOnOpenAi();
+    } else {
+      openAI();
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,8 +70,8 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo with Image at SS Position */}
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform flex items-center justify-center overflow-hidden">
+        <Link to="/" className="flex items-center gap-3 group skillsync-logo-entrance">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-blue-500/20 flex items-center justify-center overflow-hidden">
             <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center overflow-hidden p-1">
               <img
                 src="https://res.cloudinary.com/djmqwehwk/image/upload/v1789454602/Skill_Sync_WB_ehnf16.png"
@@ -76,7 +86,11 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
               <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
                 Sync
               </span>
+<<<<<<< HEAD
               <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
+=======
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
                 PROTOTYPE
               </span>
             </div>
@@ -90,8 +104,13 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
         <div className="hidden lg:flex items-center gap-1">
           <Link
             to="/"
+<<<<<<< HEAD
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
               location.pathname === '/' ? 'text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800/80' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900'
+=======
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold nav-item-home transition-colors ${
+              location.pathname === '/' ? 'text-white bg-slate-800/80' : 'text-slate-300 hover:text-white'
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
             }`}
           >
             Home
@@ -102,10 +121,17 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
             <button
               onClick={() => setExploreDropdownOpen(!exploreDropdownOpen)}
               onMouseEnter={() => setExploreDropdownOpen(true)}
+<<<<<<< HEAD
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
             >
               <span>Explore</span>
               <ChevronDown className={`w-3.5 h-3.5 transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : ''}`} />
+=======
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-explore transition-colors cursor-pointer"
+            >
+              <span>Explore</span>
+              <ChevronDown className={`w-3.5 h-3.5 nav-arrow-explore transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
             </button>
 
             {exploreDropdownOpen && (
@@ -145,31 +171,51 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
 
           <a
             href="/#how-it-works"
+<<<<<<< HEAD
             className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+=======
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-how transition-colors"
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
           >
             How It Works
           </a>
 
           <a
             href="/#features"
+<<<<<<< HEAD
             className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+=======
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-features transition-colors"
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
           >
             Features
           </a>
 
           <a
             href="/#about"
+<<<<<<< HEAD
             className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+=======
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-about transition-colors"
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
           >
             About
           </a>
 
           <button
+<<<<<<< HEAD
             onClick={onOpenAi}
             className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-600 dark:text-cyan-300 hover:text-cyan-700 dark:hover:text-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-500/10 transition-colors"
           >
             <Sparkles className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
             <span>AI Assistant</span>
+=======
+            onClick={handleOpenAi}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 hover:text-cyan-200 hover:bg-cyan-500/10 nav-item-ai transition-colors cursor-pointer"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 nav-ai-sparkle" />
+            <span className="nav-ai-text">AI Assistant</span>
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
           </button>
         </div>
 
@@ -178,38 +224,46 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
           {/* Light / Dark Mode Toggle Button */}
           <button
             onClick={toggleTheme}
+<<<<<<< HEAD
             className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-all shadow-sm active:scale-90"
+=======
+            className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-sm active:scale-90 cursor-pointer nav-item-theme"
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            aria-label="Toggle theme mode"
+            aria-label="Toggle theme"
           >
             {isDark ? (
-              <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
+              <Moon className="w-4 h-4 text-indigo-400 nav-theme-icon" />
             ) : (
+<<<<<<< HEAD
               <Moon className="w-4 h-4 text-indigo-600 transition-transform duration-300" />
+=======
+              <Sun className="w-4 h-4 text-amber-500 nav-theme-icon" />
+>>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
             )}
           </button>
 
-          {/* Go to Portal (Trainee) - ALWAYS redirects to login page per specification */}
+          {/* Go to Portal (Trainee) */}
           <Link
             to="/login?role=trainee&redirect=/trainee/dashboard"
-            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 active:scale-95"
+            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 active:scale-95 nav-item-portal"
             title="Access the Trainee learning portal through the SkillSync login gateway"
           >
             <span>Go to Portal (Trainee)</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 nav-portal-arrow" />
           </Link>
 
           {user ? (
             <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
               <Link
                 to={`/${user.role.toLowerCase()}/dashboard`}
-                className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-750 hover:border-slate-600 text-slate-200 hover:text-white text-xs font-bold transition-colors flex items-center gap-1.5"
+                className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-750 hover:border-slate-600 text-slate-200 hover:text-white text-xs font-bold nav-item-dashboard transition-colors flex items-center gap-1.5"
               >
                 <span>Dashboard ({user.role})</span>
               </Link>
               <button
                 onClick={logout}
-                className="px-2.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-rose-400 hover:bg-slate-900 transition-colors"
+                className="px-2.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-rose-400 hover:bg-slate-900 nav-item-signout transition-colors cursor-pointer"
                 title="Sign out of current portal session"
               >
                 Sign Out
@@ -219,14 +273,14 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
             <>
               <button
                 onClick={() => handleAuthClick('login')}
-                className="px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                className="px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 nav-item-dashboard transition-colors cursor-pointer"
               >
                 Sign In
               </button>
 
               <button
                 onClick={() => handleAuthClick('register')}
-                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20 flex items-center gap-1 active:scale-95"
+                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20 flex items-center gap-1 active:scale-95 nav-item-signout nav-item-register cursor-pointer"
               >
                 <span>Register</span>
               </button>
@@ -238,20 +292,25 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
         <div className="flex items-center gap-2 lg:hidden">
           <button
             onClick={toggleTheme}
-            className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-center hover:text-white"
+            className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-center hover:text-white cursor-pointer"
             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            aria-label="Toggle theme mode"
+            aria-label="Toggle theme"
           >
-            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-500" />}
+            {isDark ? (
+              <Moon className="w-4 h-4 text-indigo-400" />
+            ) : (
+              <Sun className="w-4 h-4 text-amber-500" />
+            )}
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-center hover:text-white"
+            className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-center hover:text-white cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
+
 
       {/* Mobile Slide-Down Menu */}
       {mobileMenuOpen && (
@@ -288,9 +347,9 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                if (onOpenAi) onOpenAi();
+                handleOpenAi();
               }}
-              className="text-left text-xs font-bold text-cyan-300 py-1.5 flex items-center gap-1.5"
+              className="text-left text-xs font-bold text-cyan-300 py-1.5 flex items-center gap-1.5 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Ask SkillSync AI</span>

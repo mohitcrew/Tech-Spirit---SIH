@@ -32,7 +32,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
       {/* 4 Gamified Metric Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
         {/* Streak */}
-        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-amber-50/40">
+        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-amber-50/40 db-metric-card cursor-pointer">
           <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-2xl cc-streak-flame flex-shrink-0">
             🔥
           </div>
@@ -48,7 +48,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
         </div>
 
         {/* Badges */}
-        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-purple-50/40">
+        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-purple-50/40 db-metric-card cursor-pointer">
           <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl flex-shrink-0">
             🏆
           </div>
@@ -64,7 +64,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
         </div>
 
         {/* XP */}
-        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-blue-50/40">
+        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-blue-50/40 db-metric-card cursor-pointer">
           <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl flex-shrink-0">
             ⭐
           </div>
@@ -80,7 +80,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
         </div>
 
         {/* Weekly Goal */}
-        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-emerald-50/40">
+        <div className="cc-card p-4 flex items-center gap-3.5 bg-gradient-to-br from-white to-emerald-50/40 db-metric-card cursor-pointer">
           <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-2xl flex-shrink-0">
             🎯
           </div>

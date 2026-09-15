@@ -58,14 +58,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return JSON.parse(saved);
       } catch {}
     }
-    return null;
+    return defaultDemoUser;
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('cc_token');
     if (!token) {
-      setUser(null);
+      localStorage.setItem('cc_token', 'demo_token_' + Date.now());
+      localStorage.setItem('cc_user', JSON.stringify(defaultDemoUser));
+      setUser(defaultDemoUser);
+      return;
+    }
+    if (token.startsWith('demo_token_')) {
       return;
     }
     unwrap<User>(api.get('/auth/me'))
@@ -74,7 +79,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('cc_user', JSON.stringify(u));
       })
       .catch(() => {
-        // keep local demo user if token is present
+        // keep local demo user if token is present or backend is unreachable
       });
   }, []);
 

@@ -1,0 +1,764 @@
+/* ==========================================================================
+   SKILLSYNC — ULTRA PREMIUM 3D DASHBOARD EXPERIENCE
+   Cinematic depth, spatial scrolling, premium micro-interactions.
+   GPU-only: transform, opacity, filter — zero layout shift.
+   ========================================================================== */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   1. CSS CUSTOM PROPERTY SYSTEM (Depth, Easing, Motion Tokens)
+   ───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Premium Easing */
+  --ease-out-expo:    cubic-bezier(0.16, 1, 0.36, 1);
+  --ease-out-quart:   cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring:      cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-micro:       cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Motion Duration Hierarchy */
+  --dur-micro:    160ms;
+  --dur-button:   220ms;
+  --dur-card:     320ms;
+  --dur-dropdown: 240ms;
+  --dur-reveal:   680ms;
+  --dur-hero:     900ms;
+  --dur-ambient:  28000ms;
+
+  /* Depth Token (perspective) */
+  --perspective-near:  600px;
+  --perspective-mid:   900px;
+  --perspective-far:   1200px;
+
+  /* Ambient orb opacity */
+  --ambient-opacity: 0.045;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   2. CINEMATIC 3D SCROLL REVEAL SYSTEM
+   Sections emerge from depth — translateZ(-60px) → 0, rotateX(2°) → 0.
+   Six distinct reveal variants for section variety.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* -- Base pre-reveal state (applied before entering viewport) -- */
+.reveal-on-scroll {
+  opacity: 0;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+}
+
+/* -- Variant A: Cinematic depth forward (hero, default) -- */
+.reveal-depth-up {
+  transform: perspective(var(--perspective-far))
+             translate3d(0, 40px, -60px)
+             rotateX(2deg)
+             scale(0.97);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out-expo),
+    transform var(--dur-reveal) var(--ease-out-expo);
+}
+
+/* -- Variant B: Horizontal depth slide (progress banner, analytics) -- */
+.reveal-depth-right {
+  transform: perspective(var(--perspective-mid))
+             translate3d(-30px, 12px, -40px)
+             rotateY(-1.5deg)
+             scale(0.98);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out-expo),
+    transform var(--dur-reveal) var(--ease-out-expo);
+}
+.reveal-depth-left {
+  transform: perspective(var(--perspective-mid))
+             translate3d(30px, 12px, -40px)
+             rotateY(1.5deg)
+             scale(0.98);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out-expo),
+    transform var(--dur-reveal) var(--ease-out-expo);
+}
+
+/* -- Variant C: Scale + depth (certificates, achievements) -- */
+.reveal-depth-scale {
+  transform: perspective(var(--perspective-near))
+             translate3d(0, 20px, -45px)
+             scale(0.96);
+  transition:
+    opacity 720ms var(--ease-out-expo),
+    transform 720ms var(--ease-out-expo);
+}
+
+/* -- Variant D: Radial emergence (skills, competencies) -- */
+.reveal-depth-radial {
+  transform: perspective(var(--perspective-near))
+             translate3d(0, 25px, -35px)
+             rotateX(1.5deg)
+             scale(0.97);
+  transition:
+    opacity 640ms var(--ease-out-expo),
+    transform 640ms var(--ease-out-expo);
+}
+
+/* -- Variant E: Fade + subtle blur (recommended, community) -- */
+.reveal-depth-blur {
+  filter: blur(4px);
+  transform: perspective(var(--perspective-mid))
+             translate3d(0, 18px, -30px)
+             scale(0.98);
+  transition:
+    opacity 600ms var(--ease-out-expo),
+    transform 600ms var(--ease-out-expo),
+    filter 500ms ease;
+}
+
+/* -- Variant F: Row-by-row (leaderboard, table, lists) -- */
+.reveal-depth-rows {
+  transform: perspective(var(--perspective-near))
+             translate3d(-6px, 20px, -20px)
+             scale(0.99);
+  transition:
+    opacity 560ms var(--ease-out-expo),
+    transform 560ms var(--ease-out-expo);
+}
+
+/* -- REVEALED STATE: every variant settles to identity -- */
+.reveal-on-scroll.is-revealed {
+  opacity: 1 !important;
+  filter: blur(0) !important;
+  transform: perspective(var(--perspective-far))
+             translate3d(0, 0, 0)
+             rotateX(0deg)
+             rotateY(0deg)
+             scale(1) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3. STAGGERED CHILD REVEALS (for cards, rows, headings)
+   ───────────────────────────────────────────────────────────────────────────── */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: perspective(var(--perspective-near))
+             translate3d(0, 22px, -25px)
+             scale(0.97);
+  transition:
+    opacity 480ms var(--ease-out-expo),
+    transform 480ms var(--ease-out-expo);
+}
+.reveal-stagger.is-revealed > *:nth-child(1)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:  0ms; }
+.reveal-stagger.is-revealed > *:nth-child(2)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay: 55ms; }
+.reveal-stagger.is-revealed > *:nth-child(3)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:110ms; }
+.reveal-stagger.is-revealed > *:nth-child(4)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:165ms; }
+.reveal-stagger.is-revealed > *:nth-child(5)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:220ms; }
+.reveal-stagger.is-revealed > *:nth-child(6)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:275ms; }
+.reveal-stagger.is-revealed > *:nth-child(7)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:330ms; }
+.reveal-stagger.is-revealed > *:nth-child(8)  { opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:385ms; }
+.reveal-stagger.is-revealed > *:nth-child(n+9){ opacity: 1; transform: translate3d(0,0,0) scale(1); transition-delay:440ms; }
+
+/* Heading stagger (label → h → p) */
+.reveal-heading {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 400ms var(--ease-out-expo), transform 400ms var(--ease-out-expo);
+}
+.is-revealed .reveal-heading-label { opacity: 1; transform: none; transition-delay:   0ms; }
+.is-revealed .reveal-heading-title { opacity: 1; transform: none; transition-delay:  70ms; }
+.is-revealed .reveal-heading-sub   { opacity: 1; transform: none; transition-delay: 140ms; }
+
+.reveal-heading-label,
+.reveal-heading-title,
+.reveal-heading-sub {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 400ms var(--ease-out-expo), transform 400ms var(--ease-out-expo);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   4. PREMIUM CARD PHYSICS — Hover Depth + Cursor-Reactive Border
+   ───────────────────────────────────────────────────────────────────────────── */
+.cc-card {
+  transition:
+    transform var(--dur-card) var(--ease-out-expo),
+    box-shadow var(--dur-card) ease,
+    border-color var(--dur-card) ease !important;
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+.cc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 300ms ease;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(37, 99, 235, 0.07) 0%,
+    transparent 55%
+  );
+}
+.cc-card:hover::before {
+  opacity: 1;
+}
+.cc-card:hover {
+  transform: translateY(-3px) scale(1.008) !important;
+  box-shadow:
+    0 12px 32px -4px rgba(15, 23, 42, 0.12),
+    0 4px 12px -2px rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(37, 99, 235, 0.25) !important;
+}
+.cc-card:active {
+  transform: translateY(-1px) scale(1.003) !important;
+  transition-duration: 80ms !important;
+}
+
+/* Stat cards */
+.stat-card,
+.db-stat-card {
+  transition:
+    transform var(--dur-card) var(--ease-out-expo),
+    box-shadow var(--dur-card) ease,
+    border-color var(--dur-card) ease;
+  will-change: transform;
+}
+.stat-card:hover,
+.db-stat-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 14px 36px -4px rgba(15, 23, 42, 0.14);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   5. PREMIUM BUTTON PHYSICS
+   ───────────────────────────────────────────────────────────────────────────── */
+.cc-btn-primary {
+  transition:
+    transform var(--dur-button) var(--ease-spring),
+    box-shadow var(--dur-button) ease,
+    background-color 180ms ease !important;
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+.cc-btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.14) 50%, transparent 100%);
+  transform: translateX(-120%);
+  pointer-events: none;
+  z-index: 1;
+}
+.cc-btn-primary:hover::after {
+  animation: btnSweep 560ms var(--ease-out-expo) 1 forwards;
+}
+@keyframes btnSweep {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+.cc-btn-primary:hover {
+  transform: translateY(-1.5px) scale(1.015) !important;
+  box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.38) !important;
+}
+.cc-btn-primary:active {
+  transform: scale(0.97) !important;
+  transition-duration: 80ms !important;
+}
+
+.cc-btn-secondary {
+  transition:
+    transform var(--dur-button) var(--ease-spring),
+    box-shadow var(--dur-button) ease,
+    border-color 180ms ease,
+    background-color 180ms ease !important;
+  will-change: transform;
+}
+.cc-btn-secondary:hover {
+  transform: translateY(-1px) scale(1.01) !important;
+}
+.cc-btn-secondary:active {
+  transform: scale(0.97) !important;
+  transition-duration: 80ms !important;
+}
+
+/* Arrow micro-motion on button */
+.cc-btn-primary:hover .btn-arrow,
+.cc-btn-primary:hover svg:last-child {
+  transform: translateX(4px);
+  transition: transform 220ms var(--ease-out-expo);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   6. AMBIENT BACKGROUND (2 orbs, 24-28s period, ultra-low opacity)
+   ───────────────────────────────────────────────────────────────────────────── */
+@keyframes ambientDriftA {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(30px, -20px, 0) scale(1.04); }
+  66%  { transform: translate3d(-20px, 15px, 0) scale(0.97); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes ambientDriftB {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  40%  { transform: translate3d(-25px, 20px, 0) scale(1.05); }
+  75%  { transform: translate3d(18px, -12px, 0) scale(0.96); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+.db-ambient-orb-1 {
+  animation: ambientDriftA var(--dur-ambient) ease-in-out infinite !important;
+  opacity: var(--ambient-opacity) !important;
+  pointer-events: none;
+}
+.db-ambient-orb-2 {
+  animation: ambientDriftB 24000ms ease-in-out infinite !important;
+  opacity: var(--ambient-opacity) !important;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   7. SCROLL PROGRESS INDICATOR (ultra-thin, transform scaleX)
+   ───────────────────────────────────────────────────────────────────────────── */
+#ss-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #2563EB 0%, #6366F1 50%, #8B5CF6 100%);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0.85;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   8. QUICK ACTIONS 3D CARD STAGGER
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-qa-card {
+  opacity: 0;
+  transform: perspective(var(--perspective-near))
+             translate3d(0, 25px, -25px)
+             scale(0.97);
+  transition:
+    opacity 500ms var(--ease-out-expo),
+    transform 500ms var(--ease-out-expo),
+    box-shadow var(--dur-card) ease,
+    border-color var(--dur-card) ease;
+  will-change: transform, opacity;
+  position: relative;
+  overflow: hidden;
+}
+.db-qa-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(37, 99, 235, 0.08) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+  z-index: 0;
+}
+.db-qa-card:hover::before {
+  opacity: 1;
+}
+
+.db-qa-card.is-revealed {
+  opacity: 1;
+  transform: perspective(var(--perspective-near)) translate3d(0,0,0) scale(1);
+}
+.db-qa-card.is-revealed:nth-child(1) { transition-delay:   0ms; }
+.db-qa-card.is-revealed:nth-child(2) { transition-delay:  60ms; }
+.db-qa-card.is-revealed:nth-child(3) { transition-delay: 120ms; }
+.db-qa-card.is-revealed:nth-child(4) { transition-delay: 180ms; }
+.db-qa-card.is-revealed:nth-child(5) { transition-delay: 240ms; }
+.db-qa-card.is-revealed:nth-child(6) { transition-delay: 300ms; }
+
+.db-qa-card:hover {
+  transform: perspective(var(--perspective-near)) translate3d(0, -4px, 8px) scale(1.01) !important;
+  box-shadow:
+    0 14px 36px -4px rgba(15, 23, 42, 0.13),
+    0 4px 14px -2px rgba(37, 99, 235, 0.09) !important;
+  border-color: rgba(37, 99, 235, 0.22) !important;
+  transition-duration: 200ms !important;
+}
+.db-qa-card:active {
+  transform: perspective(var(--perspective-near)) translate3d(0, -1px, 4px) scale(0.99) !important;
+  transition-duration: 80ms !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   9. HERO SECTION CINEMATIC ENTRANCE
+   ───────────────────────────────────────────────────────────────────────────── */
+@keyframes heroContainerIn {
+  0%   { opacity: 0; transform: perspective(var(--perspective-far)) translate3d(0, 20px, -40px) scale(0.98); }
+  100% { opacity: 1; transform: perspective(var(--perspective-far)) translate3d(0, 0, 0) scale(1); }
+}
+.db-hero-container-anim {
+  animation: heroContainerIn 900ms var(--ease-out-expo) 50ms forwards;
+  opacity: 0;
+}
+
+/* Gradient text subtle movement */
+@keyframes gradientShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+.db-word-gradient {
+  display: inline;
+  background-size: 200% 200%;
+  animation: gradientShift 8000ms ease-in-out infinite !important;
+  opacity: 0;
+}
+.db-word-gradient.is-revealed,
+.reveal-on-scroll.is-revealed .db-word-gradient {
+  animation:
+    dbWordGradientIn 450ms var(--ease-out-expo) 640ms forwards,
+    gradientShift 8000ms ease-in-out 1100ms infinite !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   10. PROGRESS BAR ANIMATE-IN (0 → actual width on viewport enter)
+   ───────────────────────────────────────────────────────────────────────────── */
+@keyframes progressFillIn {
+  0%   { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+.db-progress-bar-fill {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 900ms var(--ease-out-expo);
+  will-change: transform;
+}
+.is-revealed .db-progress-bar-fill {
+  transform: scaleX(1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   11. LEADERBOARD / TABLE ROW STAGGER
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-table-row {
+  opacity: 0;
+  transform: translate3d(-8px, 0, 0);
+  transition:
+    opacity 380ms var(--ease-out-expo),
+    transform 380ms var(--ease-out-expo);
+}
+.is-revealed .db-table-row:nth-child(1)  { opacity: 1; transform: none; transition-delay:  0ms; }
+.is-revealed .db-table-row:nth-child(2)  { opacity: 1; transform: none; transition-delay: 40ms; }
+.is-revealed .db-table-row:nth-child(3)  { opacity: 1; transform: none; transition-delay: 80ms; }
+.is-revealed .db-table-row:nth-child(4)  { opacity: 1; transform: none; transition-delay:120ms; }
+.is-revealed .db-table-row:nth-child(5)  { opacity: 1; transform: none; transition-delay:160ms; }
+.is-revealed .db-table-row:nth-child(6)  { opacity: 1; transform: none; transition-delay:200ms; }
+.is-revealed .db-table-row:nth-child(n+7){ opacity: 1; transform: none; transition-delay:240ms; }
+
+.db-table-row:hover {
+  background: rgba(37, 99, 235, 0.03);
+  transform: translate3d(2px, 0, 0);
+  transition-duration: 150ms;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   12. STAT NUMBER COUNT-UP (visual flourish only, driven via CSS)
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-stat-number {
+  transition: opacity 400ms ease, transform 400ms var(--ease-out-expo);
+  opacity: 0;
+  transform: translateY(12px);
+}
+.is-revealed .db-stat-number {
+  opacity: 1;
+  transform: translateY(0);
+}
+.is-revealed .db-stat-number:nth-child(1) { transition-delay:   0ms; }
+.is-revealed .db-stat-number:nth-child(2) { transition-delay: 100ms; }
+.is-revealed .db-stat-number:nth-child(3) { transition-delay: 200ms; }
+.is-revealed .db-stat-number:nth-child(4) { transition-delay: 300ms; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   13. DROPDOWN POLISH
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-dropdown-anim {
+  animation: dropdownIn var(--dur-dropdown) var(--ease-out-expo) forwards !important;
+  transform-origin: top center;
+}
+@keyframes dropdownIn {
+  0%   { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   14. PAGE / ROUTE TRANSITION WRAPPER
+   ───────────────────────────────────────────────────────────────────────────── */
+@keyframes pageEnter {
+  0%   { opacity: 0; transform: translate3d(0, 8px, 0) scale(0.995); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+.page-enter {
+  animation: pageEnter 420ms var(--ease-out-expo) forwards;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   15. DARK MODE DEPTH LAYERING
+   ───────────────────────────────────────────────────────────────────────────── */
+html.dark .cc-card,
+:root[data-theme="dark"] .cc-card {
+  background: #111827;
+  border-color: #1E293B;
+}
+html.dark .cc-card:hover,
+:root[data-theme="dark"] .cc-card:hover {
+  border-color: rgba(96, 165, 250, 0.18) !important;
+  box-shadow:
+    0 14px 36px -4px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(96, 165, 250, 0.08) !important;
+}
+html.dark .cc-card::before,
+:root[data-theme="dark"] .cc-card::before {
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(99, 102, 241, 0.09) 0%,
+    transparent 50%
+  );
+}
+
+/* Layered dark surfaces */
+html.dark .db-surface-1,
+:root[data-theme="dark"] .db-surface-1 { background: #0F172A; }
+html.dark .db-surface-2,
+:root[data-theme="dark"] .db-surface-2 { background: #111827; }
+html.dark .db-surface-3,
+:root[data-theme="dark"] .db-surface-3 { background: #1E293B; }
+html.dark .db-surface-4,
+:root[data-theme="dark"] .db-surface-4 { background: #334155; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   16. TOP NAV PREMIUM ENHANCEMENTS
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-top-search-wrap {
+  transition: transform var(--dur-button) var(--ease-spring);
+}
+.db-top-search-wrap:focus-within {
+  transform: scale(1.01);
+}
+
+/* Bell gentle rocking on hover */
+.db-bell-btn:hover .db-bell-icon {
+  animation: bellRock 400ms var(--ease-spring) forwards;
+}
+@keyframes bellRock {
+  0%   { transform: rotate(0); }
+  25%  { transform: rotate(-10deg); }
+  55%  { transform: rotate(8deg); }
+  80%  { transform: rotate(-4deg); }
+  100% { transform: rotate(0); }
+}
+
+/* Avatar ring depth on hover */
+.db-avatar-btn {
+  transition: transform var(--dur-micro) var(--ease-spring);
+}
+.db-avatar-btn:hover {
+  transform: scale(1.06);
+}
+
+/* Theme toggle rotation */
+.db-theme-toggle-icon {
+  transition: transform 360ms var(--ease-out-expo);
+}
+.db-theme-btn:hover .db-theme-toggle-icon {
+  transform: rotate(20deg) scale(1.12);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   17. HERO RIGHT VISUAL — Cursor-Reactive 3D Tilt
+   Handled via JS for rotateX/rotateY; CSS handles transitions.
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-hero-visual-wrap {
+  transition: transform 600ms var(--ease-out-expo) !important;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.db-float-streak-anim {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 600ms var(--ease-out-expo) !important;
+}
+.db-float-xp-anim {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 600ms var(--ease-out-expo) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   18. MOTIVATIONAL BANNER PREMIUM ENTRANCE
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-progress-banner-wrap.is-revealed {
+  animation: bannerDepthIn 700ms var(--ease-out-expo) forwards;
+}
+@keyframes bannerDepthIn {
+  0%   { opacity: 0; transform: perspective(var(--perspective-mid)) translate3d(-20px, 0, -30px) scale(0.985); }
+  100% { opacity: 1; transform: perspective(var(--perspective-mid)) translate3d(0, 0, 0) scale(1); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   19. SKILL CARDS RADIAL DEPTH REVEAL
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-skill-card {
+  transition:
+    transform var(--dur-card) var(--ease-out-expo),
+    box-shadow var(--dur-card) ease,
+    border-color var(--dur-card) ease;
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+.db-skill-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 28px -4px rgba(37, 99, 235, 0.14);
+  border-color: rgba(37, 99, 235, 0.35) !important;
+}
+.db-skill-card:hover .db-skill-icon {
+  animation: skillIconPulse 380ms var(--ease-spring) forwards;
+}
+@keyframes skillIconPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.22); }
+  100% { transform: scale(1.1); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   20. CERTIFICATE CARD REVEAL (rotateY + lift + one-time shine)
+   ───────────────────────────────────────────────────────────────────────────── */
+.db-cert-card {
+  transition:
+    transform 600ms var(--ease-out-expo),
+    box-shadow 600ms ease,
+    border-color 600ms ease;
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+.db-cert-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transform: rotate(20deg);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 5;
+}
+.db-cert-card:hover {
+  transform: translateY(-4px) scale(1.012);
+  box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.15);
+}
+.db-cert-card:hover::after {
+  animation: certShine 650ms var(--ease-out-expo) 1 forwards;
+}
+@keyframes certShine {
+  0%   { left: -120%; opacity: 0; }
+  10%  { opacity: 1; }
+  100% { left: 180%; opacity: 0; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   21. RESPONSIVE MOTION ADJUSTMENTS
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .reveal-depth-up,
+  .reveal-depth-right,
+  .reveal-depth-left {
+    transform: translate3d(0, 24px, 0) scale(0.98);
+  }
+  .reveal-depth-scale {
+    transform: translate3d(0, 18px, 0) scale(0.97);
+  }
+  .reveal-depth-radial {
+    transform: translate3d(0, 18px, 0) scale(0.98);
+  }
+  .reveal-depth-blur {
+    transform: translate3d(0, 14px, 0) scale(0.99);
+  }
+  .cc-card:hover {
+    transform: translateY(-2px) scale(1.004) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Mobile: simple fade-up, no depth/perspective */
+  .reveal-depth-up,
+  .reveal-depth-right,
+  .reveal-depth-left,
+  .reveal-depth-scale,
+  .reveal-depth-radial,
+  .reveal-depth-blur,
+  .reveal-depth-rows {
+    transform: translateY(20px) !important;
+    filter: none !important;
+  }
+  .reveal-on-scroll.is-revealed {
+    transform: translateY(0) !important;
+  }
+  .db-qa-card {
+    transform: translateY(18px) scale(0.98) !important;
+  }
+  .db-qa-card.is-revealed {
+    transform: translateY(0) scale(1) !important;
+  }
+  .cc-card:hover {
+    transform: translateY(-1px) !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   22. PREFERS-REDUCED-MOTION (disable all depth, tilt, scroll animations)
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-depth-up,
+  .reveal-depth-right,
+  .reveal-depth-left,
+  .reveal-depth-scale,
+  .reveal-depth-radial,
+  .reveal-depth-blur,
+  .reveal-depth-rows,
+  .reveal-stagger > *,
+  .reveal-heading-label,
+  .reveal-heading-title,
+  .reveal-heading-sub,
+  .db-qa-card,
+  .db-hero-container-anim,
+  .db-progress-bar-fill,
+  .db-table-row,
+  .db-stat-number,
+  .db-ambient-orb-1,
+  .db-ambient-orb-2,
+  .db-cert-card,
+  .db-skill-card,
+  #ss-scroll-progress {
+    animation: none !important;
+    transition: opacity 200ms ease !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+  .cc-card:hover,
+  .stat-card:hover,
+  .db-qa-card:hover,
+  .cc-btn-primary:hover,
+  .cc-btn-secondary:hover {
+    transform: none !important;
+  }
+}

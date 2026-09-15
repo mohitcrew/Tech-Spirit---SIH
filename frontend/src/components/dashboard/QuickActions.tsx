@@ -28,6 +28,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       color: 'text-blue-600',
       bgColor: 'bg-blue-50 hover:bg-blue-100/70',
       borderHover: 'hover:border-blue-300',
+      animClass: 'db-qa-card-1',
+      iconClass: 'db-qa-icon-browse',
       onClick: onBrowseCourses,
     },
     {
@@ -37,6 +39,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       color: 'text-emerald-600',
       bgColor: 'bg-emerald-50 hover:bg-emerald-100/70',
       borderHover: 'hover:border-emerald-300',
+      animClass: 'db-qa-card-2',
+      iconClass: 'db-qa-icon-video',
       onClick: onJoinTraining,
     },
     {
@@ -46,6 +50,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       color: 'text-purple-600',
       bgColor: 'bg-purple-50 hover:bg-purple-100/70',
       borderHover: 'hover:border-purple-300',
+      animClass: 'db-qa-card-3',
+      iconClass: 'db-qa-icon-quiz',
       onClick: onTakeQuiz,
     },
     {
@@ -55,6 +61,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       color: 'text-amber-600',
       bgColor: 'bg-amber-50 hover:bg-amber-100/70',
       borderHover: 'hover:border-amber-300',
+      animClass: 'db-qa-card-4',
+      iconClass: 'db-qa-icon-mentor',
       onClick: onAskMentor,
     },
     {
@@ -64,6 +72,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       color: 'text-cyan-600',
       bgColor: 'bg-cyan-50 hover:bg-cyan-100/70',
       borderHover: 'hover:border-cyan-300',
+      animClass: 'db-qa-card-5',
+      iconClass: 'db-qa-icon-share',
       onClick: onShareKnowledge,
     },
     {
@@ -73,13 +83,15 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       color: 'text-indigo-600',
       bgColor: 'bg-indigo-50 hover:bg-indigo-100/70',
       borderHover: 'hover:border-indigo-300',
+      animClass: 'db-qa-card-6',
+      iconClass: 'db-qa-icon-cert',
       onClick: onEarnCertificate,
     },
   ];
 
   return (
     <div className="mb-8">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 db-qa-heading-anim">
         <div>
           <h2 className="text-lg font-extrabold text-slate-900">Quick Actions</h2>
           <p className="text-xs text-slate-500">Fast pathways to learning, sharing, and assessment</p>
@@ -93,12 +105,12 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
             <button
               key={i}
               onClick={act.onClick}
-              className={`p-4 rounded-2xl border border-slate-200/80 bg-white transition-all duration-200 flex flex-col items-start text-left group hover:shadow-md ${act.borderHover}`}
+              className={`p-4 rounded-2xl border border-slate-200/80 bg-white flex flex-col items-start text-left group hover:shadow-md ${act.borderHover} ${act.animClass} db-qa-card cursor-pointer`}
             >
               <div
-                className={`w-11 h-11 rounded-2xl flex items-center justify-center mb-3 transition-colors ${act.bgColor}`}
+                className={`w-11 h-11 rounded-2xl flex items-center justify-center mb-3 transition-colors ${act.bgColor} ${act.iconClass}`}
               >
-                <Icon className={`w-5 h-5 ${act.color} transition-transform group-hover:scale-110`} />
+                <Icon className={`w-5 h-5 ${act.color} transition-transform duration-200`} />
               </div>
               <h3 className="font-bold text-xs sm:text-sm text-slate-900 group-hover:text-blue-600 transition-colors">
                 {act.label}

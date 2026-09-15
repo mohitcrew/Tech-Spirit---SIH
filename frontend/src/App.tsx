@@ -1,6 +1,9 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import { AIAssistantProvider } from './context/AIAssistantContext';
+import { GlobalAIButton } from './components/ai/GlobalAIButton';
+import { GlobalAIAssistant } from './components/ai/GlobalAIAssistant';
 import { PortalLayout } from './layouts/PortalLayout';
 
 // ── Auth pages ──────────────────────────────────────────────────────────
@@ -60,8 +63,8 @@ function SuspenseWrap({ children }: { children: React.ReactNode }) {
 function NotFound() {
   return (
     <div className="state-box" style={{ minHeight: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <p style={{ fontSize: 18, fontWeight: 600, color: '#0F172A' }}>Section In Development</p>
-      <p style={{ marginTop: 8, color: '#64748B' }}>This prototype module is being prepared for SIH 2026.</p>
+      <p style={{ fontSize: 18, fontWeight: 600 }}>Section In Development</p>
+      <p style={{ marginTop: 8, color: 'var(--text-secondary)' }}>This prototype module is being prepared for SIH 2026.</p>
     </div>
   );
 }
@@ -82,91 +85,98 @@ export default function App() {
   const rolePrefix = user ? `/${user.role.toLowerCase()}` : '/trainee';
 
   return (
-    <Routes>
-      {/* ── Public SkillSync Web Pages ────────────────────────────── */}
-      <Route path="/" element={<SuspenseWrap><Landing /></SuspenseWrap>} />
-      <Route path="/courses" element={<SuspenseWrap><CoursesView /></SuspenseWrap>} />
-      <Route path="/courses/:id" element={<SuspenseWrap><CoursesView /></SuspenseWrap>} />
-      <Route path="/skills" element={<SuspenseWrap><SkillsView /></SuspenseWrap>} />
-      <Route path="/skills/:id" element={<SuspenseWrap><SkillsView /></SuspenseWrap>} />
-      <Route path="/competencies" element={<SuspenseWrap><CompetenciesView /></SuspenseWrap>} />
-      <Route path="/competencies/:id" element={<SuspenseWrap><CompetenciesView /></SuspenseWrap>} />
-      <Route path="/trainers" element={<SuspenseWrap><TrainersView /></SuspenseWrap>} />
-      <Route path="/trainers/:id" element={<SuspenseWrap><TrainersView /></SuspenseWrap>} />
-      <Route path="/sectors" element={<SuspenseWrap><SectorsView /></SuspenseWrap>} />
-      <Route path="/knowledge" element={<SuspenseWrap><KnowledgeView /></SuspenseWrap>} />
-      <Route path="/how-it-works" element={<SuspenseWrap><HowItWorksView /></SuspenseWrap>} />
-      <Route path="/features" element={<SuspenseWrap><FeaturesView /></SuspenseWrap>} />
-      <Route path="/about" element={<SuspenseWrap><AboutView /></SuspenseWrap>} />
-      <Route path="/ai" element={<SuspenseWrap><AiView /></SuspenseWrap>} />
+    <AIAssistantProvider>
+      <Routes>
+        {/* ── Public SkillSync Web Pages ────────────────────────────── */}
+        <Route path="/" element={<SuspenseWrap><Landing /></SuspenseWrap>} />
+        <Route path="/courses" element={<SuspenseWrap><CoursesView /></SuspenseWrap>} />
+        <Route path="/courses/:id" element={<SuspenseWrap><CoursesView /></SuspenseWrap>} />
+        <Route path="/skills" element={<SuspenseWrap><SkillsView /></SuspenseWrap>} />
+        <Route path="/skills/:id" element={<SuspenseWrap><SkillsView /></SuspenseWrap>} />
+        <Route path="/competencies" element={<SuspenseWrap><CompetenciesView /></SuspenseWrap>} />
+        <Route path="/competencies/:id" element={<SuspenseWrap><CompetenciesView /></SuspenseWrap>} />
+        <Route path="/trainers" element={<SuspenseWrap><TrainersView /></SuspenseWrap>} />
+        <Route path="/trainers/:id" element={<SuspenseWrap><TrainersView /></SuspenseWrap>} />
+        <Route path="/sectors" element={<SuspenseWrap><SectorsView /></SuspenseWrap>} />
+        <Route path="/knowledge" element={<SuspenseWrap><KnowledgeView /></SuspenseWrap>} />
+        <Route path="/how-it-works" element={<SuspenseWrap><HowItWorksView /></SuspenseWrap>} />
+        <Route path="/features" element={<SuspenseWrap><FeaturesView /></SuspenseWrap>} />
+        <Route path="/about" element={<SuspenseWrap><AboutView /></SuspenseWrap>} />
+        <Route path="/ai" element={<SuspenseWrap><AiView /></SuspenseWrap>} />
 
-      {/* ── Authentication ────────────────────────────────────────── */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+        {/* ── Authentication ────────────────────────────────────────── */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      {/* ── Personalized Shortcuts ─────────────────────────────────── */}
-      <Route path="/dashboard" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
-      <Route path="/my-learning" element={<Navigate to={`${rolePrefix}/learning`} replace />} />
-      <Route path="/my-competencies" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
-      <Route path="/skill-gaps" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
-      <Route path="/learning-path" element={<Navigate to={`${rolePrefix}/learning`} replace />} />
-      <Route path="/recommendations" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
-      <Route path="/assessments" element={<Navigate to={`${rolePrefix}/assessments`} replace />} />
-      <Route path="/certificates" element={<Navigate to={`${rolePrefix}/certificates`} replace />} />
+        {/* ── Personalized Shortcuts ─────────────────────────────────── */}
+        <Route path="/dashboard" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
+        <Route path="/my-learning" element={<Navigate to={`${rolePrefix}/learning`} replace />} />
+        <Route path="/my-competencies" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
+        <Route path="/skill-gaps" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
+        <Route path="/learning-path" element={<Navigate to={`${rolePrefix}/learning`} replace />} />
+        <Route path="/recommendations" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
+        <Route path="/assessments" element={<Navigate to={`${rolePrefix}/assessments`} replace />} />
+        <Route path="/certificates" element={<Navigate to={`${rolePrefix}/certificates`} replace />} />
 
-      {/* ── Protected Portal Routes ───────────────────────────────── */}
-      <Route element={<Protected />}>
-        {/* Dashboard */}
-        <Route path=":role/dashboard" element={<SuspenseWrap><Dashboard /></SuspenseWrap>} />
+        {/* ── Protected Portal Routes ───────────────────────────────── */}
+        <Route element={<Protected />}>
+          {/* Dashboard */}
+          <Route path=":role/dashboard" element={<SuspenseWrap><Dashboard /></SuspenseWrap>} />
 
-        {/* Courses */}
-        <Route path=":role/courses" element={<SuspenseWrap><Courses /></SuspenseWrap>} />
-        <Route path=":role/courses/create" element={<SuspenseWrap><CreateCourse /></SuspenseWrap>} />
-        <Route path=":role/courses/:id" element={<SuspenseWrap><CourseDetail /></SuspenseWrap>} />
+          {/* Courses */}
+          <Route path=":role/courses" element={<SuspenseWrap><Courses /></SuspenseWrap>} />
+          <Route path=":role/courses/create" element={<SuspenseWrap><CreateCourse /></SuspenseWrap>} />
+          <Route path=":role/courses/:id" element={<SuspenseWrap><CourseDetail /></SuspenseWrap>} />
 
-        {/* Learning & Paths */}
-        <Route path=":role/learning" element={<SuspenseWrap><Learning /></SuspenseWrap>} />
-        <Route path=":role/paths" element={<SuspenseWrap><LearningPaths /></SuspenseWrap>} />
-        <Route path=":role/skills" element={<SuspenseWrap><Skills /></SuspenseWrap>} />
 
-        {/* Assessments */}
-        <Route path=":role/assessments/:id" element={<SuspenseWrap><Assessment /></SuspenseWrap>} />
-        <Route path=":role/assessments" element={<SuspenseWrap><NotFound /></SuspenseWrap>} />
+          {/* Learning & Paths */}
+          <Route path=":role/learning" element={<SuspenseWrap><Learning /></SuspenseWrap>} />
+          <Route path=":role/paths" element={<SuspenseWrap><LearningPaths /></SuspenseWrap>} />
+          <Route path=":role/skills" element={<SuspenseWrap><Skills /></SuspenseWrap>} />
 
-        {/* Results & Certificates */}
-        <Route path=":role/results" element={<SuspenseWrap><Results /></SuspenseWrap>} />
-        <Route path=":role/certificates" element={<SuspenseWrap><Certificates /></SuspenseWrap>} />
+          {/* Assessments */}
+          <Route path=":role/assessments/:id" element={<SuspenseWrap><Assessment /></SuspenseWrap>} />
+          <Route path=":role/assessments" element={<SuspenseWrap><NotFound /></SuspenseWrap>} />
 
-        {/* Knowledge Hub */}
-        <Route path=":role/knowledge" element={<SuspenseWrap><Knowledge /></SuspenseWrap>} />
+          {/* Results & Certificates */}
+          <Route path=":role/results" element={<SuspenseWrap><Results /></SuspenseWrap>} />
+          <Route path=":role/certificates" element={<SuspenseWrap><Certificates /></SuspenseWrap>} />
 
-        {/* Community & Leaderboard */}
-        <Route path=":role/community" element={<SuspenseWrap><Community /></SuspenseWrap>} />
-        <Route path=":role/leaderboard" element={<SuspenseWrap><Leaderboard /></SuspenseWrap>} />
+          {/* Knowledge Hub */}
+          <Route path=":role/knowledge" element={<SuspenseWrap><Knowledge /></SuspenseWrap>} />
 
-        {/* Calendar & Support */}
-        <Route path=":role/calendar" element={<SuspenseWrap><Calendar /></SuspenseWrap>} />
-        <Route path=":role/help" element={<SuspenseWrap><HelpSupport /></SuspenseWrap>} />
+          {/* Community & Leaderboard */}
+          <Route path=":role/community" element={<SuspenseWrap><Community /></SuspenseWrap>} />
+          <Route path=":role/leaderboard" element={<SuspenseWrap><Leaderboard /></SuspenseWrap>} />
 
-        {/* Profile, Settings, Notifications */}
-        <Route path=":role/profile" element={<SuspenseWrap><Profile /></SuspenseWrap>} />
-        <Route path=":role/settings" element={<SuspenseWrap><Settings /></SuspenseWrap>} />
-        <Route path=":role/notifications" element={<SuspenseWrap><Notifications /></SuspenseWrap>} />
+          {/* Calendar & Support */}
+          <Route path=":role/calendar" element={<SuspenseWrap><Calendar /></SuspenseWrap>} />
+          <Route path=":role/help" element={<SuspenseWrap><HelpSupport /></SuspenseWrap>} />
 
-        {/* Trainer-specific */}
-        <Route path=":role/trainees" element={<SuspenseWrap><Trainees /></SuspenseWrap>} />
+          {/* Profile, Settings, Notifications */}
+          <Route path=":role/profile" element={<SuspenseWrap><Profile /></SuspenseWrap>} />
+          <Route path=":role/settings" element={<SuspenseWrap><Settings /></SuspenseWrap>} />
+          <Route path=":role/notifications" element={<SuspenseWrap><Notifications /></SuspenseWrap>} />
 
-        {/* Admin-specific */}
-        <Route path=":role/users" element={<SuspenseWrap><AdminUsers /></SuspenseWrap>} />
-        <Route path=":role/analytics" element={<SuspenseWrap><AdminAnalytics /></SuspenseWrap>} />
-        <Route path=":role/audit-logs" element={<SuspenseWrap><AuditLogs /></SuspenseWrap>} />
-        <Route path=":role/announcements" element={<SuspenseWrap><Announcements /></SuspenseWrap>} />
+          {/* Trainer-specific */}
+          <Route path=":role/trainees" element={<SuspenseWrap><Trainees /></SuspenseWrap>} />
 
-        {/* Catch-all for role */}
-        <Route path=":role/*" element={<SuspenseWrap><NotFound /></SuspenseWrap>} />
-      </Route>
+          {/* Admin-specific */}
+          <Route path=":role/users" element={<SuspenseWrap><AdminUsers /></SuspenseWrap>} />
+          <Route path=":role/analytics" element={<SuspenseWrap><AdminAnalytics /></SuspenseWrap>} />
+          <Route path=":role/audit-logs" element={<SuspenseWrap><AuditLogs /></SuspenseWrap>} />
+          <Route path=":role/announcements" element={<SuspenseWrap><Announcements /></SuspenseWrap>} />
 
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+          {/* Catch-all for role */}
+          <Route path=":role/*" element={<SuspenseWrap><NotFound /></SuspenseWrap>} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+
+      {/* Global AI Assistant Button & Drawer Window (Available on every route) */}
+      <GlobalAIButton />
+      <GlobalAIAssistant />
+    </AIAssistantProvider>
   );
 }

@@ -9,6 +9,8 @@ interface ThemeContextType {
   isDark: boolean;
 }
 
+const THEME_STORAGE_KEY = 'skillsync-theme';
+
 const ThemeContext = createContext<ThemeContextType>({
   theme: 'dark',
   setTheme: () => {},
@@ -18,14 +20,16 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
-    const saved = localStorage.getItem('skillsync_theme');
+    // Check skillsync-theme first, fallback to legacy skillsync_theme if present
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) || localStorage.getItem('skillsync_theme');
     if (saved === 'light' || saved === 'dark') return saved;
-    // Default to dark for high-tech hackathon presentation
+    // Default to dark mode per specification
     return 'dark';
   });
 
   const applyTheme = (t: Theme) => {
     const root = document.documentElement;
+    root.setAttribute('data-theme', t);
     if (t === 'light') {
       root.classList.remove('dark');
       root.classList.add('light');
@@ -35,6 +39,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.add('dark');
       root.style.colorScheme = 'dark';
     }
+    localStorage.setItem(THEME_STORAGE_KEY, t);
     localStorage.setItem('skillsync_theme', t);
   };
 
@@ -58,3 +63,4 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 };
 
 export const useTheme = () => useContext(ThemeContext);
+

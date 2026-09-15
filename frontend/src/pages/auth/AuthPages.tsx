@@ -2,17 +2,35 @@ import React, { useEffect } from 'react';
 import { AuthBackground } from '../../components/auth/AuthBackground';
 import { AuthVisual }     from '../../components/auth/AuthVisual';
 import { LoginForm }      from '../../components/auth/LoginForm';
-import { Zap }            from 'lucide-react';
+import { Zap, Sun, Moon } from 'lucide-react';
+import { useTheme }       from '../../context/ThemeContext';
 import '../../styles/auth.css';
 
 /* ── /login ──────────────────────────────────────────────────────────────── */
 export function Login() {
+  const { isDark, toggleTheme } = useTheme();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <main className="skillsync-auth">
+      {/* Global Theme Toggle for Auth View */}
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className="skillsync-auth-theme-toggle"
+        title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        aria-label="Toggle theme"
+      >
+        {isDark ? (
+          <Moon size={18} className="skillsync-theme-icon-moon" />
+        ) : (
+          <Sun size={18} className="skillsync-theme-icon-sun" />
+        )}
+      </button>
+
       {/* Full-page atmospheric background */}
       <AuthBackground />
 
@@ -44,3 +62,4 @@ export function Login() {
 export function Register() {
   return <Login />;
 }
+

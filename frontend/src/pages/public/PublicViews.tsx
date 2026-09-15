@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SkillSyncNavbar } from '../../components/public/SkillSyncNavbar';
 import { SkillSyncFooter } from '../../components/public/SkillSyncFooter';
-import { SkillSyncChatbot } from '../../components/ai/SkillSyncChatbot';
 import { CourseExplorer } from '../../components/public/CourseExplorer';
 import { SkillExplorer } from '../../components/public/SkillExplorer';
 import { CompetencyExplorer } from '../../components/public/CompetencyExplorer';
@@ -11,12 +10,13 @@ import { SectorExplorer } from '../../components/public/SectorExplorer';
 import { KnowledgeHubPreview } from '../../components/public/KnowledgeHubPreview';
 import { NotJustAnLms } from '../../components/public/NotJustAnLms';
 import { WhySkillSync } from '../../components/public/WhySkillSync';
+import { useAIAssistant } from '../../context/AIAssistantContext';
 import { PublicCourse, PublicCompetency, PublicTrainer } from '../../data/skillsyncData';
 import { Sparkles, Bot, Shield, CheckCircle2 } from 'lucide-react';
 
 function PageShell({ children, title, subtitle }: { children: React.ReactNode; title: string; subtitle: string }) {
   const navigate = useNavigate();
-  const [chatbotOpen, setChatbotOpen] = useState(false);
+  const { openAI } = useAIAssistant();
 
   const navigateToLogin = (intent?: string) => {
     const params = new URLSearchParams();
@@ -25,10 +25,10 @@ function PageShell({ children, title, subtitle }: { children: React.ReactNode; t
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--text-primary)] flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
       <SkillSyncNavbar
         onOpenAuthModal={(intent) => navigateToLogin(intent || 'create your free account')}
-        onOpenAi={() => setChatbotOpen(true)}
+        onOpenAi={() => openAI()}
       />
 
       <header className="py-12 bg-slate-900 border-b border-slate-800 text-center px-4">
@@ -44,14 +44,10 @@ function PageShell({ children, title, subtitle }: { children: React.ReactNode; t
       <main className="flex-1">{children}</main>
 
       <SkillSyncFooter />
-      <SkillSyncChatbot
-        isOpen={chatbotOpen}
-        onClose={() => setChatbotOpen(false)}
-        onOpenAuthModal={(intent) => navigateToLogin(intent || 'access personal AI')}
-      />
     </div>
   );
 }
+
 
 export function CoursesView() {
   const navigate = useNavigate();
@@ -198,7 +194,7 @@ export function AboutView() {
 }
 
 export function AiView() {
-  const navigate = useNavigate();
+  const { openAI } = useAIAssistant();
 
   return (
     <PageShell
@@ -214,14 +210,18 @@ export function AiView() {
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
             SkillSync AI communicates securely with our NestJS API (`POST /api/v1/ai/chat`) to parse competency inquiries, recommend learning pathways, and guide learners.
           </p>
-          <div className="flex justify-center">
-            <SkillSyncChatbot
-              isOpen={true}
-              onOpenAuthModal={(intent) => navigate(`/login?intent=${encodeURIComponent(intent || 'access personal AI')}`)}
-            />
+          <div className="flex justify-center pt-2">
+            <button
+              onClick={() => openAI('How does SkillSync calculate skill gaps?')}
+              className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-extrabold text-sm shadow-xl shadow-blue-500/30 hover:scale-102 transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>Launch Interactive AI Assistant</span>
+            </button>
           </div>
         </div>
       </div>
     </PageShell>
   );
 }
+

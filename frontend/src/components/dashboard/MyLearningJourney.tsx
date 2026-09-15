@@ -75,7 +75,7 @@ export const MyLearningJourney: React.FC<MyLearningJourneyProps> = ({
           return (
             <div
               key={course.id}
-              className="cc-card p-5 flex flex-col justify-between group cursor-pointer"
+              className="cc-card p-5 flex flex-col justify-between group cursor-pointer db-course-card"
               onClick={() => onOpenCourse(course)}
             >
               <div>

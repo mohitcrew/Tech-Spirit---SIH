@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -33,12 +33,99 @@ export default function Dashboard() {
 
   const role = user?.role || 'TRAINEE';
 
+  // ── 1. Cinematic 3D Scroll Reveal (IntersectionObserver — single-trigger, no spam)
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.06, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach((el) => observer.observe(el));
+
+    // Also observe legacy reveal classes from existing code
+    const legacyElements = document.querySelectorAll(
+      '.reveal-fade-up, .reveal-scale, .reveal-slide-left, .reveal-slide-right, .reveal-blur'
+    );
+    legacyElements.forEach((el) => observer.observe(el));
+
+    if (prefersReduced) {
+      // Immediately reveal everything with no animation
+      elements.forEach((el) => el.classList.add('is-revealed'));
+      legacyElements.forEach((el) => el.classList.add('is-revealed'));
+    }
+
+    return () => observer.disconnect();
+  }, [role]);
+
+  // ── 2. Scroll Progress Indicator (scaleX — GPU only, no width change)
+  useEffect(() => {
+    const bar = document.getElementById('ss-scroll-progress');
+    if (!bar) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      bar.style.transform = `scaleX(${progress.toFixed(4)})`;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // ── 3. Cursor-Reactive Card Lighting (CSS custom properties --mouse-x/y)
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const handleCardMove = (e: MouseEvent) => {
+      const card = (e.currentTarget as HTMLElement);
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mouse-x', `${x}%`);
+      card.style.setProperty('--mouse-y', `${y}%`);
+    };
+    const resetCard = (e: MouseEvent) => {
+      const card = (e.currentTarget as HTMLElement);
+      card.style.setProperty('--mouse-x', '50%');
+      card.style.setProperty('--mouse-y', '50%');
+    };
+
+    const cards = document.querySelectorAll<HTMLElement>('.cc-card, .db-qa-card');
+    cards.forEach((card) => {
+      card.addEventListener('mousemove', handleCardMove, { passive: true });
+      card.addEventListener('mouseleave', resetCard, { passive: true });
+    });
+
+    return () => {
+      cards.forEach((card) => {
+        card.removeEventListener('mousemove', handleCardMove);
+        card.removeEventListener('mouseleave', resetCard);
+      });
+    };
+  }, [role]);
+
+
+
   // ─────────────────────────────────────────────────────────────────────────────
   // 1. TRAINER DASHBOARD VIEW
   // ─────────────────────────────────────────────────────────────────────────────
   if (role === 'TRAINER') {
     return (
-      <div className="space-y-6 animate-fadeIn">
+      <div className="space-y-6 page-enter">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 text-white shadow-lg">
           <div>
             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md">
@@ -118,7 +205,7 @@ export default function Dashboard() {
   // ─────────────────────────────────────────────────────────────────────────────
   if (role === 'ADMIN') {
     return (
-      <div className="space-y-6 animate-fadeIn">
+      <div className="space-y-6 page-enter">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white shadow-xl">
           <div>
             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-500/30 text-blue-300 border border-blue-400/30">
@@ -212,7 +299,9 @@ export default function Dashboard() {
   // 3. COMPLETE STUDENT / LEARNER DASHBOARD (PRIMARY SHOWCASE)
   // ─────────────────────────────────────────────────────────────────────────────
   return (
-    <div className="space-y-2 animate-fadeIn">
+    <div className="space-y-2 page-enter">
+      {/* Scroll Progress Indicator */}
+      <div id="ss-scroll-progress" aria-hidden="true" />
       {/* Hero Section */}
       <HeroSection
         onContinueLearning={() => {
@@ -249,38 +338,54 @@ export default function Dashboard() {
         onEarnCertificate={() => navigate(`/${role.toLowerCase()}/certificates`)}
       />
 
-      {/* My Learning Journey Section */}
-      <MyLearningJourney
-        courses={myLearningCourses}
-        onOpenCourse={course => setActiveCourseModal(course)}
-      />
+      {/* My Learning Journey Section — bottom-to-front depth reveal */}
+      <div className="reveal-on-scroll reveal-depth-up">
+        <MyLearningJourney
+          courses={myLearningCourses}
+          onOpenCourse={course => setActiveCourseModal(course)}
+        />
+      </div>
 
-      {/* Gamification: Your Achievements */}
-      <AchievementsSection
-        onViewAllBadges={() => navigate(`/${role.toLowerCase()}/certificates`)}
-      />
+      {/* Gamification: Your Achievements — scale + depth reveal */}
+      <div className="reveal-on-scroll reveal-depth-scale">
+        <AchievementsSection
+          onViewAllBadges={() => navigate(`/${role.toLowerCase()}/certificates`)}
+        />
+      </div>
 
-      {/* Skill Development Radar & Cards */}
-      <SkillMapSection
-        onSelectSkill={skill => setSelectedSkill(skill)}
-      />
+      {/* Skill Development Radar & Cards — radial depth entrance */}
+      <div className="reveal-on-scroll reveal-depth-radial">
+        <SkillMapSection
+          onSelectSkill={skill => setSelectedSkill(skill)}
+        />
+      </div>
 
-      {/* Learning Analytics & Insights */}
-      <LearningAnalyticsSection />
+      {/* Learning Analytics & Insights — horizontal depth slide */}
+      <div className="reveal-on-scroll reveal-depth-right">
+        <LearningAnalyticsSection />
+      </div>
 
-      {/* Upcoming Sessions */}
-      <UpcomingSessionsSection
-        onJoinSession={session => setSelectedSession(session)}
-      />
+      {/* Upcoming Sessions — depth upward reveal */}
+      <div className="reveal-on-scroll reveal-depth-up">
+        <UpcomingSessionsSection
+          onJoinSession={session => setSelectedSession(session)}
+        />
+      </div>
 
-      {/* Recommended For You */}
-      <RecommendedSection />
+      {/* Recommended For You — blur + depth emerge */}
+      <div className="reveal-on-scroll reveal-depth-blur">
+        <RecommendedSection />
+      </div>
 
-      {/* Learning Community Social Hub */}
-      <CommunitySection />
+      {/* Learning Community Social Hub — depth + scale reveal */}
+      <div className="reveal-on-scroll reveal-depth-scale">
+        <CommunitySection />
+      </div>
 
-      {/* Leaderboard: Learn Together */}
-      <LeaderboardSection />
+      {/* Leaderboard: Learn Together — row-by-row depth reveal */}
+      <div className="reveal-on-scroll reveal-depth-rows">
+        <LeaderboardSection />
+      </div>
 
       {/* ─────────────────────────────────────────────────────────────────────────────
           INTERACTIVE MODALS & DRAWERS

@@ -14,25 +14,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <div className="relative overflow-hidden rounded-3xl cc-hero-gradient p-6 sm:p-8 lg:p-10 shadow-sm border border-blue-100/80 mb-6">
       {/* Subtle Background Decorative Circles */}
-      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-blue-400/10 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-purple-400/10 blur-2xl pointer-events-none" />
+      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-blue-400/10 blur-3xl pointer-events-none db-ambient-orb-1" />
+      <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-purple-400/10 blur-2xl pointer-events-none db-ambient-orb-2" />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left Text Column */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-blue-200/60 shadow-xs text-xs font-bold text-blue-700 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-blue-200/60 shadow-xs text-xs font-bold text-blue-700 backdrop-blur-sm db-hero-badge-anim">
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             <span>Digital Capacity Building Portal</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Build Skills.{' '}
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+            <span className="db-word-build">Build</span>{' '}
+            <span className="db-word-skills">Skills.</span>{' '}
+            <span className="db-word-gradient bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-sky-400 dark:via-indigo-300 dark:to-purple-400 bg-clip-text text-transparent">
               Create Impact Together.
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed db-hero-desc-anim">
             A smarter way to learn, grow your competencies, and share knowledge across students, educators, and organizations.
           </p>
 
@@ -40,7 +41,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="pt-2 flex flex-wrap items-center gap-3.5">
             <button
               onClick={onContinueLearning}
-              className="cc-btn-primary group"
+              className="cc-btn-primary group db-hero-btn1-anim"
             >
               <PlayCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>Continue Learning</span>
@@ -49,7 +50,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             <button
               onClick={onExploreCourses}
-              className="cc-btn-secondary"
+              className="cc-btn-secondary db-hero-btn2-anim"
             >
               Explore Courses
             </button>
@@ -76,7 +77,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="lg:col-span-5 relative flex items-center justify-center">
           <div className="relative w-full max-w-sm">
             {/* Main Visual Image Container */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gradient-to-br from-blue-500 to-indigo-700 aspect-4/3 flex items-center justify-center p-4">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gradient-to-br from-blue-500 to-indigo-700 aspect-4/3 flex items-center justify-center p-4 db-hero-visual-anim">
               <img
                 src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80"
                 alt="Students collaborating"
@@ -89,13 +90,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <h3 className="font-bold text-base">Next: AI for Education</h3>
                 <p className="text-xs text-blue-100">Module 10: Formative Assessment AI</p>
                 <div className="mt-3 w-40 mx-auto bg-white/30 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-white h-full rounded-full" style={{ width: '90%' }} />
+                  <div className="bg-white h-full rounded-full transition-all duration-700" style={{ width: '90%' }} />
                 </div>
               </div>
             </div>
 
             {/* Floating Achievement Card: Streak */}
-            <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-amber-100 flex items-center gap-2.5 cc-float">
+            <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-amber-100 flex items-center gap-2.5 cc-float db-float-streak-anim">
               <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 text-lg cc-streak-flame">
                 <Flame className="w-5 h-5 fill-amber-500 text-amber-500" />
               </div>
@@ -106,7 +107,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Floating Achievement Card: XP Reward */}
-            <div className="absolute -bottom-4 -right-2 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-purple-100 flex items-center gap-2.5 cc-float-delayed">
+            <div className="absolute -bottom-4 -right-2 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-purple-100 flex items-center gap-2.5 cc-float-delayed db-float-xp-anim">
               <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
                 <Trophy className="w-5 h-5" />
               </div>

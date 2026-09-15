@@ -189,26 +189,17 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
         {/* Hero Visual — SkillSync Intelligence Loop */}
         <div ref={sectionRef} className="relative max-w-5xl mx-auto pt-6">
           {/* Main Visual Frame */}
-<<<<<<< HEAD
           <div className="p-6 sm:p-10 rounded-3xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-750 backdrop-blur-xl shadow-2xl relative">
-            <div className="text-center mb-8">
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-cyan-500 dark:text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
-                The SkillSync Intelligence Loop
-              </span>
-              <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white mt-2">
-=======
-          <div className="p-6 sm:p-10 rounded-3xl bg-slate-900/80 border border-slate-750 backdrop-blur-xl shadow-2xl relative">
             {/* Step 1 & Step 2: Badge and Heading reveals */}
             <div className="text-center mb-8">
-              <span className={`inline-block text-[10px] font-extrabold uppercase tracking-widest text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 ${
+              <span className={`inline-block text-[10px] font-extrabold uppercase tracking-widest text-cyan-500 dark:text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 ${
                 isSectionVisible ? 'loop-badge-anim' : 'opacity-0'
               }`}>
                 The SkillSync Intelligence Loop
               </span>
-              <h3 className={`text-lg sm:text-xl font-black text-white mt-2 ${
+              <h3 className={`text-lg sm:text-xl font-black text-slate-900 dark:text-white mt-2 ${
                 isSectionVisible ? 'loop-heading-anim' : 'opacity-0'
               }`}>
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
                 Continuous Competency Feedback Architecture
               </h3>
             </div>
@@ -220,20 +211,13 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
                 return (
                   <div
                     key={node.label}
-<<<<<<< HEAD
-                    className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-slate-700 transition-all text-center flex flex-col items-center justify-between group hover:shadow-lg hover:-translate-y-1 relative shadow-xs"
+                    style={{ animationDelay: `${i * 90}ms` }}
+                    className={`p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-slate-700 text-center flex flex-col items-center justify-between group relative loop-node-card ${node.hoverClass || ''} ${
+                      isSectionVisible ? (node.animClass || '') : 'opacity-0'
+                    } shadow-xs`}
                   >
                     <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-slate-900 border border-blue-100 dark:border-slate-750 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                      <Icon className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
-=======
-                    style={{ animationDelay: `${i * 90}ms` }}
-                    className={`p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 text-center flex flex-col items-center justify-between group relative loop-node-card ${node.hoverClass} ${
-                      isSectionVisible ? node.animClass : 'opacity-0'
-                    }`}
-                  >
-                    <div className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-750 flex items-center justify-center mb-2">
-                      <Icon className={`w-4 h-4 text-cyan-400 ${node.iconClass}`} />
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+                      <Icon className={`w-4 h-4 text-blue-600 dark:text-cyan-400 ${node.iconClass || ''}`} />
                     </div>
                     <div className="font-extrabold text-xs text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors">
                       {node.label}
@@ -256,47 +240,6 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
 
             {/* 4 Floating Illustrative Prototype Metrics */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-2">
-<<<<<<< HEAD
-              <div className="p-3 rounded-2xl bg-blue-500/10 border border-blue-500/25 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                  92%
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">Skill Match</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-400">Data Science Role</div>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                  3
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">Skill Gaps</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-400">Remediation Ready</div>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/25 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                  ✓
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">Path Active</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-400">Cloud Architect Track</div>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                  +18%
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">Capability Growth</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-400">Cohort Average</div>
-                </div>
-              </div>
-=======
               {[
                 { val: '92%', label: 'Skill Match', sub: 'Data Science Role', color: 'blue' },
                 { val: '3', label: 'Skill Gaps', sub: 'Remediation Ready', color: 'amber' },
@@ -310,16 +253,15 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
                     isSectionVisible ? 'card-anim-role-bottom' : 'opacity-0'
                   }`}
                 >
-                  <div className={`w-8 h-8 rounded-xl bg-${metric.color}-500/20 text-${metric.color}-400 flex items-center justify-center font-bold text-xs flex-shrink-0`}>
+                  <div className={`w-8 h-8 rounded-xl bg-${metric.color}-500/20 text-${metric.color}-600 dark:text-${metric.color}-400 flex items-center justify-center font-bold text-xs flex-shrink-0`}>
                     {metric.val}
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white">{metric.label}</div>
-                    <div className="text-[10px] text-slate-400">{metric.sub}</div>
+                    <div className="text-xs font-bold text-slate-900 dark:text-white">{metric.label}</div>
+                    <div className="text-[10px] text-slate-600 dark:text-slate-400">{metric.sub}</div>
                   </div>
                 </div>
               ))}
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
             </div>
           </div>
         </div>

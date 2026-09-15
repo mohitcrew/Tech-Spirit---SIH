@@ -86,11 +86,7 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
               <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
                 Sync
               </span>
-<<<<<<< HEAD
               <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
-=======
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
                 PROTOTYPE
               </span>
             </div>
@@ -104,13 +100,8 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
         <div className="hidden lg:flex items-center gap-1">
           <Link
             to="/"
-<<<<<<< HEAD
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
-              location.pathname === '/' ? 'text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800/80' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900'
-=======
             className={`px-3.5 py-2 rounded-xl text-xs font-bold nav-item-home transition-colors ${
-              location.pathname === '/' ? 'text-white bg-slate-800/80' : 'text-slate-300 hover:text-white'
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+              location.pathname === '/' ? 'text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800/80' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900'
             }`}
           >
             Home
@@ -121,17 +112,10 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
             <button
               onClick={() => setExploreDropdownOpen(!exploreDropdownOpen)}
               onMouseEnter={() => setExploreDropdownOpen(true)}
-<<<<<<< HEAD
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 nav-item-explore transition-colors cursor-pointer"
             >
               <span>Explore</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : ''}`} />
-=======
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-explore transition-colors cursor-pointer"
-            >
-              <span>Explore</span>
-              <ChevronDown className={`w-3.5 h-3.5 nav-arrow-explore transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-400' : ''}`} />
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+              <ChevronDown className={`w-3.5 h-3.5 nav-arrow-explore transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : ''}`} />
             </button>
 
             {exploreDropdownOpen && (
@@ -171,51 +155,31 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
 
           <a
             href="/#how-it-works"
-<<<<<<< HEAD
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
-=======
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-how transition-colors"
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 nav-item-how transition-colors"
           >
             How It Works
           </a>
 
           <a
             href="/#features"
-<<<<<<< HEAD
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
-=======
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-features transition-colors"
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 nav-item-features transition-colors"
           >
             Features
           </a>
 
           <a
             href="/#about"
-<<<<<<< HEAD
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
-=======
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 nav-item-about transition-colors"
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 nav-item-about transition-colors"
           >
             About
           </a>
 
           <button
-<<<<<<< HEAD
-            onClick={onOpenAi}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-600 dark:text-cyan-300 hover:text-cyan-700 dark:hover:text-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-500/10 transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
-            <span>AI Assistant</span>
-=======
             onClick={handleOpenAi}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 hover:text-cyan-200 hover:bg-cyan-500/10 nav-item-ai transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-600 dark:text-cyan-300 hover:text-cyan-700 dark:hover:text-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-500/10 nav-item-ai transition-colors cursor-pointer"
           >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400 nav-ai-sparkle" />
+            <Sparkles className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400 nav-ai-sparkle" />
             <span className="nav-ai-text">AI Assistant</span>
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
           </button>
         </div>
 
@@ -224,22 +188,14 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
           {/* Light / Dark Mode Toggle Button */}
           <button
             onClick={toggleTheme}
-<<<<<<< HEAD
-            className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-all shadow-sm active:scale-90"
-=======
-            className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-sm active:scale-90 cursor-pointer nav-item-theme"
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
+            className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-all shadow-sm active:scale-90 cursor-pointer nav-item-theme"
             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle theme"
           >
             {isDark ? (
               <Moon className="w-4 h-4 text-indigo-400 nav-theme-icon" />
             ) : (
-<<<<<<< HEAD
-              <Moon className="w-4 h-4 text-indigo-600 transition-transform duration-300" />
-=======
               <Sun className="w-4 h-4 text-amber-500 nav-theme-icon" />
->>>>>>> 6189b3c (feat: ultra premium 3D dashboard experience + role-based sidebar + animation system)
             )}
           </button>
 

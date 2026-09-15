@@ -133,9 +133,13 @@ const AuthUnified: React.FC<AuthUnifiedProps> = ({ defaultTab = 'login' }) => {
           {/* Top Brand Link */}
           <div className="flex items-center justify-between mb-8 sm:mb-12">
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform flex items-center justify-center">
-                <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white font-black text-sm">
-                  SS
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform flex items-center justify-center overflow-hidden">
+                <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center overflow-hidden p-1">
+                  <img
+                    src="https://res.cloudinary.com/djmqwehwk/image/upload/v1789454602/Skill_Sync_WB_ehnf16.png"
+                    alt="SkillSync Logo"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
               <div>

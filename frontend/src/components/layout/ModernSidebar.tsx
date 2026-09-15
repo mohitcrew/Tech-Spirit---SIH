@@ -53,15 +53,21 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
         {/* Brand Header */}
         <div className="p-5 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-black text-lg shadow-md shadow-blue-500/20">
-              CC
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-md shadow-blue-500/20 overflow-hidden">
+              <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center overflow-hidden p-1">
+                <img
+                  src="https://res.cloudinary.com/djmqwehwk/image/upload/v1789454602/Skill_Sync_WB_ehnf16.png"
+                  alt="SkillSync Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </div>
             <div>
               <div className="font-extrabold text-slate-900 tracking-tight text-sm leading-tight">
-                CAPACITY<span className="text-blue-600"> CONNECT</span>
+                Skill<span className="text-blue-600">Sync</span>
               </div>
               <div className="text-[10px] font-semibold text-slate-400 tracking-wide uppercase mt-0.5">
-                Capacity Portal
+                Capacity Intelligence
               </div>
             </div>
           </div>

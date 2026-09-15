@@ -1,0 +1,275 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Sparkles, ChevronDown, Menu, X, BookOpen, Target, Users, Globe, BookMarked, Layers, ArrowRight, ShieldCheck
+} from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+
+interface SkillSyncNavbarProps {
+  onOpenAuthModal?: (intent?: string) => void;
+  onOpenAi?: () => void;
+}
+
+export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
+  onOpenAuthModal,
+  onOpenAi,
+}) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [exploreDropdownOpen, setExploreDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const exploreLinks = [
+    { label: 'Courses', path: '/courses', icon: BookOpen, desc: 'Structured learning modules' },
+    { label: 'Skills', path: '/skills', icon: Layers, desc: 'Technical & domain skill chips' },
+    { label: 'Competencies', path: '/competencies', icon: Target, desc: 'Observable professional capabilities' },
+    { label: 'Trainers', path: '/trainers', icon: Users, desc: 'Verified educators & coaches' },
+    { label: 'Sectors', path: '/sectors', icon: Globe, desc: 'Configurable professional domains' },
+    { label: 'Knowledge Hub', path: '/knowledge', icon: BookMarked, desc: 'Lectures, guides & research' },
+  ];
+
+  const handleAuthClick = (intent?: string) => {
+    if (onOpenAuthModal) {
+      onOpenAuthModal(intent);
+    } else {
+      navigate('/login');
+    }
+  };
+
+  return (
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-slate-950/90 backdrop-blur-md border-b border-slate-800 shadow-xl py-2.5'
+          : 'bg-slate-950 border-b border-slate-800/80 py-4'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        {/* Brand Logo */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform flex items-center justify-center">
+            <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white font-black text-sm">
+              SS
+            </div>
+          </div>
+          <div>
+            <div className="font-black text-lg tracking-tight text-white flex items-center gap-1.5 leading-none">
+              <span>Skill</span>
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                Sync
+              </span>
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                PROTOTYPE
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-400 font-medium tracking-wide uppercase mt-0.5 hidden sm:block">
+              Capacity Intelligence
+            </p>
+          </div>
+        </Link>
+
+        {/* Center Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-1">
+          <Link
+            to="/"
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
+              location.pathname === '/' ? 'text-white bg-slate-800/80' : 'text-slate-300 hover:text-white hover:bg-slate-900'
+            }`}
+          >
+            Home
+          </Link>
+
+          {/* Explore Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setExploreDropdownOpen(!exploreDropdownOpen)}
+              onMouseEnter={() => setExploreDropdownOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+            >
+              <span>Explore</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+            </button>
+
+            {exploreDropdownOpen && (
+              <div
+                onMouseLeave={() => setExploreDropdownOpen(false)}
+                className="absolute top-full left-0 mt-2 w-72 bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-2xl p-2.5 shadow-2xl z-50 animate-fadeIn"
+              >
+                <div className="text-[10px] font-bold text-slate-400 uppercase px-3 py-1 mb-1">
+                  Discovery Matrix
+                </div>
+                {exploreLinks.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.label}
+                      to={item.path}
+                      onClick={() => setExploreDropdownOpen(false)}
+                      className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">
+                          {item.label}
+                        </div>
+                        <div className="text-[10px] text-slate-400 leading-tight mt-0.5">
+                          {item.desc}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <a
+            href="/#how-it-works"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+          >
+            How It Works
+          </a>
+
+          <a
+            href="/#features"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+          >
+            Features
+          </a>
+
+          <a
+            href="/#about"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+          >
+            About
+          </a>
+
+          <button
+            onClick={onOpenAi}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 hover:text-cyan-200 hover:bg-cyan-500/10 transition-colors"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>AI Assistant</span>
+          </button>
+        </div>
+
+        {/* Right Actions */}
+        <div className="hidden sm:flex items-center gap-3">
+          {user ? (
+            <Link
+              to={`/${user.role.toLowerCase()}/dashboard`}
+              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5"
+            >
+              <span>Go to Portal ({user.name.split(' ')[0]})</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          ) : (
+            <>
+              <button
+                onClick={() => handleAuthClick('login')}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-200 hover:text-white hover:bg-slate-800 transition-colors"
+              >
+                Sign In
+              </button>
+
+              <button
+                onClick={() => handleAuthClick('register')}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/25 flex items-center gap-1.5 active:scale-95"
+              >
+                <span>Create Free Account</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="lg:hidden w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-center hover:text-white"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* Mobile Slide-Down Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3 animate-fadeIn">
+          <div className="grid grid-cols-2 gap-2 pt-2 pb-3 border-b border-slate-800">
+            {exploreLinks.map((item) => (
+              <Link
+                key={item.label}
+                to={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-slate-200 hover:text-white flex items-center gap-2"
+              >
+                <item.icon className="w-4 h-4 text-blue-400" />
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-2 pt-2">
+            <a
+              href="/#how-it-works"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-xs font-bold text-slate-300 py-1.5"
+            >
+              How It Works
+            </a>
+            <a
+              href="/#features"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-xs font-bold text-slate-300 py-1.5"
+            >
+              Features
+            </a>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onOpenAi) onOpenAi();
+              }}
+              className="text-left text-xs font-bold text-cyan-300 py-1.5 flex items-center gap-1.5"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Ask SkillSync AI</span>
+            </button>
+          </div>
+
+          <div className="pt-3 border-t border-slate-800 flex flex-col gap-2">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                handleAuthClick('login');
+              }}
+              className="w-full py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-white font-bold text-xs"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                handleAuthClick('register');
+              }}
+              className="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs"
+            >
+              Create Free Account
+            </button>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};

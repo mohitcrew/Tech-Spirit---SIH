@@ -349,17 +349,15 @@ html.light body {
 }
 
 /* Light mode background surface overrides */
-html.light .bg-slate-950 {
+html.light .bg-slate-950,
+html.light .bg-slate-950\/95,
+html.light .bg-slate-950\/90,
+html.light .bg-slate-950\/85,
+html.light .bg-slate-950\/80,
+html.light .bg-slate-950\/75,
+html.light .bg-slate-950\/70,
+html.light .bg-slate-950\/50 {
   background-color: #f8fafc !important;
-}
-html.light .bg-slate-950\/90 {
-  background-color: rgba(248, 250, 252, 0.95) !important;
-}
-html.light .bg-slate-950\/70 {
-  background-color: rgba(248, 250, 252, 0.88) !important;
-}
-html.light .bg-slate-950\/75 {
-  background-color: rgba(248, 250, 252, 0.88) !important;
 }
 html.light .bg-slate-900 {
   background-color: #ffffff !important;

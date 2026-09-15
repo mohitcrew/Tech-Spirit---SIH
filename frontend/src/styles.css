@@ -389,21 +389,23 @@ html.light .border-slate-700\/80 {
   border-color: #e2e8f0 !important;
 }
 
-/* Text overrides */
-html.light .text-white {
-  color: #0f172a !important;
-}
+/* Base text overrides in light mode */
+html.light body,
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
 html.light .text-slate-100 {
-  color: #0f172a !important;
+  color: #0f172a;
 }
 html.light .text-slate-200 {
-  color: #1e293b !important;
+  color: #1e293b;
 }
 html.light .text-slate-300 {
-  color: #334155 !important;
+  color: #334155;
 }
 html.light .text-slate-400 {
-  color: #64748b !important;
+  color: #64748b;
 }
 
 /* Hover background overrides */
@@ -417,17 +419,21 @@ html.light .hover\:bg-slate-800\/80:hover {
   background-color: #e2e8f0 !important;
 }
 
-/* High-contrast preservation on colored primary action buttons and tags */
-html.light button.bg-blue-600,
-html.light a.bg-blue-600,
-html.light button.bg-blue-500,
-html.light a.bg-blue-500,
-html.light button.bg-indigo-600,
-html.light a.bg-indigo-600,
-html.light button[class*="bg-gradient-to-r"],
-html.light a[class*="bg-gradient-to-r"],
-html.light button[class*="bg-gradient-to-tr"],
-html.light a[class*="bg-gradient-to-tr"] {
+/* High-contrast preservation: buttons, colored gradients, and dark badges MUST REMAIN WHITE */
+html.light [class*="bg-gradient-to-r"] .text-white,
+html.light [class*="bg-gradient-to-tr"] .text-white,
+html.light [class*="bg-gradient-to-br"] .text-white,
+html.light [class*="bg-gradient-to-r"] span,
+html.light [class*="bg-gradient-to-tr"] span,
+html.light [class*="bg-gradient-to-br"] span,
+html.light [class*="bg-black"] span,
+html.light [class*="bg-black"] .text-white,
+html.light button[class*="bg-gradient"],
+html.light a[class*="bg-gradient"],
+html.light button[class*="bg-blue-"],
+html.light a[class*="bg-blue-"],
+html.light button[class*="bg-indigo-"],
+html.light a[class*="bg-indigo-"] {
   color: #ffffff !important;
 }
 
@@ -437,10 +443,8 @@ html.light button.bg-blue-500 *,
 html.light a.bg-blue-500 *,
 html.light button.bg-indigo-600 *,
 html.light a.bg-indigo-600 *,
-html.light button[class*="bg-gradient-to-r"] *,
-html.light a[class*="bg-gradient-to-r"] *,
-html.light button[class*="bg-gradient-to-tr"] *,
-html.light a[class*="bg-gradient-to-tr"] * {
+html.light button[class*="bg-gradient"] *,
+html.light a[class*="bg-gradient"] * {
   color: #ffffff !important;
 }
 

@@ -54,8 +54,8 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-slate-950/90 backdrop-blur-md border-b border-slate-800 shadow-xl py-2.5'
-          : 'bg-slate-950 border-b border-slate-800/80 py-4'
+          ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xl py-2.5'
+          : 'bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800/80 py-4 shadow-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -71,16 +71,16 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
             </div>
           </div>
           <div>
-            <div className="font-black text-lg tracking-tight text-white flex items-center gap-1.5 leading-none">
+            <div className="font-black text-lg tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 leading-none">
               <span>Skill</span>
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
                 Sync
               </span>
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/30">
                 PROTOTYPE
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 font-medium tracking-wide uppercase mt-0.5 hidden sm:block">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase mt-0.5 hidden sm:block">
               Capacity Intelligence
             </p>
           </div>
@@ -91,7 +91,7 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
           <Link
             to="/"
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
-              location.pathname === '/' ? 'text-white bg-slate-800/80' : 'text-slate-300 hover:text-white hover:bg-slate-900'
+              location.pathname === '/' ? 'text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800/80' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900'
             }`}
           >
             Home
@@ -102,16 +102,16 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
             <button
               onClick={() => setExploreDropdownOpen(!exploreDropdownOpen)}
               onMouseEnter={() => setExploreDropdownOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
             >
               <span>Explore</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : ''}`} />
             </button>
 
             {exploreDropdownOpen && (
               <div
                 onMouseLeave={() => setExploreDropdownOpen(false)}
-                className="absolute top-full left-0 mt-2 w-72 bg-slate-900/95 backdrop-blur-xl border border-slate-700/80 rounded-2xl p-2.5 shadow-2xl z-50 animate-fadeIn"
+                className="absolute top-full left-0 mt-2 w-72 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-700/80 rounded-2xl p-2.5 shadow-2xl z-50 animate-fadeIn"
               >
                 <div className="text-[10px] font-bold text-slate-400 uppercase px-3 py-1 mb-1">
                   Discovery Matrix
@@ -123,16 +123,16 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
                       key={item.label}
                       to={item.path}
                       onClick={() => setExploreDropdownOpen(false)}
-                      className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group"
+                      className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors group"
                     >
-                      <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                      <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                         <Icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                           {item.label}
                         </div>
-                        <div className="text-[10px] text-slate-400 leading-tight mt-0.5">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">
                           {item.desc}
                         </div>
                       </div>
@@ -145,30 +145,30 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
 
           <a
             href="/#how-it-works"
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
           >
             How It Works
           </a>
 
           <a
             href="/#features"
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
           >
             Features
           </a>
 
           <a
             href="/#about"
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors"
           >
             About
           </a>
 
           <button
             onClick={onOpenAi}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-300 hover:text-cyan-200 hover:bg-cyan-500/10 transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-600 dark:text-cyan-300 hover:text-cyan-700 dark:hover:text-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-500/10 transition-colors"
           >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <Sparkles className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
             <span>AI Assistant</span>
           </button>
         </div>
@@ -178,14 +178,14 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
           {/* Light / Dark Mode Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-sm active:scale-90"
+            className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-all shadow-sm active:scale-90"
             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle theme mode"
           >
             {isDark ? (
               <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
             ) : (
-              <Moon className="w-4 h-4 text-indigo-500 transition-transform duration-300" />
+              <Moon className="w-4 h-4 text-indigo-600 transition-transform duration-300" />
             )}
           </button>
 

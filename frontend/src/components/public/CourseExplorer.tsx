@@ -38,25 +38,25 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
   const displayedCourses = showAllInitially ? filteredCourses : filteredCourses.slice(0, 6);
 
   return (
-    <section id="courses" className="py-20 bg-slate-950 text-white border-b border-slate-850">
+    <section id="courses" className="py-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
-            <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+            <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
               Course Discovery
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white mt-2">
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">
               Learn Something That Moves You Forward
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
               Curated, competency-benchmarked curricula delivered by seasoned industry specialists.
             </p>
           </div>
         </div>
 
         {/* Search & Filter Bar */}
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 mb-8 space-y-4">
+        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 mb-8 space-y-4 shadow-sm">
           <div className="relative">
             <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
             <input
@@ -64,12 +64,12 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search courses, skills (e.g. Python, Docker) or competencies..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-11 pr-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+              className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl pl-11 pr-4 py-3 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500 shadow-sm"
             />
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 pt-1 text-xs">
-            <div className="flex items-center gap-1.5 text-slate-400 mr-2 font-bold">
+            <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 mr-2 font-bold">
               <Filter className="w-3.5 h-3.5" />
               <span>Filters:</span>
             </div>
@@ -78,7 +78,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
             <select
               value={selectedLevel}
               onChange={e => setSelectedLevel(e.target.value)}
-              className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-300 text-xs focus:outline-none focus:border-cyan-400"
+              className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-1.5 text-slate-700 dark:text-slate-300 text-xs focus:outline-none focus:border-cyan-500 shadow-sm"
             >
               <option value="All">All Levels</option>
               <option value="Beginner">Beginner</option>
@@ -90,7 +90,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
             <select
               value={selectedMode}
               onChange={e => setSelectedMode(e.target.value)}
-              className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-300 text-xs focus:outline-none focus:border-cyan-400"
+              className="bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-1.5 text-slate-700 dark:text-slate-300 text-xs focus:outline-none focus:border-cyan-500 shadow-sm"
             >
               <option value="All">All Learning Modes</option>
               <option value="Cohort-Based">Cohort-Based</option>
@@ -102,7 +102,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
             {(selectedLevel !== 'All' || selectedMode !== 'All' || search !== '') && (
               <button
                 onClick={() => { setSelectedLevel('All'); setSelectedMode('All'); setSearch(''); }}
-                className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold px-2"
+                className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline font-semibold px-2"
               >
                 Reset
               </button>
@@ -115,7 +115,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
           {displayedCourses.map(course => (
             <div
               key={course.id}
-              className="p-5 rounded-3xl bg-slate-900 border border-slate-800 hover:border-slate-700 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
+              className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1 shadow-md"
             >
               <div>
                 {/* Banner Thumbnail */}
@@ -123,36 +123,36 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
                   className={`h-28 rounded-2xl bg-gradient-to-r ${course.gradient} p-4 text-white flex flex-col justify-between relative overflow-hidden mb-4 shadow-md`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-md">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-md text-white">
                       {course.category}
                     </span>
-                    <span className="text-[11px] bg-black/30 px-2 py-0.5 rounded-md font-semibold backdrop-blur-sm">
+                    <span className="text-[11px] bg-black/30 px-2 py-0.5 rounded-md font-semibold backdrop-blur-sm text-white">
                       {course.level}
                     </span>
                   </div>
 
-                  <div className="flex items-end justify-between text-xs">
-                    <span className="text-white/90 font-bold flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
+                  <div className="flex items-end justify-between text-xs text-white">
+                    <span className="text-white font-bold flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-white" />
                       {course.duration}
                     </span>
-                    <span className="bg-white/20 px-2 py-0.5 rounded font-mono text-[10px]">
+                    <span className="bg-white/20 px-2 py-0.5 rounded font-mono text-[10px] text-white">
                       {course.learningMode}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="text-base font-black text-white group-hover:text-cyan-300 transition-colors line-clamp-2 mb-2">
+                <h3 className="text-base font-black text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors line-clamp-2 mb-2">
                   {course.title}
                 </h3>
-                <p className="text-xs text-slate-400 line-clamp-2 mb-4">
+                <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-4">
                   {course.description}
                 </p>
 
                 {/* Tech Stack Chips */}
                 <div className="flex flex-wrap gap-1 mb-4">
                   {course.techStack.map(tech => (
-                    <span key={tech} className="px-2 py-0.5 rounded-md bg-slate-800 text-[10px] text-slate-300 font-mono">
+                    <span key={tech} className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[10px] text-slate-700 dark:text-slate-300 font-mono border border-slate-200 dark:border-transparent">
                       {tech}
                     </span>
                   ))}
@@ -160,10 +160,10 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
 
                 {/* Competencies Badges */}
                 <div className="mb-4">
-                  <div className="text-[10px] uppercase font-bold text-slate-500 mb-1">Competencies</div>
+                  <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 mb-1">Competencies</div>
                   <div className="flex flex-wrap gap-1">
                     {course.competencies.map(comp => (
-                      <span key={comp} className="text-[10px] text-cyan-300 bg-cyan-950/80 border border-cyan-800/60 px-2 py-0.5 rounded-md font-semibold">
+                      <span key={comp} className="text-[10px] text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-950/80 border border-cyan-200 dark:border-cyan-800/60 px-2 py-0.5 rounded-md font-semibold">
                         {comp}
                       </span>
                     ))}
@@ -172,17 +172,17 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
               </div>
 
               {/* Card Footer: Trainer & Actions */}
-              <div className="pt-4 border-t border-slate-800/80 flex flex-col gap-3">
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex flex-col gap-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <img
                       src={course.trainerAvatar}
                       alt={course.trainerName}
-                      className="w-7 h-7 rounded-full object-cover border border-slate-700"
+                      className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700"
                     />
-                    <div className="text-xs font-bold text-slate-300">{course.trainerName}</div>
+                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300">{course.trainerName}</div>
                   </div>
-                  <div className="flex items-center gap-1 text-xs font-bold text-amber-400">
+                  <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
                     <Star className="w-3.5 h-3.5 fill-amber-400" />
                     <span>{course.rating}</span>
                   </div>
@@ -191,7 +191,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <button
                     onClick={() => setPreviewCourse(course)}
-                    className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-bold transition-all text-center"
+                    className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all text-center border border-slate-200 dark:border-transparent"
                   >
                     View Syllabus
                   </button>
@@ -199,8 +199,8 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
                     onClick={() => onEnrollCourse(course)}
                     className="py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all text-center shadow-md shadow-blue-600/30 flex items-center justify-center gap-1"
                   >
-                    <span>Enroll Now</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <span className="text-white">Enroll Now</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-white" />
                   </button>
                 </div>
               </div>

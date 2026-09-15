@@ -52,16 +52,16 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
   ];
 
   return (
-    <section id="features" className="py-20 bg-slate-900/40 text-white border-b border-slate-850">
+    <section id="features" className="py-20 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-cyan-500 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
             Core Capabilities
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white">
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
             Why SkillSync
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
             Built from the ground up to solve the real-world gap between learning activities and organizational readiness.
           </p>
         </div>
@@ -73,16 +73,16 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
             return (
               <div
                 key={f.title}
-                className="p-6 rounded-3xl bg-slate-900 border border-slate-800 hover:border-slate-700 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-slate-700 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group shadow-xs"
               >
                 <div>
                   <div className={`w-12 h-12 rounded-2xl ${f.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-lg font-black text-white group-hover:text-cyan-300 transition-colors mb-2">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors mb-2">
                     {f.title}
                   </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                     {f.desc}
                   </p>
                 </div>
@@ -94,29 +94,29 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
         {/* Dual Panels: Student-Friendly & Trainer-Friendly */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Student-Friendly Block */}
-          <div className="p-8 rounded-3xl bg-gradient-to-br from-blue-950/40 via-slate-900 to-slate-900 border border-blue-500/30 flex flex-col justify-between shadow-xl">
+          <div className="p-8 rounded-3xl bg-gradient-to-br from-blue-50/80 via-white to-white dark:from-blue-950/40 dark:via-slate-900 dark:to-slate-900 border border-blue-200 dark:border-blue-500/30 flex flex-col justify-between shadow-xl">
             <div>
-              <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block">
+              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block border border-blue-500/20">
                 For Students & Early-Career Learners
               </span>
-              <h3 className="text-2xl font-black text-white mb-2">
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2">
                 Turn Your Interests Into Proven Capabilities.
               </h3>
-              <p className="text-xs text-slate-300 leading-relaxed mb-6">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
                 Not sure what to learn next? Let's identify your next skill, calculate your roadmap, and celebrate verified milestones without getting overwhelmed.
               </p>
 
-              <div className="space-y-2.5 text-xs text-slate-300 mb-8">
+              <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300 mb-8">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 flex-shrink-0" />
                   <span>Discover exact skills demanded by high-growth roles</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 flex-shrink-0" />
                   <span>Receive adaptive recommendations that skip what you already know</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 flex-shrink-0" />
                   <span>Earn verified competency credentials for career portfolios</span>
                 </div>
               </div>
@@ -132,39 +132,39 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
           </div>
 
           {/* Trainer-Friendly Block */}
-          <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900 border border-purple-500/30 flex flex-col justify-between shadow-xl">
+          <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-50/80 via-white to-white dark:from-purple-950/40 dark:via-slate-900 dark:to-slate-900 border border-purple-200 dark:border-purple-500/30 flex flex-col justify-between shadow-xl">
             <div>
-              <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block">
+              <span className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block border border-purple-500/20">
                 For Educators, Mentors & Trainers
               </span>
-              <h3 className="text-2xl font-black text-white mb-2">
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2">
                 Share Your Expertise. Build Stronger Learners.
               </h3>
-              <p className="text-xs text-slate-300 leading-relaxed mb-6">
-                Create structured cohorts, monitor trainee engagement, identify struggling learners before they drop off, and track actual competency improvement.
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                Host live cohort coaching, create rubrics, evaluate diagnostic submissions, and mentor squads hungry for practical industry experience.
               </p>
 
-              <div className="space-y-2.5 text-xs text-slate-300 mb-8">
+              <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300 mb-8">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-400 flex-shrink-0" />
-                  <span>Author competency-benchmarked curriculum units</span>
+                  <CheckCircle2 className="w-4 h-4 text-purple-500 dark:text-purple-400 flex-shrink-0" />
+                  <span>Reach committed learners across structured competency paths</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-400 flex-shrink-0" />
-                  <span>Host live interactive masterclasses with simulated labs</span>
+                  <CheckCircle2 className="w-4 h-4 text-purple-500 dark:text-purple-400 flex-shrink-0" />
+                  <span>Assess practical projects with transparent, objective rubrics</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-400 flex-shrink-0" />
-                  <span>Deliver rubric assessments and measure real cohort impact</span>
+                  <CheckCircle2 className="w-4 h-4 text-purple-500 dark:text-purple-400 flex-shrink-0" />
+                  <span>Build verified faculty standing recognized in national hackathons</span>
                 </div>
               </div>
             </div>
 
             <button
               onClick={onRegisterTrainer}
-              className="py-3 px-5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30"
+              className="py-3 px-5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30"
             >
-              <span>Become a SkillSync Trainer</span>
+              <span>Join as Verified Trainer</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

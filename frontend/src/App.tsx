@@ -24,12 +24,18 @@ const Dashboard = lazy(() => import('./pages/shared/Dashboard'));
 const Courses = lazy(() => import('./pages/shared/Courses'));
 const CourseDetail = lazy(() => import('./pages/shared/CourseDetail'));
 const Learning = lazy(() => import('./pages/shared/Learning'));
+const LearningPaths = lazy(() => import('./pages/shared/LearningPaths'));
+const Skills = lazy(() => import('./pages/shared/Skills'));
 const Assessment = lazy(() => import('./pages/shared/Assessment'));
 const Results = lazy(() => import('./pages/shared/Results'));
 const Certificates = lazy(() => import('./pages/shared/Certificates'));
+const Knowledge = lazy(() => import('./pages/shared/Knowledge'));
+const Community = lazy(() => import('./pages/shared/Community'));
+const Leaderboard = lazy(() => import('./pages/shared/Leaderboard'));
+const Calendar = lazy(() => import('./pages/shared/Calendar'));
+const HelpSupport = lazy(() => import('./pages/shared/HelpSupport'));
 const Profile = lazy(() => import('./pages/shared/Profile'));
 const Notifications = lazy(() => import('./pages/shared/Notifications'));
-const Knowledge = lazy(() => import('./pages/shared/Knowledge'));
 const Settings = lazy(() => import('./pages/shared/SettingsPage'));
 
 // ── Trainer-specific ──────────────────────────────────────────────────────
@@ -118,8 +124,10 @@ export default function App() {
         <Route path=":role/courses/create" element={<SuspenseWrap><CreateCourse /></SuspenseWrap>} />
         <Route path=":role/courses/:id" element={<SuspenseWrap><CourseDetail /></SuspenseWrap>} />
 
-        {/* Learning */}
+        {/* Learning & Paths */}
         <Route path=":role/learning" element={<SuspenseWrap><Learning /></SuspenseWrap>} />
+        <Route path=":role/paths" element={<SuspenseWrap><LearningPaths /></SuspenseWrap>} />
+        <Route path=":role/skills" element={<SuspenseWrap><Skills /></SuspenseWrap>} />
 
         {/* Assessments */}
         <Route path=":role/assessments/:id" element={<SuspenseWrap><Assessment /></SuspenseWrap>} />
@@ -131,6 +139,14 @@ export default function App() {
 
         {/* Knowledge Hub */}
         <Route path=":role/knowledge" element={<SuspenseWrap><Knowledge /></SuspenseWrap>} />
+
+        {/* Community & Leaderboard */}
+        <Route path=":role/community" element={<SuspenseWrap><Community /></SuspenseWrap>} />
+        <Route path=":role/leaderboard" element={<SuspenseWrap><Leaderboard /></SuspenseWrap>} />
+
+        {/* Calendar & Support */}
+        <Route path=":role/calendar" element={<SuspenseWrap><Calendar /></SuspenseWrap>} />
+        <Route path=":role/help" element={<SuspenseWrap><HelpSupport /></SuspenseWrap>} />
 
         {/* Profile, Settings, Notifications */}
         <Route path=":role/profile" element={<SuspenseWrap><Profile /></SuspenseWrap>} />

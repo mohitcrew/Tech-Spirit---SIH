@@ -68,31 +68,31 @@ export const SkillExplorer: React.FC = () => {
           </div>
 
           {/* Right: Active Skill Insight Card */}
-          <div className="lg:col-span-5 p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-750 shadow-2xl relative overflow-hidden">
+          <div className="lg:col-span-5 p-6 sm:p-7 rounded-3xl bg-white dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-950 border border-slate-200 dark:border-slate-750 shadow-xl relative overflow-hidden">
             <div className="flex items-center justify-between mb-4">
-              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold border border-blue-500/20">
+              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold border border-blue-500/20">
                 {activeSkill.category} Domain
               </span>
-              <span className="text-[11px] text-slate-400 font-mono">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
                 {activeSkill.learnersCount} active learners
               </span>
             </div>
 
-            <h3 className="text-2xl font-black text-white mb-2">{activeSkill.name}</h3>
-            <p className="text-xs text-slate-400 mb-6">
+            <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2">{activeSkill.name}</h3>
+            <p className="text-xs text-slate-600 dark:text-slate-400 mb-6">
               Essential skill benchmarked across modern capacity frameworks and verified by trainer evaluations.
             </p>
 
             <div className="space-y-4 text-xs">
               {/* Related Roles */}
               <div>
-                <h4 className="font-bold text-slate-300 mb-2 flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-cyan-400" />
+                <h4 className="font-bold text-slate-800 dark:text-slate-300 mb-2 flex items-center gap-1.5">
+                  <UserCheck className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                   <span>Target Roles Requiring {activeSkill.name}:</span>
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
                   {activeSkill.relatedRoles.map(role => (
-                    <span key={role} className="px-2.5 py-1 rounded-xl bg-slate-800 border border-slate-700 text-white font-medium text-[11px]">
+                    <span key={role} className="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white font-semibold text-[11px]">
                       {role}
                     </span>
                   ))}
@@ -101,13 +101,13 @@ export const SkillExplorer: React.FC = () => {
 
               {/* Related Competencies */}
               <div>
-                <h4 className="font-bold text-slate-300 mb-2 flex items-center gap-1.5">
-                  <Award className="w-4 h-4 text-purple-400" />
+                <h4 className="font-bold text-slate-800 dark:text-slate-300 mb-2 flex items-center gap-1.5">
+                  <Award className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Associated Competencies:</span>
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
                   {activeSkill.relatedCompetencies.map(comp => (
-                    <span key={comp} className="px-2.5 py-1 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-300 font-medium text-[11px]">
+                    <span key={comp} className="px-2.5 py-1 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-700 dark:text-purple-300 font-semibold text-[11px]">
                       {comp}
                     </span>
                   ))}
@@ -115,12 +115,12 @@ export const SkillExplorer: React.FC = () => {
               </div>
 
               {/* Recommended Course */}
-              <div className="p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-between gap-3">
+              <div className="p-3.5 rounded-2xl bg-blue-50/80 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5">
-                  <BookOpen className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <BookOpen className="w-4 h-4 text-blue-600 dark:text-cyan-400 flex-shrink-0" />
                   <div>
-                    <div className="text-[10px] text-slate-400">Curated Learning Program</div>
-                    <div className="font-bold text-white text-xs">{activeSkill.recommendedCourse}</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">Curated Learning Program</div>
+                    <div className="font-bold text-slate-900 dark:text-white text-xs">{activeSkill.recommendedCourse}</div>
                   </div>
                 </div>
                 <a

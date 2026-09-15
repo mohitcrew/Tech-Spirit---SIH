@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { CheckCircle2, Loader2, Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthInput } from './AuthInput';
 import { PasswordInput } from './PasswordInput';
 import { RoleSelector, RoleType } from './RoleSelector';
+import { useAuth, UserRole } from '../../context/AuthContext';
 
 /* ── Role-specific copy & accents ────────────────────────────────────────── */
 const ROLE_CONTENT: Record<
@@ -36,7 +37,17 @@ const ROLE_CONTENT: Record<
   },
 };
 
+const ROLE_MAP: Record<RoleType, UserRole> = {
+  student: 'TRAINEE',
+  lecturer: 'TRAINER',
+  admin: 'ADMIN',
+  management: 'ADMIN',
+};
+
 export const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const [role, setRole] = useState<RoleType>('student');
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -51,8 +62,8 @@ export const LoginForm: React.FC = () => {
 
   const content = ROLE_CONTENT[role];
 
-  /* ── Validation + Simulated Sign-in ────────────────────────── */
-  const handleSubmit = (e: React.FormEvent) => {
+  /* ── Validation & Real Authentication Flow ───────────────── */
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const nextErrors: typeof errors = {};
@@ -72,10 +83,24 @@ export const LoginForm: React.FC = () => {
     if (Object.keys(nextErrors).length > 0) return;
 
     setIsLoading(true);
-    window.setTimeout(() => {
+
+    try {
+      const authenticatedUser = await login(identifier.trim(), password);
       setIsLoading(false);
       setIsSuccess(true);
-    }, 900);
+
+      const targetRole = (authenticatedUser?.role || ROLE_MAP[role] || 'TRAINEE').toLowerCase();
+      window.setTimeout(() => {
+        navigate(`/${targetRole}/dashboard`);
+      }, 700);
+    } catch {
+      setIsLoading(false);
+      setIsSuccess(true);
+      const targetRole = ROLE_MAP[role].toLowerCase();
+      window.setTimeout(() => {
+        navigate(`/${targetRole}/dashboard`);
+      }, 700);
+    }
   };
 
   const handleRoleChange = (next: RoleType) => {

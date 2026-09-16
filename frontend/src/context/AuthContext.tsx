@@ -64,15 +64,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     return null;
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(() => {
+    // If we have a real token (not demo), start in loading state
+    // so Protected waits for /auth/me to refresh before rendering
+    const token = localStorage.getItem('cc_token');
+    return !!token && !token.startsWith('demo_token_');
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('cc_token');
     if (!token) {
       setUser(null);
+      setLoading(false);
       return;
     }
     if (token.startsWith('demo_token_')) {
+      setLoading(false);
       return;
     }
     unwrap<User>(api.get('/auth/me'))
@@ -81,7 +88,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('cc_user', JSON.stringify(u));
       })
       .catch(() => {
-        // Token invalid or unreachable
+        // Token invalid or unreachable — clear session
+        localStorage.removeItem('cc_token');
+        localStorage.removeItem('cc_user');
+        setUser(null);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 

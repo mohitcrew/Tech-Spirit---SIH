@@ -129,13 +129,11 @@ export default function App() {
         <Route path="/recommendations" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
         <Route path="/assessments" element={<Navigate to={`${rolePrefix}/assessments`} replace />} />
         <Route path="/certificates" element={<Navigate to={`${rolePrefix}/certificates`} replace />} />
-        <Route path="/admin/email-center" element={<Navigate to={`${rolePrefix}/email-center`} replace />} />
-        <Route path="/admin/email" element={<Navigate to={`${rolePrefix}/email-center`} replace />} />
-        <Route path="/admin/email/templates" element={<Navigate to={`${rolePrefix}/email-center?tab=catalog`} replace />} />
-        <Route path="/admin/email/compose" element={<Navigate to={`${rolePrefix}/email-center?tab=composer`} replace />} />
-        <Route path="/admin/email/history" element={<Navigate to={`${rolePrefix}/email-center?tab=history`} replace />} />
-        <Route path="/admin/email/settings" element={<Navigate to={`${rolePrefix}/email-center?tab=settings`} replace />} />
-        <Route path="/admin/users" element={<Navigate to={`${rolePrefix}/users`} replace />} />
+        <Route path="/admin/email" element={<Navigate to="/admin/email-center" replace />} />
+        <Route path="/admin/email/templates" element={<Navigate to="/admin/email-center?tab=catalog" replace />} />
+        <Route path="/admin/email/compose" element={<Navigate to="/admin/email-center?tab=composer" replace />} />
+        <Route path="/admin/email/history" element={<Navigate to="/admin/email-center?tab=history" replace />} />
+        <Route path="/admin/email/settings" element={<Navigate to="/admin/email-center?tab=settings" replace />} />
 
         {/* ── Protected Portal Routes ───────────────────────────────── */}
         <Route element={<Protected />}>

@@ -12,6 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 import { learnerService, TraineeProfile } from '../../services/learnerService';
 import { courseService } from '../../services/courseService';
 import { api } from '../../services/api';
+import { sendWelcomeEmail } from '../../services/emailService';
 import { RecommendedCourseMatch } from '../../types/course';
 
 const DRAFT_STORAGE_KEY = 'skillsync_onboarding_draft';
@@ -284,10 +285,11 @@ export default function OnboardingFlow() {
       // 2. Call AuthContext completeOnboarding to update local & remote user status
       await authCompleteOnboarding();
 
-      // 3. Fire welcome email (non-blocking — errors are swallowed)
-      const token = localStorage.getItem('cc_token');
-      if (token && !token.startsWith('demo_token_')) {
-        api.post('/users/me/send-welcome-email', {}).catch((err: any) => {
+      // 3. Fire welcome email via browser SDK (non-blocking — errors are swallowed)
+      const userName  = user?.name  || onboardingData.name  || 'Learner';
+      const userEmail = user?.email || onboardingData.email || '';
+      if (userEmail) {
+        sendWelcomeEmail({ name: userName, email: userEmail, role: 'TRAINEE' }).catch((err: any) => {
           console.warn('Welcome email dispatch failed (non-critical):', err?.message);
         });
       }

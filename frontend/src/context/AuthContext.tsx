@@ -31,6 +31,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<User>;
   logout: () => void;
   setUser: (u: User) => void;
+  updateUser: (u: Partial<User>) => Promise<void>;
   switchRole: (role: UserRole) => void;
   completeOnboarding: () => Promise<void>;
   resetOnboarding: () => Promise<void>;
@@ -163,8 +164,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(updated);
   };
 
+  const updateUser = async (updatedData: Partial<User>) => {
+    let nextUser: User | null = null;
+    setUser((prev) => {
+      if (!prev) return null;
+      nextUser = {
+        ...prev,
+        ...updatedData,
+        profile: {
+          ...prev.profile,
+          ...(updatedData.profile || {}),
+        },
+      };
+      localStorage.setItem('cc_user', JSON.stringify(nextUser));
+      return nextUser;
+    });
+
+    const token = localStorage.getItem('cc_token');
+    if (token && !token.startsWith('demo_token_')) {
+      try {
+        const payload: any = {};
+        if (updatedData.name !== undefined) payload.name = updatedData.name;
+        if (updatedData.profile?.phone !== undefined) payload.phone = updatedData.profile.phone;
+        if (updatedData.profile?.department !== undefined) payload.department = updatedData.profile.department;
+        if (updatedData.profile?.designation !== undefined) payload.designation = updatedData.profile.designation;
+        if (updatedData.profile?.qualification !== undefined) payload.qualification = updatedData.profile.qualification;
+        if (updatedData.profile?.photoUrl !== undefined) payload.photoUrl = updatedData.profile.photoUrl;
+        if (Object.keys(payload).length > 0) {
+          const res = await unwrap<User>(api.patch('/users/me', payload));
+          if (res) {
+            setUser(res);
+            localStorage.setItem('cc_user', JSON.stringify(res));
+          }
+        }
+      } catch (err) {
+        console.warn('Could not sync user changes with backend:', err);
+      }
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setUser, switchRole, completeOnboarding, resetOnboarding }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setUser, updateUser, switchRole, completeOnboarding, resetOnboarding }}>
       {children}
     </AuthContext.Provider>
   );

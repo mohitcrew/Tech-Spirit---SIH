@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LogOut, X, Sparkles } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { UserRole, useAuth } from '../../context/AuthContext';
 import { currentUserProfile } from '../../data/capacityConnectData';
+import { learnerService } from '../../services/learnerService';
 import {
   ROLE_NAVIGATION_CONFIG,
   SidebarItemConfig,
@@ -162,9 +164,14 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
     animDelayMs: 40 + idx * 45,
   }));
 
+  const { data: traineeProfile } = useQuery({
+    queryKey: ['traineeProfile', user?.email],
+    queryFn: () => learnerService.getTraineeProfile(),
+  });
+
   const roleMeta: Record<UserRole, { name: string; subtitle: string }> = {
     TRAINEE: {
-      name: user?.name || 'SkillSync Learner',
+      name: traineeProfile?.name || user?.name || 'SkillSync Learner',
       subtitle: `Level ${currentUserProfile.level} Explorer`,
     },
     TRAINER: {
@@ -268,7 +275,7 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
             className="p-3 rounded-2xl bg-white border border-slate-200/70 shadow-xs mb-2 flex items-center gap-3 db-profile-card-anim cursor-pointer"
           >
             <img
-              src={user?.profile?.photoUrl || (user?.name ? `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff` : currentUserProfile.avatarUrl)}
+              src={traineeProfile?.photoUrl || user?.profile?.photoUrl || (currentMeta.name ? `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(currentMeta.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff` : currentUserProfile.avatarUrl)}
               alt={currentMeta.name}
               className="w-9 h-9 rounded-xl object-cover border border-slate-200 db-profile-avatar-anim"
             />

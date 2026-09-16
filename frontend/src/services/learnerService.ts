@@ -941,11 +941,18 @@ export const learnerService = {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Ensure name and email match logged-in user if available
-        if (currentUser?.name && (parsed.name !== currentUser.name || parsed.email !== currentUser.email)) {
+        // If parsed profile has a valid name, keep it and sync currentUser if needed
+        if (parsed.name && currentUser && currentUser.name !== parsed.name) {
+          currentUser.name = parsed.name;
+          localStorage.setItem('cc_user', JSON.stringify(currentUser));
+        } else if (currentUser?.name && !parsed.name) {
           parsed.name = currentUser.name;
+        }
+        if (currentUser?.email && parsed.email !== currentUser.email) {
           parsed.email = currentUser.email;
-          parsed.photoUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(currentUser.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
+        }
+        if (parsed.name && (!parsed.photoUrl || parsed.photoUrl.includes('dicebear.com'))) {
+          parsed.photoUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(parsed.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
         }
         return parsed;
       } catch (e) {}
@@ -1042,6 +1049,16 @@ export const learnerService = {
       learningPreferences: { ...current.learningPreferences, ...(updated.learningPreferences || {}) },
       externalProfiles: { ...current.externalProfiles, ...(updated.externalProfiles || {}) },
     };
+    if (updated.name) {
+      merged.name = updated.name;
+      if (!merged.photoUrl || merged.photoUrl.includes('dicebear.com')) {
+        merged.photoUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(updated.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
+      }
+      if (currentUser) {
+        currentUser.name = updated.name;
+        localStorage.setItem('cc_user', JSON.stringify(currentUser));
+      }
+    }
     localStorage.setItem(PROFILE_KEY, JSON.stringify(merged));
     return merged;
   },

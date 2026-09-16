@@ -18,10 +18,13 @@ export class UsersService {
   }
 
   async updateMe(id: string, d: any) {
-    const { onboardingCompleted, ...profileData } = d;
+    const { onboardingCompleted, name, ...profileData } = d;
     const updateData: any = {};
     if (onboardingCompleted !== undefined) {
       updateData.onboardingCompleted = onboardingCompleted;
+    }
+    if (name !== undefined) {
+      updateData.name = name;
     }
     if (Object.keys(profileData).length > 0) {
       updateData.profile = {

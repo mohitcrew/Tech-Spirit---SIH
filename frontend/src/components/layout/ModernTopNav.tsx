@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Search, Bell, HelpCircle, Menu, Flame, Star, ChevronDown, Check, UserRound, Shield, LogOut, Sun, Moon
 } from 'lucide-react';
 import { currentUserProfile } from '../../data/capacityConnectData';
+import { learnerService } from '../../services/learnerService';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -27,9 +29,14 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const displayName = user?.name || currentUserProfile.name;
-  const displayEmail = user?.email || currentUserProfile.email;
-  const displayAvatar = user?.profile?.photoUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(displayName)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
+  const { data: traineeProfile } = useQuery({
+    queryKey: ['traineeProfile', user?.email],
+    queryFn: () => learnerService.getTraineeProfile(),
+  });
+
+  const displayName = traineeProfile?.name || user?.name || currentUserProfile.name;
+  const displayEmail = user?.email || traineeProfile?.email || currentUserProfile.email;
+  const displayAvatar = traineeProfile?.photoUrl || user?.profile?.photoUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(displayName)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
   const firstName = displayName.split(' ')[0];
 
 

@@ -9,7 +9,7 @@ import { learnerService, TraineeProfile } from '../../services/learnerService';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<'overview' | 'education' | 'professional' | 'skills' | 'goals'>('overview');
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -30,13 +30,26 @@ export default function Profile() {
   }, [profile, user?.email]);
 
   const updateMutation = useMutation({
-    mutationFn: (updated: TraineeProfile) => {
+    mutationFn: async (updated: TraineeProfile) => {
       const res = learnerService.updateTraineeProfile(updated);
-      return Promise.resolve(res);
+      if (updateUser) {
+        await updateUser({
+          name: updated.name,
+          profile: {
+            phone: updated.phone,
+            photoUrl: updated.photoUrl,
+            department: updated.professional?.currentOrganization,
+            designation: updated.professional?.currentRole,
+            qualification: updated.education?.highestQualification,
+          },
+        });
+      }
+      return res;
     },
     onSuccess: (updated) => {
       queryClient.setQueryData(['traineeProfile', user?.email], updated);
       queryClient.setQueryData(['traineeProfile'], updated);
+      queryClient.invalidateQueries({ queryKey: ['traineeProfile'] });
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     },

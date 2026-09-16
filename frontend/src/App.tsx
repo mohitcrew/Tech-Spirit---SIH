@@ -38,6 +38,8 @@ const Leaderboard = lazy(() => import('./pages/shared/Leaderboard'));
 const Calendar = lazy(() => import('./pages/shared/Calendar'));
 const HelpSupport = lazy(() => import('./pages/shared/HelpSupport'));
 const Profile = lazy(() => import('./pages/shared/Profile'));
+const CareerRoadmap = lazy(() => import('./pages/shared/CareerRoadmap'));
+const OnboardingFlow = lazy(() => import('./pages/auth/OnboardingFlow'));
 const Notifications = lazy(() => import('./pages/shared/Notifications'));
 const Settings = lazy(() => import('./pages/shared/SettingsPage'));
 
@@ -107,13 +109,16 @@ export default function App() {
         {/* ── Authentication ────────────────────────────────────────── */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/onboarding" element={<SuspenseWrap><OnboardingFlow /></SuspenseWrap>} />
 
         {/* ── Personalized Shortcuts ─────────────────────────────────── */}
         <Route path="/dashboard" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
         <Route path="/my-learning" element={<Navigate to={`${rolePrefix}/learning`} replace />} />
         <Route path="/my-competencies" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
-        <Route path="/skill-gaps" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
-        <Route path="/learning-path" element={<Navigate to={`${rolePrefix}/learning`} replace />} />
+        <Route path="/skill-gaps" element={<Navigate to={`${rolePrefix}/roadmap`} replace />} />
+        <Route path="/roadmap" element={<Navigate to={`${rolePrefix}/roadmap`} replace />} />
+        <Route path="/profile" element={<Navigate to={`${rolePrefix}/profile`} replace />} />
+        <Route path="/learning-path" element={<Navigate to={`${rolePrefix}/paths`} replace />} />
         <Route path="/recommendations" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
         <Route path="/assessments" element={<Navigate to={`${rolePrefix}/assessments`} replace />} />
         <Route path="/certificates" element={<Navigate to={`${rolePrefix}/certificates`} replace />} />
@@ -128,10 +133,10 @@ export default function App() {
           <Route path=":role/courses/create" element={<SuspenseWrap><CreateCourse /></SuspenseWrap>} />
           <Route path=":role/courses/:id" element={<SuspenseWrap><CourseDetail /></SuspenseWrap>} />
 
-
-          {/* Learning & Paths */}
+          {/* Learning, Paths & Career Roadmap */}
           <Route path=":role/learning" element={<SuspenseWrap><Learning /></SuspenseWrap>} />
           <Route path=":role/paths" element={<SuspenseWrap><LearningPaths /></SuspenseWrap>} />
+          <Route path=":role/roadmap" element={<SuspenseWrap><CareerRoadmap /></SuspenseWrap>} />
           <Route path=":role/skills" element={<SuspenseWrap><Skills /></SuspenseWrap>} />
 
           {/* Assessments */}

@@ -17,6 +17,134 @@ import {
 
 // ── Types for SkillSync Learner Dashboard ──────────────────────────────────────
 
+export interface EducationItem {
+  id: string;
+  highestQualification: string;
+  degree: string;
+  institution: string;
+  graduationYear: number;
+  certifications?: string[];
+}
+
+export interface ProfessionalInfo {
+  currentRole: string;
+  experienceLevel: 'Beginner' | 'Intermediate' | 'Advanced' | 'Senior / Specialist';
+  workExperienceYears: number;
+  currentOrganization: string;
+  sector: string;
+  domain: string;
+}
+
+export interface UserSkillItem {
+  name: string;
+  level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+  rating: number; // 1 - 100%
+  verified: boolean;
+  category: string;
+}
+
+export interface CareerGoal {
+  targetRole: string;
+  dreamCompany: string;
+  targetSector: string;
+  targetDomain: string;
+  targetTimelineMonths: number;
+  careerGoalStatement: string;
+  shortTermGoal: string;
+  longTermGoal: string;
+  weeklyLearningHours: number;
+  preferredPace: 'Self-Paced' | 'Cohort-Based' | 'Intensive Bootcamp';
+  preferredTrainingMode: 'Hybrid' | 'Online Live' | 'Hands-on Lab';
+}
+
+export interface ExternalProfiles {
+  github?: string;
+  linkedin?: string;
+  portfolio?: string;
+  resumeUrl?: string;
+}
+
+export interface TraineeProfile {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  location?: string;
+  photoUrl: string;
+  education: EducationItem;
+  professional: ProfessionalInfo;
+  skills: UserSkillItem[];
+  interests: string[];
+  careerGoal: CareerGoal;
+  learningPreferences: {
+    level: 'Beginner' | 'Intermediate' | 'Advanced';
+    format: string;
+    weeklyHours: number;
+    trainingMode: string;
+  };
+  externalProfiles: ExternalProfiles;
+  onboardingCompleted: boolean;
+}
+
+export interface PointTransaction {
+  id: string;
+  userId: string;
+  activity: string;
+  points: number;
+  referenceId?: string;
+  createdAt: string;
+}
+
+export interface AchievementBadge {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  category: 'Milestone' | 'Skill' | 'Speed' | 'Community' | 'Mastery';
+  unlocked: boolean;
+  unlockedAt?: string;
+  xpReward: number;
+}
+
+export interface RoadmapStageTask {
+  id: string;
+  title: string;
+  type: 'course' | 'resource' | 'assessment' | 'project';
+  duration: string;
+  completed: boolean;
+  xp: number;
+  linkUrl?: string;
+}
+
+export interface CareerRoadmapStage {
+  id: string;
+  order: number;
+  title: string;
+  subtitle: string;
+  objective: string;
+  skills: string[];
+  competencies: string[];
+  estimatedDuration: string;
+  pointsAvailable: number;
+  completionCriteria: string;
+  status: 'locked' | 'available' | 'in_progress' | 'completed';
+  tasks: RoadmapStageTask[];
+  stageCertificateId?: string;
+  stageCertificateIssued?: boolean;
+}
+
+export interface CareerRoadmap {
+  id: string;
+  targetRole: string;
+  dreamCompany: string;
+  targetTimeline: string;
+  generatedDate: string;
+  disclaimer: string;
+  totalXP: number;
+  earnedXP: number;
+  stages: CareerRoadmapStage[];
+}
+
 export interface CertificateItem {
   id: string;
   certificateNumber: string;
@@ -785,4 +913,520 @@ export const learnerService = {
     localStorage.setItem(SUPPORT_TICKETS_KEY, JSON.stringify(tickets));
     return newTicket;
   },
+
+  // 11. Profile System & Completion Calculator
+  getTraineeProfile(): TraineeProfile {
+    const PROFILE_KEY = 'skillsync_trainee_full_profile';
+    const saved = localStorage.getItem(PROFILE_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {}
+    }
+
+    const defaultProfile: TraineeProfile = {
+      id: 'learner-001',
+      name: 'Priya Sharma',
+      email: 'priya.sharma@skillsync.demo',
+      phone: '+91 98765 43210',
+      location: 'Bengaluru, India',
+      photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+      education: {
+        id: 'edu-1',
+        highestQualification: 'Master of Technology (M.Tech)',
+        degree: 'Computer Science & Distributed Systems',
+        institution: 'Indian Institute of Science (IISc)',
+        graduationYear: 2024,
+        certifications: ['AWS Solutions Architect Associate', 'CKA Kubernetes Administrator'],
+      },
+      professional: {
+        currentRole: 'Digital Innovation Fellow',
+        experienceLevel: 'Intermediate',
+        workExperienceYears: 3,
+        currentOrganization: 'National Informatics Centre / SIH Lab',
+        sector: 'Information Technology & Digital Services',
+        domain: 'Cloud Systems & Data Intelligence',
+      },
+      skills: [
+        { name: 'Python', level: 'Advanced', rating: 78, verified: true, category: 'Programming' },
+        { name: 'SQL & PostgreSQL', level: 'Intermediate', rating: 68, verified: true, category: 'Data' },
+        { name: 'Machine Learning', level: 'Beginner', rating: 42, verified: true, category: 'AI & Data Science' },
+        { name: 'Docker & Containers', level: 'Advanced', rating: 75, verified: true, category: 'Cloud & DevOps' },
+        { name: 'Zero-Trust Security', level: 'Beginner', rating: 38, verified: false, category: 'Cybersecurity' },
+        { name: 'Statistics & Math', level: 'Intermediate', rating: 55, verified: true, category: 'Foundations' },
+        { name: 'Git & CI/CD', level: 'Advanced', rating: 80, verified: true, category: 'DevOps' },
+      ],
+      interests: [
+        'Artificial Intelligence & Predictive Analytics',
+        'Distributed Cloud Architectures',
+        'Large Language Model Fine-Tuning',
+        'Earth System & Meteorological Informatics',
+      ],
+      careerGoal: {
+        targetRole: 'Data Scientist',
+        dreamCompany: 'Microsoft',
+        targetSector: 'Artificial Intelligence & Cloud Computing',
+        targetDomain: 'Predictive Analytics & Decision Intelligence',
+        targetTimelineMonths: 12,
+        careerGoalStatement: 'Transition from general software engineering to a specialized enterprise Data Scientist delivering predictive machine learning models at scale.',
+        shortTermGoal: 'Master supervised learning algorithms, predictive feature engineering, and statistical modeling in 6 months.',
+        longTermGoal: 'Deploy production RAG architectures and deep learning pipelines serving national public infrastructure.',
+        weeklyLearningHours: 8,
+        preferredPace: 'Cohort-Based',
+        preferredTrainingMode: 'Hybrid',
+      },
+      learningPreferences: {
+        level: 'Intermediate',
+        format: 'Hands-on practical code repositories with weekly review workshops',
+        weeklyHours: 8,
+        trainingMode: 'Hybrid with mentor sessions',
+      },
+      externalProfiles: {
+        github: 'https://github.com/priyasharma-dev',
+        linkedin: 'https://linkedin.com/in/priya-sharma-skillsync',
+        portfolio: 'https://priyasharma.dev',
+      },
+      onboardingCompleted: true,
+    };
+
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(defaultProfile));
+    return defaultProfile;
+  },
+
+  updateTraineeProfile(updated: Partial<TraineeProfile>): TraineeProfile {
+    const PROFILE_KEY = 'skillsync_trainee_full_profile';
+    const current = this.getTraineeProfile();
+    const merged: TraineeProfile = {
+      ...current,
+      ...updated,
+      education: { ...current.education, ...(updated.education || {}) },
+      professional: { ...current.professional, ...(updated.professional || {}) },
+      careerGoal: { ...current.careerGoal, ...(updated.careerGoal || {}) },
+      learningPreferences: { ...current.learningPreferences, ...(updated.learningPreferences || {}) },
+      externalProfiles: { ...current.externalProfiles, ...(updated.externalProfiles || {}) },
+    };
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(merged));
+    return merged;
+  },
+
+  calculateProfileCompletion(profile: TraineeProfile): { percent: number; missingFields: string[] } {
+    const checks: { label: string; valid: boolean }[] = [
+      { label: 'Profile Photo', valid: Boolean(profile.photoUrl) },
+      { label: 'Phone Number', valid: Boolean(profile.phone) },
+      { label: 'Location', valid: Boolean(profile.location) },
+      { label: 'Education Degree & School', valid: Boolean(profile.education?.degree && profile.education?.institution) },
+      { label: 'Current Role & Sector', valid: Boolean(profile.professional?.currentRole && profile.professional?.sector) },
+      { label: 'Skills Added (minimum 3)', valid: (profile.skills || []).length >= 3 },
+      { label: 'Target Career Role', valid: Boolean(profile.careerGoal?.targetRole) },
+      { label: 'Target Company / Organization', valid: Boolean(profile.careerGoal?.dreamCompany) },
+      { label: 'Short & Long-term Goals', valid: Boolean(profile.careerGoal?.shortTermGoal && profile.careerGoal?.longTermGoal) },
+      { label: 'Weekly Learning Hours', valid: (profile.careerGoal?.weeklyLearningHours || 0) > 0 },
+      { label: 'External Portfolio / GitHub', valid: Boolean(profile.externalProfiles?.github || profile.externalProfiles?.portfolio) },
+      { label: 'Resume Document', valid: Boolean(profile.externalProfiles?.resumeUrl) },
+    ];
+
+    const completed = checks.filter(c => c.valid).length;
+    const percent = Math.round((completed / checks.length) * 100);
+    const missingFields = checks.filter(c => !c.valid).map(c => c.label);
+
+    return { percent, missingFields };
+  },
+
+  // 12. Points / XP Ledger & Gamification
+  getPointTransactions(): PointTransaction[] {
+    const POINTS_KEY = 'skillsync_point_transactions';
+    const saved = localStorage.getItem(POINTS_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {}
+    }
+
+    const defaultTransactions: PointTransaction[] = [
+      { id: 'tx-1', userId: 'learner-001', activity: 'Completed Stage 1: Python Fundamentals', points: 100, referenceId: 'stage-1', createdAt: '3 weeks ago' },
+      { id: 'tx-2', userId: 'learner-001', activity: 'Passed Diagnostic Assessment: Data Structures', points: 100, referenceId: 'quiz-ds-1', createdAt: '2 weeks ago' },
+      { id: 'tx-3', userId: 'learner-001', activity: 'Completed Stage 2: SQL & Data Analysis', points: 150, referenceId: 'stage-2', createdAt: '1 week ago' },
+      { id: 'tx-4', userId: 'learner-001', activity: '7-Day Learning Streak Bonus', points: 50, referenceId: 'streak-7', createdAt: '3 days ago' },
+      { id: 'tx-5', userId: 'learner-001', activity: 'Solved Peer Inquiry in Community Forum', points: 25, referenceId: 'comm-help-1', createdAt: 'Yesterday' },
+      { id: 'tx-6', userId: 'learner-001', activity: 'Completed Module: Linear Regression & Cost Functions', points: 50, referenceId: 'mod-ml-1', createdAt: 'Today' },
+    ];
+
+    localStorage.setItem(POINTS_KEY, JSON.stringify(defaultTransactions));
+    return defaultTransactions;
+  },
+
+  awardPoints(activity: string, points: number, referenceId?: string): { totalXP: number; newTx: PointTransaction } {
+    const POINTS_KEY = 'skillsync_point_transactions';
+    const currentTxs = this.getPointTransactions();
+    const newTx: PointTransaction = {
+      id: `tx-${Date.now()}`,
+      userId: 'learner-001',
+      activity,
+      points,
+      referenceId,
+      createdAt: 'Just now',
+    };
+    currentTxs.unshift(newTx);
+    localStorage.setItem(POINTS_KEY, JSON.stringify(currentTxs));
+
+    const totalXP = currentTxs.reduce((sum, tx) => sum + tx.points, 1175); // Baseline demo XP
+
+    // Check achievement unlock
+    this.checkAndUnlockAchievements(totalXP);
+
+    return { totalXP, newTx };
+  },
+
+  getTotalXP(): number {
+    const txs = this.getPointTransactions();
+    const sum = txs.reduce((acc, t) => acc + t.points, 0);
+    // Demo baseline so user is around 1,650 XP as requested in prompt (1,650 / 2,000 threshold)
+    return Math.max(1650, 1175 + sum);
+  },
+
+  getAchievements(): AchievementBadge[] {
+    const BADGES_KEY = 'skillsync_achievements';
+    const saved = localStorage.getItem(BADGES_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {}
+    }
+
+    const defaultBadges: AchievementBadge[] = [
+      { id: 'ach-1', title: 'First Learning Milestone', description: 'Complete your first verified learning module on SkillSync.', icon: '🏆', category: 'Milestone', unlocked: true, unlockedAt: 'August 12, 2026', xpReward: 100 },
+      { id: 'ach-2', title: 'Skill Gap Crusher', description: 'Reduce calculated skill gaps by at least 15% through targeted learning.', icon: '🎯', category: 'Skill', unlocked: true, unlockedAt: 'September 02, 2026', xpReward: 150 },
+      { id: 'ach-3', title: 'Course Champion', description: 'Finish 3 complete courses with average quiz score above 85%.', icon: '📚', category: 'Mastery', unlocked: true, unlockedAt: 'September 10, 2026', xpReward: 200 },
+      { id: 'ach-4', title: 'Learning Streak Legend', description: 'Log in and complete activities for 14 consecutive days.', icon: '🔥', category: 'Speed', unlocked: true, unlockedAt: 'September 14, 2026', xpReward: 150 },
+      { id: 'ach-5', title: 'Competency Builder', description: 'Master at least 4 observable multi-dimensional competencies.', icon: '🧠', category: 'Milestone', unlocked: false, xpReward: 250 },
+      { id: 'ach-6', title: 'Roadmap Finisher', description: 'Complete all stages in your personalized career roadmap.', icon: '🚀', category: 'Mastery', unlocked: false, xpReward: 500 },
+      { id: 'ach-7', title: 'SkillSync Certified', description: 'Pass the comprehensive final assessment and unlock official certification.', icon: '🏅', category: 'Mastery', unlocked: false, xpReward: 500 },
+    ];
+
+    localStorage.setItem(BADGES_KEY, JSON.stringify(defaultBadges));
+    return defaultBadges;
+  },
+
+  checkAndUnlockAchievements(currentXP: number): AchievementBadge[] {
+    const BADGES_KEY = 'skillsync_achievements';
+    const badges = this.getAchievements();
+    let updated = false;
+
+    if (currentXP >= 1800) {
+      const b = badges.find(x => x.id === 'ach-5');
+      if (b && !b.unlocked) {
+        b.unlocked = true;
+        b.unlockedAt = 'Just now';
+        updated = true;
+      }
+    }
+
+    if (updated) {
+      localStorage.setItem(BADGES_KEY, JSON.stringify(badges));
+    }
+    return badges;
+  },
+
+  // 13. Personalized Career Roadmap Engine
+  getPersonalizedRoadmap(): CareerRoadmap {
+    const ROADMAP_KEY = 'skillsync_personalized_career_roadmap';
+    const saved = localStorage.getItem(ROADMAP_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {}
+    }
+
+    const defaultRoadmap: CareerRoadmap = {
+      id: 'roadmap-ds-001',
+      targetRole: 'Data Scientist',
+      dreamCompany: 'Microsoft',
+      targetTimeline: '12 Months',
+      generatedDate: 'September 2026',
+      disclaimer: 'Your roadmap is designed around the selected target role and your current skill profile. This guidance represents a competency recommendation and prototype pathway, not official hiring criteria.',
+      totalXP: 2000,
+      earnedXP: 1650,
+      stages: [
+        {
+          id: 'stage-1',
+          order: 1,
+          title: 'Stage 1: Python Fundamentals',
+          subtitle: 'Core Syntax, OOP, Data Structures & Memory Models',
+          objective: 'Solidify advanced object-oriented programming, data structures, and algorithmic computational efficiency in Python 3.12.',
+          skills: ['Python 3.12', 'OOP & Decorators', 'Data Structures', 'Algorithmic Complexity'],
+          competencies: ['Code Modularity & Design', 'Unit Testing & PyTest'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 100,
+          completionCriteria: 'Pass diagnostic code lab with >= 80% accuracy',
+          status: 'completed',
+          stageCertificateId: 'SS-STG-PY-01',
+          stageCertificateIssued: true,
+          tasks: [
+            { id: 't1-1', title: 'Python Intermediate & Vectorized Thinking', type: 'course', duration: '8 hrs', completed: true, xp: 50 },
+            { id: 't1-2', title: 'Data Structures Diagnostic Assessment', type: 'assessment', duration: '45 mins', completed: true, xp: 50 },
+          ],
+        },
+        {
+          id: 'stage-2',
+          order: 2,
+          title: 'Stage 2: SQL & Data Analysis',
+          subtitle: 'Relational Queries, CTEs, Window Functions & Pandas',
+          objective: 'Master high-throughput tabular query optimizations, window functions, and multi-indexed exploratory data processing.',
+          skills: ['PostgreSQL & SQL', 'Window Functions', 'Pandas & NumPy', 'Data Cleansing'],
+          competencies: ['Complex Query Optimization', 'Exploratory Data Mining'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 150,
+          completionCriteria: 'Complete 3 real-world database case studies and query challenges',
+          status: 'completed',
+          stageCertificateId: 'SS-STG-SQL-02',
+          stageCertificateIssued: true,
+          tasks: [
+            { id: 't2-1', title: 'Advanced SQL for Analytics Engineers', type: 'course', duration: '10 hrs', completed: true, xp: 75 },
+            { id: 't2-2', title: 'Pandas Performance Tuning & Chunk Ingestion', type: 'resource', duration: '3 hrs', completed: true, xp: 25 },
+            { id: 't2-3', title: 'Financial Transaction Fraud Database Sprint', type: 'project', duration: '6 hrs', completed: true, xp: 50 },
+          ],
+        },
+        {
+          id: 'stage-3',
+          order: 3,
+          title: 'Stage 3: Statistics & Probability',
+          subtitle: 'Hypothesis Testing, Bayesian Inference & Distributions',
+          objective: 'Develop rigorous intuition for statistical tests (A/B testing, p-values, ANOVA) and multivariate probability distributions.',
+          skills: ['Hypothesis Testing', 'A/B Testing', 'Probability Distributions', 'Bayesian Inference'],
+          competencies: ['Experimentation Design', 'Statistical Validation'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 150,
+          completionCriteria: 'Simulate 5 A/B test experiments and calculate confidence intervals',
+          status: 'in_progress',
+          stageCertificateId: 'SS-STG-STAT-03',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't3-1', title: 'Statistical Methods for Machine Learning', type: 'course', duration: '12 hrs', completed: true, xp: 75 },
+            { id: 't3-2', title: 'A/B Experiment Power Analysis Lab', type: 'project', duration: '4 hrs', completed: false, xp: 50 },
+            { id: 't3-3', title: 'Statistical Significance Quiz', type: 'assessment', duration: '30 mins', completed: false, xp: 25 },
+          ],
+        },
+        {
+          id: 'stage-4',
+          order: 4,
+          title: 'Stage 4: Machine Learning Foundations',
+          subtitle: 'Supervised/Unsupervised Algorithms, Scikit-Learn & Cross-Validation',
+          objective: 'Train, evaluate, and tune linear, tree-based, and ensemble regression and classification models with regularization.',
+          skills: ['Scikit-Learn', 'Feature Engineering', 'Cross-Validation', 'Gradient Boosting (XGBoost)'],
+          competencies: ['Predictive Model Architecture', 'Overfitting Prevention & Regularization'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 200,
+          completionCriteria: 'Build an end-to-end predictive pipeline achieving >= 88% AUC-ROC',
+          status: 'available',
+          stageCertificateId: 'SS-STG-ML-04',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't4-1', title: 'Supervised Learning Algorithms Deep Dive', type: 'course', duration: '14 hrs', completed: false, xp: 80 },
+            { id: 't4-2', title: 'Predictive Feature Selection Best Practices', type: 'resource', duration: '2 hrs', completed: false, xp: 30 },
+            { id: 't4-3', title: 'Housing Price & Churn Prediction Pipeline', type: 'project', duration: '8 hrs', completed: false, xp: 90 },
+          ],
+        },
+        {
+          id: 'stage-5',
+          order: 5,
+          title: 'Stage 5: Production Projects & MLOps',
+          subtitle: 'FastAPI Serving, Docker Containerization, CI/CD & Model Monitoring',
+          objective: 'Deploy machine learning models as production REST APIs packaged in lightweight Docker containers with automated test suites.',
+          skills: ['FastAPI & Uvicorn', 'MLflow Tracking', 'Docker Containerization', 'Model Monitoring'],
+          competencies: ['API Integration & Production Deployment', 'Latency & Drift Monitoring'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 250,
+          completionCriteria: 'Deploy a containerized microservice serving real-time model inferences',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-MLOPS-05',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't5-1', title: 'FastAPI Production Model Serving', type: 'course', duration: '8 hrs', completed: false, xp: 100 },
+            { id: 't5-2', title: 'Dockerized ML Inference Microservice Capstone', type: 'project', duration: '12 hrs', completed: false, xp: 150 },
+          ],
+        },
+        {
+          id: 'stage-6',
+          order: 6,
+          title: 'Stage 6: Advanced Deep Learning & Generative AI',
+          subtitle: 'PyTorch, Transformers, Embeddings, Vector DBs & RAG Architecture',
+          objective: 'Implement Transformer-based semantic search systems, retrieval-augmented generation (RAG), and vector embeddings.',
+          skills: ['PyTorch', 'HuggingFace Transformers', 'Vector Databases (Chroma / Pinecone)', 'RAG Pipelines'],
+          competencies: ['Generative AI Architecture', 'Contextual Retrieval Optimization'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 300,
+          completionCriteria: 'Build an enterprise document QA assistant with citation tracing',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-GENAI-06',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't6-1', title: 'Applied Generative AI & Vector Search Systems', type: 'course', duration: '16 hrs', completed: false, xp: 150 },
+            { id: 't6-2', title: 'Enterprise RAG Search Engine Capstone', type: 'project', duration: '10 hrs', completed: false, xp: 150 },
+          ],
+        },
+        {
+          id: 'stage-7',
+          order: 7,
+          title: 'Final Assessment & Certification',
+          subtitle: 'Comprehensive Diagnostic Evaluation + Capstone Defense',
+          objective: 'Demonstrate holistic competency mastery across algorithms, statistics, modeling, deployment, and ethical AI stewardship.',
+          skills: ['Comprehensive Data Science Mastery', 'Executive Solution Presentation'],
+          competencies: ['Full-Lifecycle Capacity Intelligence', 'Strategic Problem Solving'],
+          estimatedDuration: '1 Week',
+          pointsAvailable: 500,
+          completionCriteria: 'Score >= 85% on the proctored final assessment and achieve 2,000 total XP',
+          status: 'locked',
+          stageCertificateId: 'SS-FINAL-CERT-DS-2026',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't7-1', title: 'Proctored 60-Question Competency Exam', type: 'assessment', duration: '90 mins', completed: false, xp: 250 },
+            { id: 't7-2', title: 'Capstone Code & Architecture Defense', type: 'project', duration: '4 hrs', completed: false, xp: 250 },
+          ],
+        },
+      ],
+    };
+
+    localStorage.setItem(ROADMAP_KEY, JSON.stringify(defaultRoadmap));
+    return defaultRoadmap;
+  },
+
+  updateRoadmapStage(stageId: string, status: 'locked' | 'available' | 'in_progress' | 'completed'): CareerRoadmap {
+    const ROADMAP_KEY = 'skillsync_personalized_career_roadmap';
+    const roadmap = this.getPersonalizedRoadmap();
+    const stage = roadmap.stages.find(s => s.id === stageId);
+
+    if (stage) {
+      stage.status = status;
+      if (status === 'completed') {
+        stage.stageCertificateIssued = true;
+        // Award stage completion points
+        this.awardPoints(`Completed Roadmap Stage: ${stage.title}`, stage.pointsAvailable, stage.id);
+        
+        // Also add stage certificate to certificates list
+        this.issueStageCertificate(stage);
+
+        // Unlock next stage if available
+        const nextIndex = roadmap.stages.findIndex(s => s.id === stageId) + 1;
+        if (nextIndex < roadmap.stages.length) {
+          const nextStage = roadmap.stages[nextIndex];
+          if (nextStage.status === 'locked') {
+            nextStage.status = 'available';
+          }
+        }
+      }
+    }
+
+    // Recalculate roadmap earnedXP
+    roadmap.earnedXP = this.getTotalXP();
+    localStorage.setItem(ROADMAP_KEY, JSON.stringify(roadmap));
+    return roadmap;
+  },
+
+  issueStageCertificate(stage: CareerRoadmapStage): CertificateItem {
+    const certs = this.getCertificates();
+    const certNum = `SS-STG-${stage.order}-${Math.floor(10000 + Math.random() * 90000)}`;
+    
+    // Check if already issued
+    const existing = certs.find(c => c.id === stage.stageCertificateId || c.courseTitle.includes(stage.title));
+    if (existing) return existing;
+
+    const newCert: CertificateItem = {
+      id: stage.stageCertificateId || `cert-stg-${stage.id}`,
+      certificateNumber: certNum,
+      courseTitle: `${stage.title}: Verified Stage Competency`,
+      courseId: `stage-${stage.id}`,
+      issueDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+      score: 94,
+      grade: 'Distinction',
+      issuer: 'SkillSync Competency Council',
+      credentialUrl: `https://skillsync.gov.in/verify/${certNum}`,
+      skills: stage.skills,
+      pdfDownloadUrl: '#',
+      verified: true,
+    };
+
+    certs.unshift(newCert);
+    localStorage.setItem(CERTIFICATES_KEY, JSON.stringify(certs));
+    return newCert;
+  },
+
+  // 14. Target Role vs Current Skills Gap Engine
+  getSkillGapAnalysis(): {
+    targetRole: string;
+    dreamCompany: string;
+    skills: {
+      name: string;
+      current: number;
+      target: number;
+      gap: number;
+      priority: 'High Priority' | 'Medium Priority' | 'Strong Skill';
+      whyItMatters: string;
+      whatToLearn: string;
+      recommendedCourse: string;
+      recommendedResource: string;
+    }[];
+  } {
+    return {
+      targetRole: 'Data Scientist',
+      dreamCompany: 'Microsoft',
+      skills: [
+        {
+          name: 'Machine Learning & Predictive Modeling',
+          current: 28,
+          target: 85,
+          gap: 57,
+          priority: 'High Priority',
+          whyItMatters: 'Core pillar for training classification models, optimizing loss functions, and predicting behavioral outcomes.',
+          whatToLearn: 'Scikit-learn pipelines, cross-validation, hyperparameter tuning (GridSearchCV), and gradient-boosted trees.',
+          recommendedCourse: 'Machine Learning Foundations & Predictive Analytics',
+          recommendedResource: 'Masterclass: Generative AI in Curriculum Design and Adaptive Evaluation',
+        },
+        {
+          name: 'Statistics & Hypothesis Testing',
+          current: 35,
+          target: 80,
+          gap: 45,
+          priority: 'High Priority',
+          whyItMatters: 'Essential for experimental validation, distinguishing statistical signal from random variance, and conducting A/B trials.',
+          whatToLearn: 'Two-sample t-tests, Chi-square independence tests, confidence interval bounds, and Bayesian priors.',
+          recommendedCourse: 'Statistical Methods for Machine Learning & Decision Science',
+          recommendedResource: 'High-Velocity Agile Squad Playbook for Public Sector Capacity',
+        },
+        {
+          name: 'SQL & Large-Scale Data Wrangling',
+          current: 48,
+          target: 80,
+          gap: 32,
+          priority: 'Medium Priority',
+          whyItMatters: 'Extracting, aggregating, and joining massive distributed datasets across relational databases and analytical warehouses.',
+          whatToLearn: 'Window functions (RANK, ROW_NUMBER, LAG/LEAD), recursive CTEs, and PostgreSQL execution plans.',
+          recommendedCourse: 'Advanced SQL & Distributed Query Design',
+          recommendedResource: 'Modern TypeScript & NestJS Enterprise Pattern Showcase',
+        },
+        {
+          name: 'Data Visualization & Executive Reporting',
+          current: 61,
+          target: 80,
+          gap: 19,
+          priority: 'Medium Priority',
+          whyItMatters: 'Translating complex analytical discoveries into intuitive decision dashboards for cross-functional leadership.',
+          whatToLearn: 'Seaborn, Matplotlib, interactive Plotly charts, and KPI metric presentation principles.',
+          recommendedCourse: 'Executive Data Storytelling & Dashboard Design',
+          recommendedResource: 'Zero-Trust Architecture Guidelines for Digital Public Infrastructure',
+        },
+        {
+          name: 'Python Programming & Algorithms',
+          current: 78,
+          target: 85,
+          gap: 7,
+          priority: 'Strong Skill',
+          whyItMatters: 'Baseline programming fluency that underpins all data transformation, modeling, and automated scripts.',
+          whatToLearn: 'Memory profiling, vectorization, and asynchronous pipeline execution.',
+          recommendedCourse: 'Data Analytics & Numerical Foundations in Python',
+          recommendedResource: 'National Meteorological Satellite Telemetry Standards Handbook',
+        },
+      ],
+    };
+  },
 };
+

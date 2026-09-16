@@ -19,7 +19,7 @@ import { LeaderboardSection } from '../../components/dashboard/LeaderboardSectio
 import { QuizModal } from '../../components/modals/QuizModal';
 import { SkillDetailDrawer } from '../../components/modals/SkillDetailDrawer';
 import { LiveSessionModal } from '../../components/modals/LiveSessionModal';
-import { BookOpen, Users, PlusCircle, Award, CheckCircle, BarChart3, Clock, AlertCircle } from 'lucide-react';
+import { BookOpen, Users, PlusCircle, Award, CheckCircle, BarChart3, Clock, AlertCircle, Sparkles } from 'lucide-react';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -310,6 +310,37 @@ export default function Dashboard() {
         }}
         onExploreCourses={() => navigate(`/${role.toLowerCase()}/courses`)}
       />
+
+      {/* Personalized Career Roadmap & Goal Spotlight */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-900/90 via-indigo-950/90 to-slate-900 border border-purple-500/30 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 my-4">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-bold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Target Role Progression</span>
+          </div>
+          <h3 className="text-xl sm:text-2xl font-black">
+            Goal: Data Scientist at Microsoft
+          </h3>
+          <p className="text-xs sm:text-sm text-purple-200/80 max-w-xl">
+            Currently on Stage 3 (Machine Learning & Predictive Modeling). 1,650 / 2,000 XP accrued toward National Competency Certification.
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <button
+            onClick={() => navigate('/trainee/roadmap')}
+            className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2"
+          >
+            <span>View 7-Stage Roadmap</span>
+          </button>
+          <button
+            onClick={() => navigate('/trainee/profile')}
+            className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition flex items-center justify-center gap-2"
+          >
+            <span>Update Profile</span>
+          </button>
+        </div>
+      </div>
 
       {/* Motivational Banner */}
       <MotivationalBanner

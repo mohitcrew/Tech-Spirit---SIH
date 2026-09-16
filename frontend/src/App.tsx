@@ -73,9 +73,13 @@ function NotFound() {
 
 function Protected() {
   const { user, loading } = useAuth();
-  const part = useLocation().pathname.split('/')[1];
+  const location = useLocation();
+  const part = location.pathname.split('/')[1];
   if (loading) return <div />;
   if (!user) return <Navigate to="/login" />;
+  if (user.role === 'TRAINEE' && user.onboardingCompleted === false) {
+    return <Navigate to="/onboarding" replace />;
+  }
   if (part && part !== user.role.toLowerCase()) {
     return <Navigate to={`/${user.role.toLowerCase()}/dashboard`} />;
   }
@@ -185,3 +189,4 @@ export default function App() {
     </AIAssistantProvider>
   );
 }
+

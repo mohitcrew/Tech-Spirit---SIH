@@ -91,7 +91,11 @@ export const LoginForm: React.FC = () => {
 
       const targetRole = (authenticatedUser?.role || ROLE_MAP[role] || 'TRAINEE').toLowerCase();
       window.setTimeout(() => {
-        navigate(`/${targetRole}/dashboard`);
+        if (targetRole === 'trainee' && authenticatedUser?.onboardingCompleted === false) {
+          navigate('/onboarding');
+        } else {
+          navigate(`/${targetRole}/dashboard`);
+        }
       }, 700);
     } catch {
       setIsLoading(false);

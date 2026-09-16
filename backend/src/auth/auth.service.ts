@@ -1,4 +1,4 @@
-﻿import { Role, UserStatus, CourseLevel, CourseStatus, EnrollmentStatus, NotificationType, ResourceType } from '../common/enums';
+import { Role, UserStatus, CourseLevel, CourseStatus, EnrollmentStatus, NotificationType, ResourceType } from '../common/enums';
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common'; 
 import { JwtService } from '@nestjs/jwt'; 
 import { PrismaService } from '../prisma/prisma.service'; 
@@ -26,7 +26,7 @@ export class AuthService {
     return this.p.user.findUnique({where:{id},include:{profile:true},omit:{passwordHash:true}})
   } 
 
-  private token(u:{id:string;email:string;role:string;name:string}){
-    return {accessToken:this.jwt.sign({sub:u.id,email:u.email,role:u.role}),user:{id:u.id,email:u.email,name:u.name,role:u.role}}
+  private token(u:{id:string;email:string;role:string;name:string;onboardingCompleted?:boolean}){
+    return {accessToken:this.jwt.sign({sub:u.id,email:u.email,role:u.role}),user:{id:u.id,email:u.email,name:u.name,role:u.role,onboardingCompleted:u.onboardingCompleted ?? false}}
   } 
 }

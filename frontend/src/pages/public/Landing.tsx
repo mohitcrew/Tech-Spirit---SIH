@@ -19,6 +19,7 @@ import { FinalCta } from '../../components/public/FinalCta';
 import { SkillSyncFooter } from '../../components/public/SkillSyncFooter';
 import { useAIAssistant } from '../../context/AIAssistantContext';
 import { PublicCourse, PublicCompetency, PublicTrainer } from '../../data/skillsyncData';
+import { NormalizedCourse } from '../../types/course';
 
 export function Landing() {
   const navigate = useNavigate();
@@ -51,8 +52,8 @@ export function Landing() {
     navigate(`/login?${params.toString()}`);
   };
 
-  const handleEnrollCourse = (course: PublicCourse) => {
-    navigateToLoginWithIntent(`enroll in "${course.title}" and access the course room`, `/trainee/courses`);
+  const handleEnrollCourse = (course: NormalizedCourse) => {
+    navigateToLoginWithIntent(`enroll in "${course.name}" and access the course room`, `/trainee/courses/${course.id}`);
   };
 
   const handleAnalyzeGap = (competency: PublicCompetency) => {

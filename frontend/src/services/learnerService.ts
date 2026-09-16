@@ -1428,5 +1428,398 @@ export const learnerService = {
       ],
     };
   },
+
+  // 15. Dynamic Roadmap Synthesis from Onboarding Engine
+  generatePersonalizedRoadmapFromOnboarding(onboardingData: Partial<TraineeProfile> & { persona?: string; assessmentScore?: number }): CareerRoadmap {
+    const ROADMAP_KEY = 'skillsync_personalized_career_roadmap';
+    const targetRole = onboardingData.careerGoal?.targetRole || 'Data Scientist';
+    const dreamCompany = onboardingData.careerGoal?.dreamCompany || 'Industry Tech Leader';
+    const timeline = onboardingData.careerGoal?.targetTimelineMonths ? `${onboardingData.careerGoal.targetTimelineMonths} Months` : '6 Months';
+    const weeklyHours = onboardingData.careerGoal?.weeklyLearningHours || 10;
+    const userSkills = (onboardingData.skills || []).map(s => s.name.toLowerCase());
+    const roleLower = targetRole.toLowerCase();
+
+    // Determine domain tracks
+    let stages: CareerRoadmapStage[] = [];
+
+    if (roleLower.includes('data') || roleLower.includes('ai') || roleLower.includes('ml') || roleLower.includes('machine learning')) {
+      stages = [
+        {
+          id: 'stage-1',
+          order: 1,
+          title: 'Stage 1: Core Python & Algorithmic Foundations',
+          subtitle: 'OOP, Vectorization, Complexity & PyTest',
+          objective: `Master fundamental computational patterns required for high-velocity software engineering at ${dreamCompany}.`,
+          skills: ['Python 3.12', 'OOP & Decorators', 'Data Structures', 'Algorithmic Efficiency'],
+          competencies: ['Code Modularity & Design', 'Unit Testing'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 150,
+          completionCriteria: 'Pass diagnostic code lab with >= 80% accuracy',
+          status: 'in_progress',
+          stageCertificateId: 'SS-STG-PY-01',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't1-1', title: 'Python Vectors & Data Structure Ingestion', type: 'course', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 75 },
+            { id: 't1-2', title: 'Core Algorithmic Diagnostic Assessment', type: 'assessment', duration: '45 mins', completed: false, xp: 75 },
+          ],
+        },
+        {
+          id: 'stage-2',
+          order: 2,
+          title: 'Stage 2: High-Performance SQL & Tabular Pipelines',
+          subtitle: 'Window Functions, CTEs, Aggregations & Pandas',
+          objective: 'Process, clean, and manipulate multi-gigabyte datasets with relational query optimizations.',
+          skills: ['PostgreSQL & SQL', 'Window Functions', 'Pandas & NumPy', 'Data Cleansing'],
+          competencies: ['Query Optimization', 'Exploratory Analysis'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 200,
+          completionCriteria: 'Complete database sprint and analytical case studies',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-SQL-02',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't2-1', title: 'Enterprise SQL Optimization for Data Engineers', type: 'course', duration: `${Math.round(weeklyHours * 1.2)} hrs`, completed: false, xp: 100 },
+            { id: 't2-2', title: 'Pandas Vectorized Ingestion Lab', type: 'project', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 100 },
+          ],
+        },
+        {
+          id: 'stage-3',
+          order: 3,
+          title: 'Stage 3: Statistical Modeling & Hypothesis Testing',
+          subtitle: 'A/B Testing, Bayesian Inference & Significance Tests',
+          objective: 'Ground all quantitative findings in statistical rigor and robust experimentation frameworks.',
+          skills: ['Hypothesis Testing', 'A/B Testing', 'Probability Distributions', 'Bayesian Inference'],
+          competencies: ['Experimentation Design', 'Statistical Validation'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 250,
+          completionCriteria: 'Simulate 5 A/B test experiments and calculate confidence intervals',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-STAT-03',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't3-1', title: 'Applied Probability & Statistical Modeling', type: 'course', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 125 },
+            { id: 't3-2', title: 'A/B Significance Diagnostic Sprint', type: 'project', duration: `${Math.round(weeklyHours * 0.7)} hrs`, completed: false, xp: 125 },
+          ],
+        },
+        {
+          id: 'stage-4',
+          order: 4,
+          title: 'Stage 4: Supervised & Unsupervised Machine Learning',
+          subtitle: 'Scikit-Learn, Ensemble Trees, Regularization & Cross-Validation',
+          objective: 'Train, evaluate, and tune production-ready regression and classification models.',
+          skills: ['Scikit-Learn', 'Feature Engineering', 'Cross-Validation', 'Gradient Boosting (XGBoost)'],
+          competencies: ['Predictive Model Architecture', 'Overfitting Prevention'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 300,
+          completionCriteria: 'Build an end-to-end predictive pipeline achieving >= 88% AUC-ROC',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-ML-04',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't4-1', title: 'Advanced Supervised Learning Algorithms', type: 'course', duration: `${Math.round(weeklyHours * 1.5)} hrs`, completed: false, xp: 150 },
+            { id: 't4-2', title: 'Real-world Churn & Risk Modeling Capstone', type: 'project', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 150 },
+          ],
+        },
+        {
+          id: 'stage-5',
+          order: 5,
+          title: 'Stage 5: Production MLOps & Model Serving',
+          subtitle: 'FastAPI Serving, Docker Containers, Drift Monitoring & CI/CD',
+          objective: `Package and deploy models as low-latency microservices tailored for production at ${dreamCompany}.`,
+          skills: ['FastAPI & Uvicorn', 'MLflow Tracking', 'Docker Containerization', 'Model Monitoring'],
+          competencies: ['API Integration & Production Deployment', 'Latency & Drift Monitoring'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 350,
+          completionCriteria: 'Deploy a containerized microservice serving real-time model inferences',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-MLOPS-05',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't5-1', title: 'High-Throughput Model Serving with FastAPI & Docker', type: 'course', duration: `${Math.round(weeklyHours * 1.2)} hrs`, completed: false, xp: 175 },
+            { id: 't5-2', title: 'Containerized Inference Microservice Deployment', type: 'project', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 175 },
+          ],
+        },
+        {
+          id: 'stage-6',
+          order: 6,
+          title: 'Stage 6: Generative AI, RAG & Capstone Defense',
+          subtitle: 'Transformers, Embeddings, Vector DBs & Enterprise Architecture',
+          objective: `Demonstrate mastery of modern retrieval-augmented generation and present your capstone solution for ${targetRole}.`,
+          skills: ['PyTorch', 'HuggingFace Transformers', 'Vector Databases', 'RAG Pipelines'],
+          competencies: ['Generative AI Architecture', 'Executive Technical Communication'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 500,
+          completionCriteria: `Complete proctored final assessment and capstone defense for ${targetRole}`,
+          status: 'locked',
+          stageCertificateId: 'SS-FINAL-CERT-2026',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't6-1', title: 'Applied Generative AI & Vector Search Systems', type: 'course', duration: `${Math.round(weeklyHours * 1.5)} hrs`, completed: false, xp: 250 },
+            { id: 't6-2', title: `Proctored Capstone Defense for ${targetRole}`, type: 'assessment', duration: '90 mins', completed: false, xp: 250 },
+          ],
+        },
+      ];
+    } else if (roleLower.includes('cloud') || roleLower.includes('devops') || roleLower.includes('infrastructure')) {
+      stages = [
+        {
+          id: 'stage-1',
+          order: 1,
+          title: 'Stage 1: Linux Systems & Network Architectures',
+          subtitle: 'Kernel, TCP/IP, Shell Scripting & Zero-Trust Basics',
+          objective: 'Build foundational operating system fluency and automated shell pipeline competence.',
+          skills: ['Linux Administration', 'Bash / Shell', 'TCP/IP & DNS', 'SSH & Key Management'],
+          competencies: ['System Reliability', 'Command Line Automation'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 150,
+          completionCriteria: 'Pass Linux systems benchmarking lab',
+          status: 'in_progress',
+          stageCertificateId: 'SS-STG-SYS-01',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't1-1', title: 'Modern Linux Engineering & Shell Automation', type: 'course', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 75 },
+            { id: 't1-2', title: 'Systems Diagnostic Assessment', type: 'assessment', duration: '45 mins', completed: false, xp: 75 },
+          ],
+        },
+        {
+          id: 'stage-2',
+          order: 2,
+          title: 'Stage 2: Docker Containers & Microservices',
+          subtitle: 'Multi-stage Builds, Networking, Volumes & Registries',
+          objective: 'Package resilient polyglot services into production container images.',
+          skills: ['Docker', 'Multi-stage Builds', 'Container Security', 'Compose'],
+          competencies: ['Container Architecture', 'Microservices Separation'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 200,
+          completionCriteria: 'Build hardened container fleet with vulnerability scanner pass',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-DKR-02',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't2-1', title: 'Enterprise Container Architecture & Vulnerability Mitigation', type: 'course', duration: `${Math.round(weeklyHours * 1.2)} hrs`, completed: false, xp: 100 },
+            { id: 't2-2', title: 'High-Availability Container Sprint', type: 'project', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 100 },
+          ],
+        },
+        {
+          id: 'stage-3',
+          order: 3,
+          title: 'Stage 3: Kubernetes Orchestration & Cluster Management',
+          subtitle: 'Pods, Deployments, Services, Ingress, ConfigMaps & Secrets',
+          objective: 'Deploy and operate production stateful and stateless clusters on Kubernetes.',
+          skills: ['Kubernetes (K8s)', 'Ingress Controllers', 'Helm Charts', 'Service Meshes'],
+          competencies: ['Cluster Operations', 'High Availability Orchestration'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 250,
+          completionCriteria: 'Zero-downtime rolling update deployment under simulated peak load',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-K8S-03',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't3-1', title: 'Kubernetes Workloads & Production Cluster Operations', type: 'course', duration: `${Math.round(weeklyHours * 1.3)} hrs`, completed: false, xp: 125 },
+            { id: 't3-2', title: 'K8s Cluster Resilience Challenge', type: 'project', duration: `${Math.round(weeklyHours * 0.7)} hrs`, completed: false, xp: 125 },
+          ],
+        },
+        {
+          id: 'stage-4',
+          order: 4,
+          title: 'Stage 4: Infrastructure as Code & CI/CD Pipelines',
+          subtitle: 'Terraform, GitHub Actions, Automated Testing & Canary Releases',
+          objective: `Automate end-to-end cloud resource provisioning aligned with ${dreamCompany} standards.`,
+          skills: ['Terraform', 'GitHub Actions', 'CI/CD Automation', 'CloudFormation / Pulumi'],
+          competencies: ['Infrastructure Automation', 'Continuous Delivery'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 300,
+          completionCriteria: 'Deploy multi-region cloud topology via declarative Terraform state',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-IAC-04',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't4-1', title: 'Declarative Cloud Architecture with Terraform', type: 'course', duration: `${Math.round(weeklyHours * 1.2)} hrs`, completed: false, xp: 150 },
+            { id: 't4-2', title: 'Automated CI/CD Pipeline Build & Release', type: 'project', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 150 },
+          ],
+        },
+        {
+          id: 'stage-5',
+          order: 5,
+          title: 'Stage 5: Observability, SRE & Cloud Security',
+          subtitle: 'Prometheus, Grafana, Distributed Tracing, Zero-Trust IAM & SLAs',
+          objective: 'Implement end-to-end telemetry and maintain four golden signals of site reliability.',
+          skills: ['Prometheus & Grafana', 'OpenTelemetry', 'Incident Management', 'Zero-Trust IAM'],
+          competencies: ['Site Reliability Engineering', 'Proactive Incident Prevention'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 350,
+          completionCriteria: 'Configure automated alert triage and SLO monitoring dashboard',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-SRE-05',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't5-1', title: 'Observability & Telemetry Engineering for High-Availability Apps', type: 'course', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 175 },
+            { id: 't5-2', title: 'SRE Chaos Engineering Simulation', type: 'project', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 175 },
+          ],
+        },
+        {
+          id: 'stage-6',
+          order: 6,
+          title: 'Stage 6: Enterprise Cloud Architecture Capstone & Defense',
+          subtitle: 'Multi-Cloud High Availability, Cost Optimization & Executive Sign-off',
+          objective: `Present an enterprise-grade cloud blueprint tailored for ${targetRole} at ${dreamCompany}.`,
+          skills: ['Multi-Cloud Architecture', 'Cost Governance (FinOps)', 'Executive Design Defense'],
+          competencies: ['Strategic Enterprise Architecture', 'Capacity Leadership'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 500,
+          completionCriteria: 'Pass comprehensive proctored evaluation and architecture defense',
+          status: 'locked',
+          stageCertificateId: 'SS-FINAL-CERT-CLOUD-2026',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't6-1', title: 'Enterprise Cloud System Architecture Masterclass', type: 'course', duration: `${Math.round(weeklyHours * 1.5)} hrs`, completed: false, xp: 250 },
+            { id: 't6-2', title: `Proctored Capstone Defense for ${targetRole}`, type: 'assessment', duration: '90 mins', completed: false, xp: 250 },
+          ],
+        },
+      ];
+    } else {
+      // General Software / Full-Stack Track
+      stages = [
+        {
+          id: 'stage-1',
+          order: 1,
+          title: 'Stage 1: Modern TypeScript & Core Foundations',
+          subtitle: 'Strong Typing, Asynchronous Patterns & Modern Tooling',
+          objective: `Solidify production engineering habits and type-safe systems modeling for ${dreamCompany}.`,
+          skills: ['TypeScript', 'ESNext / Modern JS', 'Data Structures', 'Async/Await & Streams'],
+          competencies: ['Type-Driven Development', 'Code Modularity'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 150,
+          completionCriteria: 'Pass TypeScript systems diagnostic benchmark',
+          status: 'in_progress',
+          stageCertificateId: 'SS-STG-TS-01',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't1-1', title: 'Deep Dive: Modern TypeScript & Design Patterns', type: 'course', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 75 },
+            { id: 't1-2', title: 'Core Diagnostic Assessment', type: 'assessment', duration: '45 mins', completed: false, xp: 75 },
+          ],
+        },
+        {
+          id: 'stage-2',
+          order: 2,
+          title: 'Stage 2: Scalable Backend Services & Database Design',
+          subtitle: 'NestJS / Express, Relational Schemas, ORM & Caching',
+          objective: 'Design and implement robust REST & GraphQL APIs with resilient database indexing.',
+          skills: ['NestJS / Node.js', 'PostgreSQL / Prisma', 'Redis Caching', 'API Security'],
+          competencies: ['Service Architecture', 'Database Optimization'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 200,
+          completionCriteria: 'Complete multi-tier backend microservice sprint',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-BE-02',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't2-1', title: 'High-Throughput Backend Architecture with NestJS', type: 'course', duration: `${Math.round(weeklyHours * 1.2)} hrs`, completed: false, xp: 100 },
+            { id: 't2-2', title: 'Database Optimization & Transaction Isolation Lab', type: 'project', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 100 },
+          ],
+        },
+        {
+          id: 'stage-3',
+          order: 3,
+          title: 'Stage 3: Advanced Frontend Engineering & State Architecture',
+          subtitle: 'React 19, Component Trees, Virtual DOM & Client Performance',
+          objective: 'Build fluid, accessible, and high-performance user interfaces with zero memory leaks.',
+          skills: ['React 19', 'State Machines (Zustand/Redux)', 'Tailwind / Glassmorphism', 'Web Vitals'],
+          competencies: ['UI Engineering', 'Frontend Performance Tuning'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 250,
+          completionCriteria: 'Deliver responsive portal achieving 98+ Lighthouse score',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-FE-03',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't3-1', title: 'Enterprise Frontend Architecture & Core Web Vitals', type: 'course', duration: `${Math.round(weeklyHours * 1.2)} hrs`, completed: false, xp: 125 },
+            { id: 't3-2', title: 'Real-time Analytics Dashboard Project', type: 'project', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 125 },
+          ],
+        },
+        {
+          id: 'stage-4',
+          order: 4,
+          title: 'Stage 4: Cloud Containers & CI/CD Pipelines',
+          subtitle: 'Docker, GitHub Actions, Automated Testing & Deployment',
+          objective: 'Automate build, lint, test, and containerized deployment workflows.',
+          skills: ['Docker', 'CI/CD Pipelines', 'Automated Testing (Jest/Playwright)', 'Cloud Deployments'],
+          competencies: ['DevOps Alignment', 'Release Quality Assurance'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 300,
+          completionCriteria: 'Deploy continuous delivery pipeline with 100% automated verification',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-CICD-04',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't4-1', title: 'Continuous Integration & Container Workflows', type: 'course', duration: `${Math.round(weeklyHours)} hrs`, completed: false, xp: 150 },
+            { id: 't4-2', title: 'Production Pipeline Deployment Sprint', type: 'project', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 150 },
+          ],
+        },
+        {
+          id: 'stage-5',
+          order: 5,
+          title: 'Stage 5: Systems Security, Zero-Trust & Microservices',
+          subtitle: 'OAuth2/OIDC, JWT Verification, Rate Limiting & Resilient Patterns',
+          objective: 'Harden microservices against unauthorized access and implement circuit breakers.',
+          skills: ['Zero-Trust IAM', 'OAuth2 / OpenID Connect', 'Circuit Breakers', 'Vulnerability Scans'],
+          competencies: ['Application Security', 'Fault-Tolerant System Design'],
+          estimatedDuration: '4 Weeks',
+          pointsAvailable: 350,
+          completionCriteria: 'Complete security audit and penetration resistance challenge',
+          status: 'locked',
+          stageCertificateId: 'SS-STG-SEC-05',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't5-1', title: 'Zero-Trust Architecture & Secure API Engineering', type: 'course', duration: `${Math.round(weeklyHours * 1.2)} hrs`, completed: false, xp: 175 },
+            { id: 't5-2', title: 'Resilience & Circuit Breaker Simulation Sprint', type: 'project', duration: `${Math.round(weeklyHours * 0.8)} hrs`, completed: false, xp: 175 },
+          ],
+        },
+        {
+          id: 'stage-6',
+          order: 6,
+          title: 'Stage 6: Enterprise Full-Stack Capstone Defense',
+          subtitle: 'Distributed Architecture, Scale Testing & Executive Presentation',
+          objective: `Demonstrate end-to-end competence and defense of your production solution for ${targetRole}.`,
+          skills: ['Full-Lifecycle Architecture', 'Load Testing (k6)', 'Technical Defense Presentation'],
+          competencies: ['Holistic Full-Stack Mastery', 'Strategic Problem Solving'],
+          estimatedDuration: '3 Weeks',
+          pointsAvailable: 500,
+          completionCriteria: `Score >= 85% on the proctored final assessment and capstone defense`,
+          status: 'locked',
+          stageCertificateId: 'SS-FINAL-CERT-FS-2026',
+          stageCertificateIssued: false,
+          tasks: [
+            { id: 't6-1', title: 'Enterprise Full-Stack Distributed Systems Masterclass', type: 'course', duration: `${Math.round(weeklyHours * 1.5)} hrs`, completed: false, xp: 250 },
+            { id: 't6-2', title: `Proctored Capstone Defense for ${targetRole}`, type: 'assessment', duration: '90 mins', completed: false, xp: 250 },
+          ],
+        },
+      ];
+    }
+
+    const newRoadmap: CareerRoadmap = {
+      id: `roadmap-${Date.now()}`,
+      targetRole,
+      dreamCompany,
+      targetTimeline: timeline,
+      generatedDate: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      disclaimer: `Your roadmap is uniquely customized around your diagnostic benchmark, verified competencies, and targeted career milestones for ${targetRole} at ${dreamCompany}.`,
+      totalXP: stages.reduce((acc, s) => acc + s.pointsAvailable, 0),
+      earnedXP: 150, // Onboarding completion bonus
+      stages,
+    };
+
+    localStorage.setItem(ROADMAP_KEY, JSON.stringify(newRoadmap));
+
+    // Update profile with onboarding data
+    this.updateTraineeProfile({
+      ...onboardingData,
+      onboardingCompleted: true,
+    });
+
+    // Award onboarding completion points
+    this.awardPoints('Completed First-Login Onboarding & Baseline Diagnostic', 150, 'onboarding-completed');
+
+    return newRoadmap;
+  },
 };
 

@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Target, TrendingUp, AlertCircle, CheckCircle2, Award,
-  Sparkles, BarChart3, ArrowRight, ShieldAlert, Cpu
+  Sparkles, BarChart3, ArrowRight, ShieldAlert, Cpu, BookOpen, Compass
 } from 'lucide-react';
 import { learnerService, SkillGapItem } from '../../services/learnerService';
+import { courseService } from '../../services/courseService';
+import { useAuth } from '../../context/AuthContext';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { CourseCard } from '../../components/courses/CourseCard';
 
 export default function Skills() {
+  const { user } = useAuth();
+  const role = user?.role?.toLowerCase() || 'trainee';
+  const navigate = useNavigate();
+
   const { data, isLoading } = useQuery({
     queryKey: ['skillProfile'],
     queryFn: () => learnerService.getSkillProfile(),
@@ -15,11 +23,23 @@ export default function Skills() {
 
   const [filterGap, setFilterGap] = useState<'All' | 'Critical' | 'Moderate' | 'Target Met'>('All');
 
+  const { competencies = [], skillGaps = [], overallReadiness = 0, targetRole = 'Target Role' } = data || {};
+
+  // Extract skills from skill gaps for targeted recommendation
+  const gapSkillKeywords = useMemo(() => {
+    return skillGaps.map(g => g.name);
+  }, [skillGaps]);
+
+  // Load real courses matching identified skill gaps
+  const { data: recommendedCourses = [], isLoading: isRecsLoading } = useQuery({
+    queryKey: ['skills-page-recommendations', gapSkillKeywords],
+    queryFn: () => courseService.getRecommendedCourses(gapSkillKeywords, { limit: 4 }),
+    enabled: gapSkillKeywords.length > 0,
+  });
+
   if (isLoading || !data) {
     return <div className="state-box loading-pulse"><p>Analyzing competency diagnostics...</p></div>;
   }
-
-  const { competencies, skillGaps, overallReadiness, targetRole } = data;
 
   const radarData = competencies.map(c => ({
     subject: c.name,
@@ -30,7 +50,7 @@ export default function Skills() {
   const filteredGaps = skillGaps.filter(g => filterGap === 'All' || g.status === filterGap);
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6 animate-fadeIn pb-12">
       {/* Header Banner */}
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-700 to-cyan-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -181,7 +201,7 @@ export default function Skills() {
                   </h3>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Category: {gap.category} · Recommended Curriculum: <strong className="text-slate-700 dark:text-slate-300">{gap.recommendedCourse}</strong>
+                  Category: {gap.category} · Priority Gap: <strong className="text-slate-700 dark:text-slate-300">{gap.name}</strong>
                 </p>
               </div>
 
@@ -196,17 +216,63 @@ export default function Skills() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => alert(`Opening enrollment for "${gap.recommendedCourse}" to resolve ${gap.name} gap.`)}
+                <Link
+                  to={`/${role}/courses?search=${encodeURIComponent(gap.name)}`}
                   className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition-all"
                 >
-                  <span>Close Gap</span>
+                  <span>Find Courses</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                </Link>
               </div>
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Recommended Courses Section (Mapped to Excel Catalogue) */}
+      <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/40 mb-1">
+              <Sparkles className="w-3 h-3 text-emerald-600" />
+              <span>Skill-Based Course Recommendation</span>
+            </div>
+            <h2 className="font-black text-lg text-slate-900 dark:text-white">
+              Curriculum Recommended to Close Your Skill Gaps
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Identified directly from our 2,025 master Excel courses by transparently matching your deficit skills.
+            </p>
+          </div>
+
+          <Link
+            to={`/${role}/courses`}
+            className="text-xs font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 flex items-center gap-1 self-start sm:self-auto"
+          >
+            <span>Explore All Courses</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {isRecsLoading && (
+          <div className="p-8 text-center animate-pulse">
+            <p className="text-xs text-slate-400">Matching courses against your deficit skills...</p>
+          </div>
+        )}
+
+        {!isRecsLoading && recommendedCourses.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {recommendedCourses.map(rec => (
+              <CourseCard
+                key={rec.course.id}
+                course={rec.course}
+                rolePrefix={`/${role}`}
+                matchPercentage={rec.matchPercentage}
+                recommendationReason={rec.recommendationReason}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

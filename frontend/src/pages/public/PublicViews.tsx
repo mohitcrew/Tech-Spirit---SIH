@@ -60,7 +60,7 @@ export function CoursesView() {
       <CourseExplorer
         showAllInitially={true}
         onEnrollCourse={(c) => {
-          navigate(`/login?intent=${encodeURIComponent(`enroll in "${c.title}"`)}&redirect=/trainee/courses`);
+          navigate(`/login?intent=${encodeURIComponent(`enroll in "${c.title}"`)}&redirect=/trainee/courses/${c.id}`);
         }}
       />
     </PageShell>

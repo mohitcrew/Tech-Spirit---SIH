@@ -21,6 +21,7 @@ export interface User {
   email: string;
   role: UserRole;
   status: string;
+  onboardingCompleted?: boolean;
   profile?: UserProfile;
 }
 
@@ -31,6 +32,8 @@ interface AuthContextType {
   logout: () => void;
   setUser: (u: User) => void;
   switchRole: (role: UserRole) => void;
+  completeOnboarding: () => Promise<void>;
+  resetOnboarding: () => Promise<void>;
 }
 
 const defaultDemoUser: User = {
@@ -39,6 +42,7 @@ const defaultDemoUser: User = {
   email: 'priya.sharma@capacityconnect.edu',
   role: 'TRAINEE',
   status: 'ACTIVE',
+  onboardingCompleted: true,
   profile: {
     designation: 'Digital Innovation Fellow',
     department: 'Capacity Building & Digital Learning',
@@ -131,8 +135,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(updatedUser);
   };
 
+  const completeOnboarding = async () => {
+    if (!user) return;
+    try {
+      const token = localStorage.getItem('cc_token');
+      if (token && !token.startsWith('demo_token_')) {
+        await api.patch('/users/me', { onboardingCompleted: true });
+      }
+    } catch (err) {
+      console.warn('Could not sync onboarding status with backend:', err);
+    }
+    const updated: User = { ...user, onboardingCompleted: true };
+    localStorage.setItem('cc_user', JSON.stringify(updated));
+    setUser(updated);
+  };
+
+  const resetOnboarding = async () => {
+    if (!user) return;
+    try {
+      const token = localStorage.getItem('cc_token');
+      if (token && !token.startsWith('demo_token_')) {
+        await api.patch('/users/me', { onboardingCompleted: false });
+      }
+    } catch (err) {
+      console.warn('Could not reset onboarding status on backend:', err);
+    }
+    const updated: User = { ...user, onboardingCompleted: false };
+    localStorage.setItem('cc_user', JSON.stringify(updated));
+    setUser(updated);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, setUser, switchRole }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setUser, switchRole, completeOnboarding, resetOnboarding }}>
       {children}
     </AuthContext.Provider>
   );

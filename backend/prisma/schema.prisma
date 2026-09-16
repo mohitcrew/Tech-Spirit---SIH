@@ -15,6 +15,7 @@ model User {
   name            String
   role            String         @default("TRAINEE")
   status          String         @default("PENDING")
+  onboardingCompleted Boolean    @default(false)
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   profile         Profile?

@@ -6,8 +6,14 @@ import {
 } from 'lucide-react';
 import { learnerService } from '../../services/learnerService';
 import { CommunityPost } from '../../data/capacityConnectData';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Community() {
+  const { user } = useAuth();
+  const authorName = user?.name || 'SkillSync Learner';
+  const authorRole = user?.role === 'TRAINER' ? 'Course Educator' : 'Digital Innovation Fellow';
+  const authorAvatar = user?.profile?.photoUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(authorName)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
+
   const { data: posts = [], isLoading, refetch } = useQuery({
     queryKey: ['communityPosts'],
     queryFn: () => learnerService.getCommunityPosts(),
@@ -21,9 +27,9 @@ export default function Community() {
     e.preventDefault();
     if (!newPostContent.trim()) return;
     learnerService.saveCommunityPost({
-      author: 'Priya Sharma',
-      role: 'Digital Innovation Fellow',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+      author: authorName,
+      role: authorRole,
+      avatar: authorAvatar,
       content: newPostContent.trim(),
       tags: [newPostTag, '#SkillSyncLearner'],
     });

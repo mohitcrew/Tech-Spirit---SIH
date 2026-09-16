@@ -11,6 +11,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { learnerService, TraineeProfile } from '../../services/learnerService';
 import { courseService } from '../../services/courseService';
+import { api } from '../../services/api';
 import { RecommendedCourseMatch } from '../../types/course';
 
 const DRAFT_STORAGE_KEY = 'skillsync_onboarding_draft';
@@ -139,9 +140,13 @@ export default function OnboardingFlow() {
     queryFn: () => learnerService.getTraineeProfile(),
   });
 
+  const draftKey = user?.email
+    ? `skillsync_onboarding_draft_${user.email.toLowerCase().trim()}`
+    : DRAFT_STORAGE_KEY;
+
   // Main step state: 1 through 8
   const [step, setStep] = useState<number>(() => {
-    const savedDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
+    const savedDraft = localStorage.getItem(draftKey);
     if (savedDraft) {
       try {
         const parsed = JSON.parse(savedDraft);
@@ -156,15 +161,22 @@ export default function OnboardingFlow() {
 
   // Core Onboarding Data state
   const [onboardingData, setOnboardingData] = useState<Partial<TraineeProfile>>(() => {
-    const savedDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
+    const savedDraft = localStorage.getItem(draftKey);
     if (savedDraft) {
       try {
         const parsed = JSON.parse(savedDraft);
-        if (parsed.data) return parsed.data;
+        if (parsed.data) {
+          return {
+            ...parsed.data,
+            name: user?.name || parsed.data.name || 'A Mohit',
+            email: user?.email || parsed.data.email || 'mohit199189@gmail.com',
+          };
+        }
       } catch {}
     }
     return {
-      name: user?.name || 'Priya Sharma',
+      name: user?.name || 'A Mohit',
+      email: user?.email || 'mohit199189@gmail.com',
       location: 'Bengaluru, Karnataka',
       education: {
         id: 'edu-1',
@@ -230,7 +242,7 @@ export default function OnboardingFlow() {
   // Persist draft on changes
   useEffect(() => {
     localStorage.setItem(
-      DRAFT_STORAGE_KEY,
+      draftKey,
       JSON.stringify({
         step,
         persona,
@@ -240,7 +252,7 @@ export default function OnboardingFlow() {
         assessmentScore,
       })
     );
-  }, [step, persona, onboardingData, assessmentAnswers, assessmentSubmitted, assessmentScore]);
+  }, [draftKey, step, persona, onboardingData, assessmentAnswers, assessmentSubmitted, assessmentScore]);
 
   // Fetch live recommended courses when reaching step 7 or 8 based on user's target role & skills
   useEffect(() => {
@@ -263,6 +275,8 @@ export default function OnboardingFlow() {
       // 1. Synthesize Roadmap via learnerService
       const roadmap = learnerService.generatePersonalizedRoadmapFromOnboarding({
         ...onboardingData,
+        name: user?.name || onboardingData.name,
+        email: user?.email || onboardingData.email,
         persona,
         assessmentScore,
       });
@@ -270,7 +284,16 @@ export default function OnboardingFlow() {
       // 2. Call AuthContext completeOnboarding to update local & remote user status
       await authCompleteOnboarding();
 
-      // 3. Clear draft
+      // 3. Fire welcome email (non-blocking — errors are swallowed)
+      const token = localStorage.getItem('cc_token');
+      if (token && !token.startsWith('demo_token_')) {
+        api.post('/users/me/send-welcome-email', {}).catch((err: any) => {
+          console.warn('Welcome email dispatch failed (non-critical):', err?.message);
+        });
+      }
+
+      // 4. Clear draft
+      localStorage.removeItem(draftKey);
       localStorage.removeItem(DRAFT_STORAGE_KEY);
 
       return roadmap;
@@ -279,6 +302,9 @@ export default function OnboardingFlow() {
       queryClient.invalidateQueries({ queryKey: ['traineeProfile'] });
       queryClient.invalidateQueries({ queryKey: ['careerRoadmap'] });
       navigate('/trainee/dashboard');
+    },
+    onError: (err: any) => {
+      console.error('Onboarding completion failed:', err);
     },
   });
 

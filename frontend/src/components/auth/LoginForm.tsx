@@ -97,13 +97,14 @@ export const LoginForm: React.FC = () => {
           navigate(`/${targetRole}/dashboard`);
         }
       }, 700);
-    } catch {
+    } catch (err: any) {
       setIsLoading(false);
-      setIsSuccess(true);
-      const targetRole = ROLE_MAP[role].toLowerCase();
-      window.setTimeout(() => {
-        navigate(`/${targetRole}/dashboard`);
-      }, 700);
+      setIsSuccess(false);
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        'Invalid email/ID or password. Please verify your credentials.';
+      setNotice(typeof msg === 'string' ? msg : 'Invalid credentials. Please try again.');
     }
   };
 

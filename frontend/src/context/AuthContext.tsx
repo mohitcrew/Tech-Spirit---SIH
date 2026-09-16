@@ -62,16 +62,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return JSON.parse(saved);
       } catch {}
     }
-    return defaultDemoUser;
+    return null;
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('cc_token');
     if (!token) {
-      localStorage.setItem('cc_token', 'demo_token_' + Date.now());
-      localStorage.setItem('cc_user', JSON.stringify(defaultDemoUser));
-      setUser(defaultDemoUser);
+      setUser(null);
       return;
     }
     if (token.startsWith('demo_token_')) {
@@ -83,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('cc_user', JSON.stringify(u));
       })
       .catch(() => {
-        // keep local demo user if token is present or backend is unreachable
+        // Token invalid or unreachable
       });
   }, []);
 
@@ -94,22 +92,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('cc_user', JSON.stringify(d.user));
       setUser(d.user);
       return d.user;
-    } catch {
-      const demoRole: UserRole = email.includes('admin')
-        ? 'ADMIN'
-        : email.includes('trainer')
-        ? 'TRAINER'
-        : 'TRAINEE';
-      const fallbackUser: User = {
-        ...defaultDemoUser,
-        name: demoRole === 'ADMIN' ? 'Dr. Rajesh Verma' : demoRole === 'TRAINER' ? 'Prof. Vikram Rao' : 'Priya Sharma',
-        role: demoRole,
-        email,
-      };
-      localStorage.setItem('cc_token', 'demo_token_' + Date.now());
-      localStorage.setItem('cc_user', JSON.stringify(fallbackUser));
-      setUser(fallbackUser);
-      return fallbackUser;
+    } catch (err: any) {
+      console.error('Login error:', err);
+      throw err;
     }
   };
 

@@ -111,6 +111,50 @@ export const AIAssistantProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
       setMessages(prev => [...prev, aiMsg]);
     } catch {
+      // If client Gemini API key is configured, query Gemini directly as fallback
+      const clientGeminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      if (clientGeminiKey) {
+        try {
+          const geminiRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${clientGeminiKey}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                systemInstruction: {
+                  parts: [{ text: 'You are SkillSync AI, the intelligent capacity building and EdTech assistant for SkillSync. Answer questions clearly about courses, skills, career roadmaps, and competencies.' }],
+                },
+                contents: [
+                  ...messages.map(m => ({
+                    role: m.sender === 'user' ? 'user' : 'model',
+                    parts: [{ text: m.text }],
+                  })),
+                  { role: 'user', parts: [{ text: query }] },
+                ],
+              }),
+            }
+          );
+          if (geminiRes.ok) {
+            const gData = await geminiRes.json();
+            const reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (reply) {
+              setMessages(prev => [
+                ...prev,
+                {
+                  id: `ai-${Date.now()}`,
+                  sender: 'assistant',
+                  text: reply,
+                  time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                },
+              ]);
+              return;
+            }
+          }
+        } catch {
+          // fallback to local intelligent responses
+        }
+      }
+
       // Fallback local intelligent responses
       const lower = query.toLowerCase();
       let reply = "I can guide you through our courses, skills, competencies, and personal roadmaps.";

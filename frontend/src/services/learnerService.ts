@@ -915,35 +915,66 @@ export const learnerService = {
   },
 
   // 11. Profile System & Completion Calculator
+  getProfileStorageKey(userEmail?: string): string {
+    if (userEmail) return `skillsync_trainee_full_profile_${userEmail.toLowerCase().trim()}`;
+    const userStr = localStorage.getItem('cc_user');
+    if (userStr) {
+      try {
+        const u = JSON.parse(userStr);
+        if (u.email) return `skillsync_trainee_full_profile_${u.email.toLowerCase().trim()}`;
+      } catch {}
+    }
+    return 'skillsync_trainee_full_profile';
+  },
+
   getTraineeProfile(): TraineeProfile {
-    const PROFILE_KEY = 'skillsync_trainee_full_profile';
+    const userStr = localStorage.getItem('cc_user');
+    let currentUser: any = null;
+    if (userStr) {
+      try {
+        currentUser = JSON.parse(userStr);
+      } catch {}
+    }
+
+    const PROFILE_KEY = this.getProfileStorageKey(currentUser?.email);
     const saved = localStorage.getItem(PROFILE_KEY);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Ensure name and email match logged-in user if available
+        if (currentUser?.name && (parsed.name !== currentUser.name || parsed.email !== currentUser.email)) {
+          parsed.name = currentUser.name;
+          parsed.email = currentUser.email;
+          parsed.photoUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(currentUser.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
+        }
+        return parsed;
       } catch (e) {}
     }
 
+    const displayName = currentUser?.name || 'SkillSync Learner';
+    const displayEmail = currentUser?.email || 'learner@skillsync.demo';
+    const displayId = currentUser?.id || 'learner-001';
+
     const defaultProfile: TraineeProfile = {
-      id: 'learner-001',
-      name: 'Priya Sharma',
-      email: 'priya.sharma@skillsync.demo',
+      id: displayId,
+      name: displayName,
+      email: displayEmail,
       phone: '+91 98765 43210',
       location: 'Bengaluru, India',
-      photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+      photoUrl: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(displayName)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`,
       education: {
         id: 'edu-1',
-        highestQualification: 'Master of Technology (M.Tech)',
-        degree: 'Computer Science & Distributed Systems',
-        institution: 'Indian Institute of Science (IISc)',
-        graduationYear: 2024,
-        certifications: ['AWS Solutions Architect Associate', 'CKA Kubernetes Administrator'],
+        highestQualification: 'Undergraduate Degree',
+        degree: 'Computer Science & Engineering',
+        institution: 'National Institute of Technology',
+        graduationYear: 2025,
+        certifications: ['AWS Solutions Architect Associate'],
       },
       professional: {
-        currentRole: 'Digital Innovation Fellow',
+        currentRole: currentUser?.role === 'TRAINER' ? 'Faculty Lead' : 'Student Trainee',
         experienceLevel: 'Intermediate',
-        workExperienceYears: 3,
-        currentOrganization: 'National Informatics Centre / SIH Lab',
+        workExperienceYears: 2,
+        currentOrganization: 'SkillSync National Learning Network',
         sector: 'Information Technology & Digital Services',
         domain: 'Cloud Systems & Data Intelligence',
       },
@@ -960,26 +991,25 @@ export const learnerService = {
         'Artificial Intelligence & Predictive Analytics',
         'Distributed Cloud Architectures',
         'Large Language Model Fine-Tuning',
-        'Earth System & Meteorological Informatics',
       ],
       careerGoal: {
-        targetRole: 'Data Scientist',
+        targetRole: 'Full-Stack & Cloud Engineer',
         dreamCompany: 'Microsoft',
         targetSector: 'Artificial Intelligence & Cloud Computing',
-        targetDomain: 'Predictive Analytics & Decision Intelligence',
+        targetDomain: 'Cloud Platforms & Intelligent Services',
         targetTimelineMonths: 12,
-        careerGoalStatement: 'Transition from general software engineering to a specialized enterprise Data Scientist delivering predictive machine learning models at scale.',
-        shortTermGoal: 'Master supervised learning algorithms, predictive feature engineering, and statistical modeling in 6 months.',
-        longTermGoal: 'Deploy production RAG architectures and deep learning pipelines serving national public infrastructure.',
-        weeklyLearningHours: 8,
-        preferredPace: 'Cohort-Based',
+        careerGoalStatement: `Advance expertise and achieve benchmark competencies in modern cloud architectures.`,
+        shortTermGoal: 'Complete core competencies and foundational certifications.',
+        longTermGoal: 'Lead distributed cloud initiatives and enterprise architecture.',
+        weeklyLearningHours: 10,
+        preferredPace: 'Self-Paced',
         preferredTrainingMode: 'Hybrid',
       },
       learningPreferences: {
         level: 'Intermediate',
-        format: 'Hands-on practical code repositories with weekly review workshops',
-        weeklyHours: 8,
-        trainingMode: 'Hybrid with mentor sessions',
+        format: 'Hands-on Projects & Labs',
+        weeklyHours: 10,
+        trainingMode: 'Hybrid with Mentor Sprints',
       },
       externalProfiles: {
         github: 'https://github.com/priyasharma-dev',
@@ -994,7 +1024,14 @@ export const learnerService = {
   },
 
   updateTraineeProfile(updated: Partial<TraineeProfile>): TraineeProfile {
-    const PROFILE_KEY = 'skillsync_trainee_full_profile';
+    const userStr = localStorage.getItem('cc_user');
+    let currentUser: any = null;
+    if (userStr) {
+      try {
+        currentUser = JSON.parse(userStr);
+      } catch {}
+    }
+    const PROFILE_KEY = this.getProfileStorageKey(currentUser?.email || updated.email);
     const current = this.getTraineeProfile();
     const merged: TraineeProfile = {
       ...current,

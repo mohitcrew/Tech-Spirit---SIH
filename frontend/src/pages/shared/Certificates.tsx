@@ -6,8 +6,11 @@ import {
   Trophy, AlertCircle, CheckCircle2
 } from 'lucide-react';
 import { learnerService, CertificateItem } from '../../services/learnerService';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Certificates() {
+  const { user } = useAuth();
+  const studentName = user?.name || 'SkillSync Learner';
   const { data: certificates = [], isLoading } = useQuery({
     queryKey: ['certificates'],
     queryFn: () => learnerService.getCertificates(),
@@ -33,7 +36,7 @@ export default function Certificates() {
     if (found) {
       setVerificationResult({
         verified: true,
-        message: `Verified Authentic Certificate: Issued to Priya Sharma for "${found.courseTitle}" with score ${found.score}%.`,
+        message: `Verified Authentic Certificate: Issued to ${studentName} for "${found.courseTitle}" with score ${found.score}%.`,
       });
     } else {
       setVerificationResult({
@@ -269,7 +272,7 @@ export default function Certificates() {
 
             <div className="text-center space-y-3 py-4">
               <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">This is proudly presented to</p>
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-wide">Priya Sharma</h2>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-wide">{studentName}</h2>
               <p className="text-xs text-slate-600 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
                 For outstanding demonstration of mastery, completing all curriculum milestones with a score of <strong>{selectedCert.score}% ({selectedCert.grade})</strong> in:
               </p>

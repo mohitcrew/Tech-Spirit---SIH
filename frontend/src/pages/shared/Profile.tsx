@@ -16,7 +16,7 @@ export default function Profile() {
 
   // Trainee profile data from learnerService
   const { data: profile, isLoading } = useQuery({
-    queryKey: ['traineeProfile'],
+    queryKey: ['traineeProfile', user?.email],
     queryFn: () => learnerService.getTraineeProfile(),
   });
 
@@ -24,17 +24,18 @@ export default function Profile() {
 
   // Initialize form state when profile loads
   React.useEffect(() => {
-    if (profile && !formData) {
+    if (profile) {
       setFormData(profile);
     }
-  }, [profile]);
+  }, [profile, user?.email]);
 
   const updateMutation = useMutation({
     mutationFn: (updated: TraineeProfile) => {
-      learnerService.updateTraineeProfile(updated);
-      return Promise.resolve(updated);
+      const res = learnerService.updateTraineeProfile(updated);
+      return Promise.resolve(res);
     },
     onSuccess: (updated) => {
+      queryClient.setQueryData(['traineeProfile', user?.email], updated);
       queryClient.setQueryData(['traineeProfile'], updated);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);

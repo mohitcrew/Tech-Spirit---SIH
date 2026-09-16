@@ -164,7 +164,7 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
 
   const roleMeta: Record<UserRole, { name: string; subtitle: string }> = {
     TRAINEE: {
-      name: user?.name || 'Priya Sharma',
+      name: user?.name || 'SkillSync Learner',
       subtitle: `Level ${currentUserProfile.level} Explorer`,
     },
     TRAINER: {
@@ -268,7 +268,7 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
             className="p-3 rounded-2xl bg-white border border-slate-200/70 shadow-xs mb-2 flex items-center gap-3 db-profile-card-anim cursor-pointer"
           >
             <img
-              src={currentUserProfile.avatarUrl}
+              src={user?.profile?.photoUrl || (user?.name ? `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff` : currentUserProfile.avatarUrl)}
               alt={currentMeta.name}
               className="w-9 h-9 rounded-xl object-cover border border-slate-200 db-profile-avatar-anim"
             />

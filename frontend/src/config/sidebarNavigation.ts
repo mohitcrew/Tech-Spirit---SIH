@@ -20,6 +20,7 @@ import {
   Briefcase,
   Layers,
   Settings,
+  Mail,
 } from 'lucide-react';
 import { UserRole } from '../context/AuthContext';
 
@@ -86,6 +87,7 @@ export const ROLE_NAVIGATION_CONFIG: Record<UserRole, RoleNavigationConfig> = {
     items: [
       { id: 'dashboard', label: 'Admin Dashboard', pathSuffix: '/dashboard', icon: LayoutDashboard, iconClass: 'db-icon-dash' },
       { id: 'users', label: 'User Management', pathSuffix: '/users', icon: ShieldCheck, iconClass: 'db-icon-users-admin' },
+      { id: 'email-center', label: 'Email Command Center', pathSuffix: '/email-center', icon: Mail, iconClass: 'db-icon-mail', badge: 'Live', badgeVariant: 'primary' },
       { id: 'courses', label: 'Course Catalog', pathSuffix: '/courses', icon: Layers, iconClass: 'db-icon-courses-admin' },
       { id: 'trainees', label: 'Learners Directory', pathSuffix: '/trainees', icon: GraduationCap, iconClass: 'db-icon-trainees-admin' },
       { id: 'skills', label: 'Skills & Competencies', pathSuffix: '/skills', icon: Target, iconClass: 'db-icon-skills' },

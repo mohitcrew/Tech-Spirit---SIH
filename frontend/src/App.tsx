@@ -49,9 +49,11 @@ const Trainees = lazy(() => import('./pages/trainer/Trainees'));
 
 // ── Admin-specific ────────────────────────────────────────────────────────
 const AdminUsers = lazy(() => import('./pages/admin/Users').then(m => ({ default: m.AdminUsers })));
+const EmailCenter = lazy(() => import('./pages/admin/EmailCenter').then(m => ({ default: m.EmailCenter })));
 const AdminAnalytics = lazy(() => import('./pages/admin/Analytics').then(m => ({ default: m.AdminAnalytics })));
 const AuditLogs = lazy(() => import('./pages/admin/AuditLogs').then(m => ({ default: m.AuditLogs })));
 const Announcements = lazy(() => import('./pages/admin/Announcements').then(m => ({ default: m.Announcements })));
+const TrainerOnboarding = lazy(() => import('./pages/auth/TrainerOnboarding').then(m => ({ default: m.TrainerOnboarding })));
 
 // ── Fallback ──────────────────────────────────────────────────────────────
 function SuspenseWrap({ children }: { children: React.ReactNode }) {
@@ -114,6 +116,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/onboarding" element={<SuspenseWrap><OnboardingFlow /></SuspenseWrap>} />
+        <Route path="/trainer/onboarding" element={<SuspenseWrap><TrainerOnboarding /></SuspenseWrap>} />
 
         {/* ── Personalized Shortcuts ─────────────────────────────────── */}
         <Route path="/dashboard" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
@@ -126,6 +129,13 @@ export default function App() {
         <Route path="/recommendations" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
         <Route path="/assessments" element={<Navigate to={`${rolePrefix}/assessments`} replace />} />
         <Route path="/certificates" element={<Navigate to={`${rolePrefix}/certificates`} replace />} />
+        <Route path="/admin/email-center" element={<Navigate to={`${rolePrefix}/email-center`} replace />} />
+        <Route path="/admin/email" element={<Navigate to={`${rolePrefix}/email-center`} replace />} />
+        <Route path="/admin/email/templates" element={<Navigate to={`${rolePrefix}/email-center?tab=catalog`} replace />} />
+        <Route path="/admin/email/compose" element={<Navigate to={`${rolePrefix}/email-center?tab=composer`} replace />} />
+        <Route path="/admin/email/history" element={<Navigate to={`${rolePrefix}/email-center?tab=history`} replace />} />
+        <Route path="/admin/email/settings" element={<Navigate to={`${rolePrefix}/email-center?tab=settings`} replace />} />
+        <Route path="/admin/users" element={<Navigate to={`${rolePrefix}/users`} replace />} />
 
         {/* ── Protected Portal Routes ───────────────────────────────── */}
         <Route element={<Protected />}>
@@ -172,6 +182,7 @@ export default function App() {
 
           {/* Admin-specific */}
           <Route path=":role/users" element={<SuspenseWrap><AdminUsers /></SuspenseWrap>} />
+          <Route path=":role/email-center" element={<SuspenseWrap><EmailCenter /></SuspenseWrap>} />
           <Route path=":role/analytics" element={<SuspenseWrap><AdminAnalytics /></SuspenseWrap>} />
           <Route path=":role/audit-logs" element={<SuspenseWrap><AuditLogs /></SuspenseWrap>} />
           <Route path=":role/announcements" element={<SuspenseWrap><Announcements /></SuspenseWrap>} />

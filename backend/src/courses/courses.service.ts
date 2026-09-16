@@ -1,11 +1,15 @@
-﻿import { Role, UserStatus, CourseLevel, CourseStatus, EnrollmentStatus, NotificationType, ResourceType } from '../common/enums';
+import { Role, UserStatus, CourseLevel, CourseStatus, EnrollmentStatus, NotificationType, ResourceType } from '../common/enums';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';   
 import { PrismaService } from '../prisma/prisma.service'; 
 import { AddModuleDto,CreateCourseDto } from './dto/course.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable() 
 export class CoursesService {
-  constructor(private p:PrismaService){} 
+  constructor(
+    private p: PrismaService,
+    private emailService: EmailService,
+  ) {} 
 
   list(q:any){
     return this.p.course.findMany({where:{status:CourseStatus.PUBLISHED,...(q.category?{category:q.category}:{}),...(q.level?{level:q.level}:{}),...(q.department?{department:q.department}:{})},include:{trainer:{select:{id:true,name:true}},_count:{select:{modules:true,enrollments:true}}},orderBy:{createdAt:'desc'}})
@@ -38,9 +42,21 @@ export class CoursesService {
   } 
 
   async enroll(userId:string,courseId:string){
-    await this.one(courseId);
+    const course = await this.one(courseId);
     const e=await this.p.enrollment.upsert({where:{userId_courseId:{userId,courseId}},update:{},create:{userId,courseId}});
     await this.p.notification.create({data:{userId,type:'COURSE_ENROLLMENT',title:'Enrollment confirmed',message:'You are enrolled and can begin learning.'}});
+    
+    // Asynchronously dispatch course assignment email
+    this.p.user.findUnique({ where: { id: userId }, select: { id: true, email: true, name: true, role: true } })
+      .then(u => {
+        if (u) {
+          this.emailService.sendCourseAssigned(u, { id: course.id, title: course.title }).catch(err => {
+            console.warn('Course assigned email failed:', err.message);
+          });
+        }
+      })
+      .catch(() => {});
+
     return e
   } 
 

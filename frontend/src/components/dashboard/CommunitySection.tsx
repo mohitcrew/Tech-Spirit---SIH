@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Heart, MessageSquare, Share2, Sparkles, Send } from 'lucide-react';
 import { communityDiscussions, CommunityPost } from '../../data/capacityConnectData';
+import { useAuth } from '../../context/AuthContext';
 
 export const CommunitySection: React.FC = () => {
+  const { user } = useAuth();
+  const authorName = user?.name || 'SkillSync Learner';
+  const authorAvatar = user?.profile?.photoUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(authorName)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
+
   const [posts, setPosts] = useState<CommunityPost[]>(communityDiscussions);
   const [activeReplyId, setActiveReplyId] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
@@ -35,7 +40,7 @@ export const CommunitySection: React.FC = () => {
             commentsCount: p.commentsCount + 1,
             comments: [
               ...p.comments,
-              { author: 'Priya Sharma (You)', text: replyText.trim(), time: 'Just now' },
+              { author: `${authorName} (You)`, text: replyText.trim(), time: 'Just now' },
             ],
           };
         }
@@ -51,9 +56,9 @@ export const CommunitySection: React.FC = () => {
     if (!newPostText.trim()) return;
     const newP: CommunityPost = {
       id: `p-${Date.now()}`,
-      author: 'Priya Sharma (You)',
-      role: 'Digital Innovation Fellow',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+      author: `${authorName} (You)`,
+      role: user?.role === 'TRAINER' ? 'Course Educator' : 'Digital Innovation Fellow',
+      avatar: authorAvatar,
       timeAgo: 'Just now',
       content: newPostText.trim(),
       tags: ['#Discussion', '#CapacityConnect'],

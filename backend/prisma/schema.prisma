@@ -9,38 +9,48 @@ datasource db {
 }
 
 model User {
-  id              String         @id @default(uuid())
-  email           String         @unique
-  passwordHash    String
-  name            String
-  role            String         @default("TRAINEE")
-  status          String         @default("PENDING")
-  onboardingCompleted Boolean    @default(false)
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  profile         Profile?
-  createdCourses  Course[]       @relation("CourseCreator")
-  enrollments     Enrollment[]
-  attempts        AssessmentAttempt[]
-  certificates    Certificate[]
-  notifications   Notification[]
-  auditLogs       AuditLog[]
+  id                  String              @id @default(uuid())
+  email               String              @unique
+  passwordHash        String
+  name                String
+  role                String              @default("TRAINEE")
+  status              String              @default("PENDING")
+  onboardingCompleted Boolean             @default(false)
+  onboardingStatus    String              @default("PENDING")
+  firstLoginRequired  Boolean             @default(true)
+  lastLoginAt         DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  profile             Profile?
+  createdCourses      Course[]            @relation("CourseCreator")
+  enrollments         Enrollment[]
+  attempts            AssessmentAttempt[]
+  certificates        Certificate[]
+  notifications       Notification[]
+  auditLogs           AuditLog[]
+  emailLogs           EmailLog[]
   @@index([role, status])
 }
 
 model Profile {
-  id            String  @id @default(uuid())
-  userId        String  @unique
-  phone         String?
-  employeeId    String? @unique
-  department    String?
-  designation   String?
-  qualification String?
-  experience    Int?
-  skills        String
-  interests     String
-  photoUrl      String?
-  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(uuid())
+  userId            String  @unique
+  phone             String?
+  employeeId        String? @unique
+  department        String?
+  designation       String?
+  qualification     String?
+  experience        Int?
+  skills            String  @default("")
+  interests         String  @default("")
+  sector            String? @default("IT")
+  domain            String?
+  targetRole        String?
+  learningGoal      String?
+  preferredLearning String?
+  bio               String?
+  photoUrl          String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Course {
@@ -211,3 +221,46 @@ model AuditLog {
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   @@index([entity, entityId])
 }
+
+model EmailLog {
+  id                String    @id @default(uuid())
+  recipientUserId   String?
+  recipientEmail    String
+  recipientRole     String?
+  templateKey       String
+  category          String    @default("General")
+  subject           String
+  status            String    @default("PENDING") // PENDING | QUEUED | SENT | FAILED | RETRYING
+  triggerType       String    @default("AUTOMATIC") // AUTOMATIC | ADMIN_MANUAL
+  variables         String?   // JSON stringified resolved template variables
+  provider          String    @default("EmailJS")
+  providerMessageId String?
+  errorMessage      String?
+  retryCount        Int       @default(0)
+  eventId           String?   // Idempotency key
+  createdAt         DateTime  @default(now())
+  sentAt            DateTime?
+  user              User?     @relation(fields: [recipientUserId], references: [id], onDelete: SetNull)
+  @@index([recipientUserId])
+  @@index([templateKey])
+  @@index([status])
+  @@index([eventId])
+}
+
+model EmailTemplateConfig {
+  id                String   @id @default(uuid())
+  templateKey       String   @unique
+  name              String
+  category          String
+  description       String
+  subject           String
+  emailjsTemplateId String   @default("template_v4oblec")
+  enabled           Boolean  @default(true)
+  automaticEnabled  Boolean  @default(true)
+  adminEnabled      Boolean  @default(true)
+  requiredVariables String   @default("[]") // JSON string of required keys
+  defaultVariables  String   @default("{}") // JSON string of defaults
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+

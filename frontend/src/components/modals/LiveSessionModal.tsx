@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Mic, MicOff, Video, VideoOff, Hand, MessageSquare, Users, Send, Radio } from 'lucide-react';
 import { LiveSession } from '../../data/capacityConnectData';
+import { useAuth } from '../../context/AuthContext';
 
 interface LiveSessionModalProps {
   session: LiveSession | null;
@@ -8,13 +9,15 @@ interface LiveSessionModalProps {
 }
 
 export const LiveSessionModal: React.FC<LiveSessionModalProps> = ({ session, onClose }) => {
+  const { user } = useAuth();
+  const userName = user?.name || 'SkillSync Learner';
   const [micOn, setMicOn] = useState(false);
   const [videoOn, setVideoOn] = useState(false);
   const [handRaised, setHandRaised] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{ sender: string; text: string; time: string }>>([
     { sender: 'Meera Nair (Trainer)', text: 'Welcome everyone! We will review persuasive executive narratives today.', time: '11:02' },
     { sender: 'Arjun Mehta', text: 'Good morning ma’am! Audio is crystal clear.', time: '11:03' },
-    { sender: 'Priya Sharma (You)', text: 'Looking forward to the team pitching breakdown!', time: '11:04' },
+    { sender: `${userName} (You)`, text: 'Looking forward to the team pitching breakdown!', time: '11:04' },
   ]);
   const [inputMsg, setInputMsg] = useState('');
 
@@ -25,7 +28,7 @@ export const LiveSessionModal: React.FC<LiveSessionModalProps> = ({ session, onC
     if (!inputMsg.trim()) return;
     setChatMessages(prev => [
       ...prev,
-      { sender: 'Priya Sharma (You)', text: inputMsg.trim(), time: 'Just now' }
+      { sender: `${userName} (You)`, text: inputMsg.trim(), time: 'Just now' }
     ]);
     setInputMsg('');
   };

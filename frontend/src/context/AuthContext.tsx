@@ -39,16 +39,16 @@ interface AuthContextType {
 
 const defaultDemoUser: User = {
   id: 'learner-001',
-  name: 'Priya Sharma',
-  email: 'priya.sharma@capacityconnect.edu',
+  name: 'A Mohit',
+  email: 'mohit199189@gmail.com',
   role: 'TRAINEE',
   status: 'ACTIVE',
   onboardingCompleted: true,
   profile: {
-    designation: 'Digital Innovation Fellow',
-    department: 'Capacity Building & Digital Learning',
-    skills: ['Digital Literacy', 'Communication', 'Leadership', 'Problem Solving'],
-    photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    designation: 'Student Trainee',
+    department: 'Computer Science & Engineering',
+    skills: ['JavaScript', 'TypeScript', 'React', 'Node.js'],
+    photoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=A%20Mohit&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff',
   },
 };
 
@@ -119,15 +119,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const switchRole = (role: UserRole) => {
-    const nameMap: Record<UserRole, string> = {
-      TRAINEE: 'Priya Sharma',
+    const roleFallbackNames: Record<UserRole, string> = {
+      TRAINEE: 'A Mohit',
       TRAINER: 'Prof. Vikram Rao',
       ADMIN: 'Dr. Rajesh Verma',
     };
     const updatedUser: User = {
       ...(user || defaultDemoUser),
       role,
-      name: nameMap[role],
+      name: role === 'TRAINEE' ? (user?.name && user.name !== 'Priya Sharma' ? user.name : 'A Mohit') : (user?.role === role && user?.name ? user.name : roleFallbackNames[role]),
     };
     localStorage.setItem('cc_token', 'demo_token_' + Date.now());
     localStorage.setItem('cc_user', JSON.stringify(updatedUser));

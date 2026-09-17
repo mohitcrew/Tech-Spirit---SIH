@@ -104,12 +104,12 @@ export interface QuizQuestion {
 
 export const currentUserProfile = {
   id: 'learner-001',
-  name: 'Priya Sharma',
-  email: 'priya.sharma@capacityconnect.edu',
+  name: 'A Mohit',
+  email: 'mohit199189@gmail.com',
   role: 'TRAINEE' as const,
   title: 'Digital Innovation Fellow',
   organization: 'Capacity Building Commission',
-  avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+  avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=A%20Mohit&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff',
   level: 5,
   levelTitle: 'Curious Explorer',
   currentXp: 850,
@@ -350,7 +350,7 @@ export const communityDiscussions: CommunityPost[] = [
     commentsCount: 6,
     comments: [
       { author: 'Vikram Rao', text: 'Anthropic Claude with temperature 0.1 works remarkably well for strict curriculum alignment.', time: '1 hr ago' },
-      { author: 'Priya Sharma', text: 'We pair local models with structured JSON schemas, keeping questions 100% verified against NCERT and IMD training texts.', time: '35m ago' },
+      { author: 'A Mohit', text: 'We pair local models with structured JSON schemas, keeping questions 100% verified against NCERT and IMD training texts.', time: '35m ago' },
     ],
   },
   {
@@ -380,7 +380,7 @@ export const communityDiscussions: CommunityPost[] = [
     isLiked: true,
     commentsCount: 8,
     comments: [
-      { author: 'Priya Sharma', text: 'Congratulations Arjun! Huge inspiration for the rest of our cohort!', time: '18 hrs ago' },
+      { author: 'A Mohit', text: 'Congratulations Arjun! Huge inspiration for the rest of our cohort!', time: '18 hrs ago' },
     ],
   },
 ];
@@ -427,7 +427,7 @@ export const recommendations: Recommendation[] = [
 export const leaderboardUsers: LeaderboardUser[] = [
   {
     rank: 1,
-    name: 'Priya Sharma (You)',
+    name: 'A Mohit (You)',
     xp: 850,
     badges: 12,
     streakDays: 7,

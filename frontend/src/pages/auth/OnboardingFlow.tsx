@@ -630,7 +630,7 @@ export default function OnboardingFlow() {
                     type="text"
                     value={onboardingData.name || ''}
                     onChange={e => setOnboardingData({ ...onboardingData, name: e.target.value })}
-                    placeholder="e.g. Priya Sharma"
+                    placeholder="e.g. A Mohit"
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-800/70 border border-slate-700 text-sm font-medium text-white focus:outline-none focus:border-cyan-500 transition"
                   />
                 </div>

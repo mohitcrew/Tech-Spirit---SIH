@@ -6,16 +6,35 @@ import {
 } from 'lucide-react';
 import { learnerService } from '../../services/learnerService';
 import { badgesCatalog } from '../../data/capacityConnectData';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Leaderboard() {
+  const { user } = useAuth();
   const [period, setPeriod] = useState<'weekly' | 'monthly' | 'all_time'>('weekly');
 
   const { data: users = [], isLoading } = useQuery({
-    queryKey: ['leaderboard', period],
+    queryKey: ['leaderboard', period, user?.name],
     queryFn: () => learnerService.getLeaderboard(period),
   });
 
-  const currentUser = users.find(u => u.isCurrentUser) || users[0];
+  const currentUserName = (user?.name && user.name !== 'Priya Sharma')
+    ? user.name
+    : (learnerService.getTraineeProfile()?.name && learnerService.getTraineeProfile()?.name !== 'Priya Sharma')
+    ? learnerService.getTraineeProfile()?.name
+    : 'A Mohit';
+
+  const processedUsers = users.map(u => {
+    if (u.isCurrentUser || u.name.includes('Priya Sharma') || u.name.includes('(You)')) {
+      return {
+        ...u,
+        name: `${currentUserName} (You)`,
+        isCurrentUser: true,
+      };
+    }
+    return u;
+  });
+
+  const currentUser = processedUsers.find(u => u.isCurrentUser) || processedUsers[0];
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -69,7 +88,7 @@ export default function Leaderboard() {
 
       {/* Top 3 Podium Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {users.slice(0, 3).map((u, idx) => (
+        {processedUsers.slice(0, 3).map((u, idx) => (
           <div
             key={u.name}
             className={`p-6 rounded-3xl border flex flex-col justify-between relative overflow-hidden transition-all ${
@@ -114,7 +133,7 @@ export default function Leaderboard() {
         </h2>
 
         <div className="space-y-2">
-          {users.map(u => (
+          {processedUsers.map(u => (
             <div
               key={u.name}
               className={`p-3.5 rounded-2xl flex items-center justify-between gap-4 border transition-all ${

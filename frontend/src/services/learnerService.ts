@@ -594,12 +594,13 @@ export const initialFaqs: FaqItem[] = [
 export const learnerService = {
   // 1. Dashboard Overview
   async getDashboardSummary() {
+    const currentName = this.getTraineeProfile()?.name || 'A Mohit';
     try {
       const res = await api.get('/users/me/enrollments');
       const data = res.data?.data || res.data;
       if (Array.isArray(data) && data.length > 0) {
         return {
-          profile: currentUserProfile,
+          profile: { ...currentUserProfile, name: currentName },
           enrollmentsCount: data.length,
           completedCount: data.filter((e: any) => e.status === 'COMPLETED').length,
           courses: myLearningCourses,
@@ -610,7 +611,7 @@ export const learnerService = {
       // Backend fallback
     }
     return {
-      profile: currentUserProfile,
+      profile: { ...currentUserProfile, name: currentName },
       enrollmentsCount: myLearningCourses.length,
       completedCount: myLearningCourses.filter(c => c.status === 'Completed').length,
       courses: myLearningCourses,
@@ -826,7 +827,7 @@ export const learnerService = {
           commentsCount: p.commentsCount + 1,
           comments: [
             ...p.comments,
-            { author: currentUserProfile.name, text, time: 'Just now' },
+            { author: this.getTraineeProfile()?.name || 'A Mohit', text, time: 'Just now' },
           ],
         };
       }
@@ -838,10 +839,14 @@ export const learnerService = {
 
   // 8. Leaderboard
   async getLeaderboard(period: 'weekly' | 'monthly' | 'all_time' = 'weekly'): Promise<LeaderboardUser[]> {
+    const profile = this.getTraineeProfile();
+    const currentName = (profile?.name && profile.name !== 'Priya Sharma') ? profile.name : 'A Mohit';
+    const youLabel = `${currentName} (You)`;
+
     if (period === 'monthly') {
       return [
         { rank: 1, name: 'Aisha Khan', xp: 3450, badges: 22, streakDays: 28, avatarColor: 'bg-purple-600', isCurrentUser: false, highlightText: 'Monthly Capstone Leader' },
-        { rank: 2, name: 'Priya Sharma (You)', xp: 3200, badges: 20, streakDays: 26, avatarColor: 'bg-blue-600', isCurrentUser: true, highlightText: 'High Quiz Accuracy' },
+        { rank: 2, name: youLabel, xp: 3200, badges: 20, streakDays: 26, avatarColor: 'bg-blue-600', isCurrentUser: true, highlightText: 'High Quiz Accuracy' },
         { rank: 3, name: 'Arjun Mehta', xp: 2980, badges: 18, streakDays: 21, avatarColor: 'bg-emerald-600', isCurrentUser: false, highlightText: '3 Completed Modules' },
         { rank: 4, name: 'Rahul Verma', xp: 2750, badges: 16, streakDays: 19, avatarColor: 'bg-amber-600', isCurrentUser: false, highlightText: 'Consistent Contributor' },
       ];
@@ -849,12 +854,12 @@ export const learnerService = {
     if (period === 'all_time') {
       return [
         { rank: 1, name: 'Dr. Kabir Anand', xp: 12400, badges: 48, streakDays: 140, avatarColor: 'bg-emerald-600', isCurrentUser: false, highlightText: 'Institutional Fellow' },
-        { rank: 2, name: 'Priya Sharma (You)', xp: 10850, badges: 42, streakDays: 85, avatarColor: 'bg-blue-600', isCurrentUser: true, highlightText: 'Top 5% National Learner' },
+        { rank: 2, name: youLabel, xp: 10850, badges: 42, streakDays: 85, avatarColor: 'bg-blue-600', isCurrentUser: true, highlightText: 'Top 5% National Learner' },
         { rank: 3, name: 'Aisha Khan', xp: 9950, badges: 39, streakDays: 78, avatarColor: 'bg-purple-600', isCurrentUser: false, highlightText: 'EdTech Specialist' },
         { rank: 4, name: 'Arjun Mehta', xp: 9100, badges: 36, streakDays: 62, avatarColor: 'bg-indigo-600', isCurrentUser: false, highlightText: 'Cloud Certified' },
       ];
     }
-    return leaderboardUsers;
+    return leaderboardUsers.map(u => (u.isCurrentUser || u.name.includes('Priya Sharma')) ? { ...u, name: youLabel, isCurrentUser: true } : u);
   },
 
   // 9. Calendar Events
@@ -941,25 +946,33 @@ export const learnerService = {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // If parsed profile has a valid name, keep it and sync currentUser if needed
-        if (parsed.name && currentUser && currentUser.name !== parsed.name) {
+        // Clean up any stale 'Priya Sharma' mock name
+        if (parsed.name === 'Priya Sharma' && currentUser?.name && currentUser.name !== 'Priya Sharma') {
+          parsed.name = currentUser.name;
+        } else if (parsed.name === 'Priya Sharma') {
+          parsed.name = 'A Mohit';
+        }
+
+        // Authenticated user's name always takes precedence over cached mock names
+        if (currentUser?.name && currentUser.name !== 'Priya Sharma' && parsed.name !== currentUser.name) {
+          parsed.name = currentUser.name;
+          localStorage.setItem(PROFILE_KEY, JSON.stringify(parsed));
+        } else if (currentUser && !currentUser.name && parsed.name) {
           currentUser.name = parsed.name;
           localStorage.setItem('cc_user', JSON.stringify(currentUser));
-        } else if (currentUser?.name && !parsed.name) {
-          parsed.name = currentUser.name;
         }
         if (currentUser?.email && parsed.email !== currentUser.email) {
           parsed.email = currentUser.email;
         }
-        if (parsed.name && (!parsed.photoUrl || parsed.photoUrl.includes('dicebear.com'))) {
+        if (parsed.name && (!parsed.photoUrl || parsed.photoUrl.includes('dicebear.com') || parsed.photoUrl.includes('photo-1534528741775'))) {
           parsed.photoUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(parsed.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
         }
         return parsed;
       } catch (e) {}
     }
 
-    const displayName = currentUser?.name || 'SkillSync Learner';
-    const displayEmail = currentUser?.email || 'learner@skillsync.demo';
+    const displayName = (currentUser?.name && currentUser.name !== 'Priya Sharma') ? currentUser.name : 'A Mohit';
+    const displayEmail = currentUser?.email || 'mohit199189@gmail.com';
     const displayId = currentUser?.id || 'learner-001';
 
     const defaultProfile: TraineeProfile = {
@@ -1019,9 +1032,9 @@ export const learnerService = {
         trainingMode: 'Hybrid with Mentor Sprints',
       },
       externalProfiles: {
-        github: 'https://github.com/priyasharma-dev',
-        linkedin: 'https://linkedin.com/in/priya-sharma-skillsync',
-        portfolio: 'https://priyasharma.dev',
+        github: 'https://github.com/mohit-dev',
+        linkedin: 'https://linkedin.com/in/mohit-skillsync',
+        portfolio: 'https://mohit.dev',
       },
       onboardingCompleted: true,
     };

@@ -52,7 +52,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   const handleDemoAccess = async () => {
     setLoading(true);
-    const user = await login('priya.sharma@capacityconnect.edu', 'Demo@12345');
+    const user = await login('mohit199189@gmail.com', 'Mohit@2006.');
     onClose();
     if (redirectTarget) {
       navigate(redirectTarget);
@@ -126,7 +126,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 type="text"
                 value={name}
                 onChange={e => setName(e.target.value)}
-                placeholder="e.g. Priya Sharma"
+                placeholder="e.g. A Mohit"
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500"
               />
             </div>

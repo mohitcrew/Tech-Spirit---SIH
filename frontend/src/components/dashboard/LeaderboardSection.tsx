@@ -1,8 +1,28 @@
 import React from 'react';
 import { Trophy, Award, Flame, Users, Sparkles } from 'lucide-react';
 import { leaderboardUsers } from '../../data/capacityConnectData';
+import { useAuth } from '../../context/AuthContext';
+import { learnerService } from '../../services/learnerService';
 
 export const LeaderboardSection: React.FC = () => {
+  const { user } = useAuth();
+  const currentUserName = (user?.name && user.name !== 'Priya Sharma')
+    ? user.name
+    : (learnerService.getTraineeProfile()?.name && learnerService.getTraineeProfile()?.name !== 'Priya Sharma')
+    ? learnerService.getTraineeProfile()?.name
+    : 'A Mohit';
+
+  const displayUsers = leaderboardUsers.map(u => {
+    if (u.isCurrentUser || u.name.includes('Priya Sharma') || u.name.includes('(You)')) {
+      return {
+        ...u,
+        name: `${currentUserName} (You)`,
+        isCurrentUser: true,
+      };
+    }
+    return u;
+  });
+
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-4">
@@ -21,20 +41,22 @@ export const LeaderboardSection: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {leaderboardUsers.map(user => {
+        {displayUsers.map(userItem => {
           const medal =
-            user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : user.rank === 3 ? '🥉' : '⭐';
+            userItem.rank === 1 ? '🥇' : userItem.rank === 2 ? '🥈' : userItem.rank === 3 ? '🥉' : '⭐';
+          const cleanName = userItem.name.replace(/\s*\(You\)$/i, '').trim();
+          const initials = cleanName.split(' ').filter(Boolean).map(n => n[0]).join('').slice(0, 2).toUpperCase() || cleanName.slice(0, 2).toUpperCase();
 
           return (
             <div
-              key={user.rank}
+              key={userItem.rank}
               className={`cc-card p-4.5 flex flex-col justify-between relative overflow-hidden transition-all ${
-                user.isCurrentUser
+                userItem.isCurrentUser
                   ? 'border-blue-300 bg-gradient-to-b from-blue-50/40 via-white to-white shadow-md'
                   : ''
               }`}
             >
-              {user.isCurrentUser && (
+              {userItem.isCurrentUser && (
                 <div className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-blue-600 text-white text-[10px] font-black uppercase tracking-wider">
                   You
                 </div>
@@ -44,23 +66,23 @@ export const LeaderboardSection: React.FC = () => {
                 <div className="flex items-center gap-3 mb-3">
                   <div className="relative">
                     <div
-                      className={`w-11 h-11 rounded-2xl ${user.avatarColor} text-white font-black text-sm flex items-center justify-center shadow-sm`}
+                      className={`w-11 h-11 rounded-2xl ${userItem.avatarColor} text-white font-black text-sm flex items-center justify-center shadow-sm`}
                     >
-                      {user.name.slice(0, 2).toUpperCase()}
+                      {initials}
                     </div>
                     <span className="absolute -bottom-1 -right-1 text-sm">{medal}</span>
                   </div>
 
                   <div>
                     <h4 className="font-bold text-sm text-slate-900 leading-tight">
-                      {user.name}
+                      {userItem.name}
                     </h4>
-                    <span className="text-[11px] text-slate-400 font-medium">Rank #{user.rank}</span>
+                    <span className="text-[11px] text-slate-400 font-medium">Rank #{userItem.rank}</span>
                   </div>
                 </div>
 
                 <p className="text-xs text-slate-600 font-medium line-clamp-1 mb-3">
-                  {user.highlightText}
+                  {userItem.highlightText}
                 </p>
               </div>
 
@@ -68,15 +90,15 @@ export const LeaderboardSection: React.FC = () => {
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-700">
                 <div className="flex items-center gap-1 text-blue-600">
                   <Trophy className="w-3.5 h-3.5 text-amber-500" />
-                  <span>{user.xp} XP</span>
+                  <span>{userItem.xp} XP</span>
                 </div>
                 <div className="flex items-center gap-1 text-purple-600">
                   <Award className="w-3.5 h-3.5" />
-                  <span>{user.badges} Badges</span>
+                  <span>{userItem.badges} Badges</span>
                 </div>
                 <div className="flex items-center gap-0.5 text-amber-600">
                   <Flame className="w-3.5 h-3.5 fill-amber-500" />
-                  <span>{user.streakDays}d</span>
+                  <span>{userItem.streakDays}d</span>
                 </div>
               </div>
             </div>

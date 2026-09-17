@@ -12,7 +12,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onExploreCourses,
 }) => {
   return (
-    <div className="relative overflow-hidden rounded-3xl cc-hero-gradient p-6 sm:p-8 lg:p-10 shadow-sm border border-blue-100/80 mb-6">
+    <div className="relative overflow-hidden rounded-3xl cc-hero-gradient p-6 sm:p-8 lg:p-10 shadow-sm border border-blue-100/80 dark:border-slate-800/80 mb-6">
       {/* Subtle Background Decorative Circles */}
       <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-blue-400/10 blur-3xl pointer-events-none db-ambient-orb-1" />
       <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-purple-400/10 blur-2xl pointer-events-none db-ambient-orb-2" />
@@ -20,8 +20,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left Text Column */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-blue-200/60 shadow-xs text-xs font-bold text-blue-700 backdrop-blur-sm db-hero-badge-anim">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-slate-800/90 border border-blue-200/60 dark:border-blue-700/60 shadow-xs text-xs font-bold text-blue-700 dark:text-blue-300 backdrop-blur-sm db-hero-badge-anim">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
             <span>Digital Capacity Building Portal</span>
           </div>
 
@@ -57,7 +57,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           {/* Micro Trust & Stat row */}
-          <div className="pt-3 flex items-center gap-5 text-xs text-slate-500 font-medium">
+          <div className="pt-3 flex items-center gap-5 text-xs text-slate-500 dark:text-slate-400 font-medium">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>Personalized Path</span>
@@ -77,7 +77,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="lg:col-span-5 relative flex items-center justify-center">
           <div className="relative w-full max-w-sm">
             {/* Main Visual Image Container */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gradient-to-br from-blue-500 to-indigo-700 aspect-4/3 flex items-center justify-center p-4 db-hero-visual-anim">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-700 bg-gradient-to-br from-blue-500 to-indigo-700 aspect-4/3 flex items-center justify-center p-4 db-hero-visual-anim">
               <img
                 src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80"
                 alt="Students collaborating"
@@ -87,7 +87,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-2 text-2xl shadow-lg">
                   🎓
                 </div>
-                <h3 className="font-bold text-base">Next: AI for Education</h3>
+                <h3 className="font-bold text-base text-white">Next: AI for Education</h3>
                 <p className="text-xs text-blue-100">Module 10: Formative Assessment AI</p>
                 <div className="mt-3 w-40 mx-auto bg-white/30 h-1.5 rounded-full overflow-hidden">
                   <div className="bg-white h-full rounded-full transition-all duration-700" style={{ width: '90%' }} />
@@ -96,24 +96,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Floating Achievement Card: Streak */}
-            <div className="absolute -top-4 -left-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-amber-100 flex items-center gap-2.5 cc-float db-float-streak-anim">
-              <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 text-lg cc-streak-flame">
-                <Flame className="w-5 h-5 fill-amber-500 text-amber-500" />
+            <div className="absolute -top-4 -left-4 bg-white dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-amber-200/80 dark:border-amber-500/40 flex items-center gap-2.5 cc-float db-float-streak-anim">
+              <div className="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200/60 dark:border-amber-500/40 flex items-center justify-center text-amber-500 dark:text-amber-400 text-lg cc-streak-flame">
+                <Flame className="w-5 h-5 fill-amber-500 text-amber-500 dark:text-amber-400" />
               </div>
               <div>
-                <div className="text-xs font-bold text-slate-800">{currentUserProfile.streakDays} Day Streak</div>
-                <div className="text-[10px] text-amber-600 font-semibold">Keep it glowing!</div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">{currentUserProfile.streakDays} Day Streak</div>
+                <div className="text-[10px] text-amber-600 dark:text-amber-400 font-bold">Keep it glowing!</div>
               </div>
             </div>
 
             {/* Floating Achievement Card: XP Reward */}
-            <div className="absolute -bottom-4 -right-2 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-purple-100 flex items-center gap-2.5 cc-float-delayed db-float-xp-anim">
-              <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+            <div className="absolute -bottom-4 -right-2 bg-white dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-purple-200/80 dark:border-purple-500/40 flex items-center gap-2.5 cc-float-delayed db-float-xp-anim">
+              <div className="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200/60 dark:border-purple-500/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
                 <Trophy className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-xs font-bold text-slate-800">850 Total XP</div>
-                <div className="text-[10px] text-purple-600 font-semibold">Level 5 Explorer</div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">850 Total XP</div>
+                <div className="text-[10px] text-purple-600 dark:text-purple-300 font-bold">Level 5 Explorer</div>
               </div>
             </div>
           </div>

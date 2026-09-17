@@ -38,6 +38,7 @@ export class EmailService {
       path.resolve(__dirname, '../../../Emailjs/universal-template.html'),
       path.resolve(process.cwd(), '../Emailjs/universal-template.html'),
       path.resolve(process.cwd(), 'Emailjs/universal-template.html'),
+      'C:\\Users\\yandr\\OneDrive\\Documents\\Desktop\\SIH Spirit\\universal-template.html',
       'C:\\Users\\mohit\\Desktop\\SIH-2\\Emailjs\\universal-template.html',
     ];
 
@@ -256,6 +257,8 @@ export class EmailService {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Origin': 'http://localhost:5173',
+            'Referer': 'http://localhost:5173/',
           },
           body: JSON.stringify({
             service_id: serviceId,

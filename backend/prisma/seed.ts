@@ -148,15 +148,21 @@ async function main() {
     // Secure password hashing
     const passwordHash = await argon2.hash(rawPass);
 
+    // Special handling for STU-051 (Mohit) who undergoes the live onboarding diagnostic flow
+    const isMohit = email === 'mohit199189@gmail.com' || userIdTag === 'STU-051';
+    const onboardingCompleted = isMohit ? false : true;
+    const onboardingStatus = isMohit ? 'PENDING' : 'COMPLETED';
+    const firstLoginRequired = isMohit ? true : false;
+
     const userRecord = await prisma.user.upsert({
       where: { email },
       update: {
         name,
         role,
         status: 'ACTIVE',
-        onboardingCompleted: true,
-        onboardingStatus: 'COMPLETED',
-        firstLoginRequired: false,
+        onboardingCompleted,
+        onboardingStatus,
+        firstLoginRequired,
       },
       create: {
         email,
@@ -164,9 +170,9 @@ async function main() {
         passwordHash,
         role,
         status: 'ACTIVE',
-        onboardingCompleted: true,
-        onboardingStatus: 'COMPLETED',
-        firstLoginRequired: false,
+        onboardingCompleted,
+        onboardingStatus,
+        firstLoginRequired,
       },
     });
 

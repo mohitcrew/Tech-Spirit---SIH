@@ -21,6 +21,7 @@ import {
   Layers,
   Settings,
   Mail,
+  Flame,
 } from 'lucide-react';
 import { UserRole } from '../context/AuthContext';
 
@@ -52,6 +53,7 @@ export const ROLE_NAVIGATION_CONFIG: Record<UserRole, RoleNavigationConfig> = {
       { id: 'paths', label: 'Learning Paths', pathSuffix: '/paths', icon: Route, iconClass: 'db-icon-paths' },
       { id: 'skills', label: 'Skills', pathSuffix: '/skills', icon: Target, iconClass: 'db-icon-skills' },
       { id: 'roadmap', label: 'Career Roadmap', pathSuffix: '/roadmap', icon: Route, iconClass: 'db-icon-paths', badge: 'AI', badgeVariant: 'primary' },
+      { id: 'contests', label: 'Contest', pathSuffix: '/contests', icon: Flame, iconClass: 'db-icon-contest', badge: 'Live', badgeVariant: 'rose' },
       { id: 'certificates', label: 'Certificates', pathSuffix: '/certificates', icon: Award, iconClass: 'db-icon-certs' },
       { id: 'knowledge', label: 'Knowledge Hub', pathSuffix: '/knowledge', icon: BookMarked, iconClass: 'db-icon-knowledge' },
       { id: 'community', label: 'Community', pathSuffix: '/community', icon: Users, iconClass: 'db-icon-community', badge: 'Active', badgeVariant: 'purple' },
@@ -71,6 +73,7 @@ export const ROLE_NAVIGATION_CONFIG: Record<UserRole, RoleNavigationConfig> = {
       { id: 'create-course', label: 'Create Course', pathSuffix: '/courses/create', icon: PlusCircle, iconClass: 'db-icon-create-course', badge: 'Action', badgeVariant: 'primary' },
       { id: 'learners', label: 'Assigned Learners', pathSuffix: '/trainees', icon: Users, iconClass: 'db-icon-manage-learners' },
       { id: 'sessions', label: 'Training Sessions', pathSuffix: '/sessions', icon: Video, iconClass: 'db-icon-live-sessions', badge: 'Live', badgeVariant: 'rose' },
+      { id: 'contests', label: 'Contest', pathSuffix: '/contests', icon: Flame, iconClass: 'db-icon-contest', badge: 'Live', badgeVariant: 'rose' },
       { id: 'assignments', label: 'Assessments', pathSuffix: '/assessments', icon: ClipboardCheck, iconClass: 'db-icon-assignments' },
       { id: 'competencies', label: 'Competencies', pathSuffix: '/skills', icon: Target, iconClass: 'db-icon-skills' },
       { id: 'knowledge', label: 'Knowledge Hub', pathSuffix: '/knowledge', icon: BookMarked, iconClass: 'db-icon-knowledge' },
@@ -89,6 +92,7 @@ export const ROLE_NAVIGATION_CONFIG: Record<UserRole, RoleNavigationConfig> = {
       { id: 'users', label: 'User Management', pathSuffix: '/users', icon: ShieldCheck, iconClass: 'db-icon-users-admin' },
       { id: 'email-center', label: 'Email Command Center', pathSuffix: '/email-center', icon: Mail, iconClass: 'db-icon-mail', badge: 'Live', badgeVariant: 'primary' },
       { id: 'courses', label: 'Course Catalog', pathSuffix: '/courses', icon: Layers, iconClass: 'db-icon-courses-admin' },
+      { id: 'contests', label: 'Contests & Sprints', pathSuffix: '/contests', icon: Flame, iconClass: 'db-icon-contest' },
       { id: 'trainees', label: 'Learners Directory', pathSuffix: '/trainees', icon: GraduationCap, iconClass: 'db-icon-trainees-admin' },
       { id: 'skills', label: 'Skills & Competencies', pathSuffix: '/skills', icon: Target, iconClass: 'db-icon-skills' },
       { id: 'paths', label: 'Learning Paths', pathSuffix: '/paths', icon: Route, iconClass: 'db-icon-paths' },

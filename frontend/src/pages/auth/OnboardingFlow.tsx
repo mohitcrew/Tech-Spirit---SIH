@@ -13,6 +13,7 @@ import { learnerService, TraineeProfile } from '../../services/learnerService';
 import { courseService } from '../../services/courseService';
 import { api } from '../../services/api';
 import { sendWelcomeEmail } from '../../services/emailService';
+import { useNotifications } from '../../context/NotificationContext';
 import { RecommendedCourseMatch } from '../../types/course';
 
 const DRAFT_STORAGE_KEY = 'skillsync_onboarding_draft';
@@ -134,6 +135,7 @@ export default function OnboardingFlow() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user, completeOnboarding: authCompleteOnboarding } = useAuth();
+  const { pushNotification } = useNotifications();
 
   // Load existing profile baseline
   const { data: initialProfile } = useQuery({
@@ -285,16 +287,28 @@ export default function OnboardingFlow() {
       // 2. Call AuthContext completeOnboarding to update local & remote user status
       await authCompleteOnboarding();
 
-      // 3. Fire welcome email via browser SDK (non-blocking — errors are swallowed)
+      // 3. Fire welcome email via browser SDK AND backend API for guaranteed delivery
       const userName  = user?.name  || onboardingData.name  || 'Learner';
       const userEmail = user?.email || onboardingData.email || '';
       if (userEmail) {
         sendWelcomeEmail({ name: userName, email: userEmail, role: 'TRAINEE' }).catch((err: any) => {
-          console.warn('Welcome email dispatch failed (non-critical):', err?.message);
+          console.warn('Browser welcome email dispatch failed (non-critical):', err?.message);
+        });
+        api.post('/users/me/send-welcome-email').catch((err: any) => {
+          console.warn('Backend welcome email dispatch failed (non-critical):', err?.message);
         });
       }
 
-      // 4. Clear draft
+      // 4. Trigger live on-screen notification alert
+      pushNotification({
+        title: '🎓 Diagnostic Onboarding Completed!',
+        message: 'Welcome to SkillSync! Your competency profile is verified and +150 XP has been credited.',
+        type: 'XP',
+        link: '/trainee/roadmap',
+        badge: '+150 XP',
+      });
+
+      // 5. Clear draft
       localStorage.removeItem(draftKey);
       localStorage.removeItem(DRAFT_STORAGE_KEY);
 

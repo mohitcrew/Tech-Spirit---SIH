@@ -91,7 +91,7 @@ export const LoginForm: React.FC = () => {
 
       const targetRole = (authenticatedUser?.role || ROLE_MAP[role] || 'TRAINEE').toLowerCase();
       window.setTimeout(() => {
-        if (targetRole === 'trainee' && authenticatedUser?.onboardingCompleted === false) {
+        if (targetRole === 'trainee' && !authenticatedUser?.onboardingCompleted) {
           navigate('/onboarding');
         } else {
           navigate(`/${targetRole}/dashboard`);

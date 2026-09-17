@@ -40,6 +40,7 @@ const HelpSupport = lazy(() => import('./pages/shared/HelpSupport'));
 const Profile = lazy(() => import('./pages/shared/Profile'));
 const CareerRoadmap = lazy(() => import('./pages/shared/CareerRoadmap'));
 const OnboardingFlow = lazy(() => import('./pages/auth/OnboardingFlow'));
+const Contests = lazy(() => import('./pages/shared/Contests'));
 const Notifications = lazy(() => import('./pages/shared/Notifications'));
 const Settings = lazy(() => import('./pages/shared/SettingsPage'));
 
@@ -79,7 +80,7 @@ function Protected() {
   const part = location.pathname.split('/')[1];
   if (loading) return <div />;
   if (!user) return <Navigate to="/login" />;
-  if (user.role === 'TRAINEE' && user.onboardingCompleted === false) {
+  if (user.role === 'TRAINEE' && !user.onboardingCompleted) {
     return <Navigate to="/onboarding" replace />;
   }
   if (part && part !== user.role.toLowerCase()) {
@@ -129,6 +130,8 @@ export default function App() {
         <Route path="/recommendations" element={<Navigate to={`${rolePrefix}/dashboard`} replace />} />
         <Route path="/assessments" element={<Navigate to={`${rolePrefix}/assessments`} replace />} />
         <Route path="/certificates" element={<Navigate to={`${rolePrefix}/certificates`} replace />} />
+        <Route path="/contests" element={<Navigate to={`${rolePrefix}/contests`} replace />} />
+        <Route path="/contest" element={<Navigate to={`${rolePrefix}/contests`} replace />} />
         <Route path="/admin/email" element={<Navigate to="/admin/email-center" replace />} />
         <Route path="/admin/email/templates" element={<Navigate to="/admin/email-center?tab=catalog" replace />} />
         <Route path="/admin/email/compose" element={<Navigate to="/admin/email-center?tab=composer" replace />} />
@@ -139,6 +142,7 @@ export default function App() {
         <Route element={<Protected />}>
           {/* Dashboard */}
           <Route path=":role/dashboard" element={<SuspenseWrap><Dashboard /></SuspenseWrap>} />
+          <Route path=":role/contests" element={<SuspenseWrap><Contests /></SuspenseWrap>} />
 
           {/* Courses */}
           <Route path=":role/courses" element={<SuspenseWrap><Courses /></SuspenseWrap>} />

@@ -55,11 +55,11 @@ const SidebarNavItem: React.FC<{
   const Icon = item.icon;
 
   const badgeColorMap: Record<string, string> = {
-    purple: 'bg-purple-100 text-purple-700',
-    primary: 'bg-blue-100 text-blue-700',
-    rose: 'bg-rose-100 text-rose-700',
-    success: 'bg-emerald-100 text-emerald-700',
-    warning: 'bg-amber-100 text-amber-700',
+    purple: 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300',
+    primary: 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300',
+    rose: 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300',
+    success: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300',
+    warning: 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300',
   };
 
   const badgeClass = item.badgeVariant
@@ -90,7 +90,7 @@ const SidebarNavItem: React.FC<{
           `db-sidebar-nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all select-none cursor-pointer ${item.iconClass} ${
             isActive
               ? 'db-sidebar-nav-active'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-200/80 hover:shadow-sm'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70 hover:border-slate-200/80 dark:hover:border-slate-700 hover:shadow-sm'
           }`
         }
       >
@@ -109,13 +109,13 @@ const SidebarNavItem: React.FC<{
             <span className="db-nav-icon">
               <Icon
                 className={`w-4 h-4 transition-colors ${
-                  isActive ? 'text-blue-600' : 'text-slate-400'
+                  isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 dark:text-slate-400'
                 }`}
               />
             </span>
             <span className="flex-1 truncate">{item.label}</span>
             {item.label === 'Dashboard' && (
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 db-active-dot-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 db-active-dot-pulse" />
             )}
             {item.badge && (
               <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-extrabold ${badgeClass}`}>
@@ -203,12 +203,12 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed lg:sticky top-0 left-0 h-screen w-64 bg-white border-r border-slate-200/80 z-50 flex flex-col justify-between transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:sticky top-0 left-0 h-screen w-64 bg-white dark:bg-slate-900 border-r border-slate-200/80 dark:border-slate-800 z-50 flex flex-col justify-between transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         {/* Brand Header */}
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
           <div
             onClick={() => navigate(`${rolePrefix}/dashboard`)}
             className="flex items-center gap-3 db-sidebar-logo-anim cursor-pointer"
@@ -223,10 +223,10 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
               </div>
             </div>
             <div>
-              <div className="font-extrabold text-slate-900 tracking-tight text-sm leading-tight">
-                Skill<span className="text-blue-600">Sync</span>
+              <div className="font-extrabold text-slate-900 dark:text-white tracking-tight text-sm leading-tight">
+                Skill<span className="text-blue-600 dark:text-blue-400">Sync</span>
               </div>
-              <div className="text-[10px] font-semibold text-slate-400 tracking-wide uppercase mt-0.5">
+              <div className="text-[10px] font-semibold text-slate-400 dark:text-slate-400 tracking-wide uppercase mt-0.5">
                 Capacity Intelligence
               </div>
             </div>
@@ -236,7 +236,7 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
           {onClose && (
             <button
               onClick={onClose}
-              className="lg:hidden w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 cursor-pointer"
+              className="lg:hidden w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -247,10 +247,10 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
         <div className="flex-1 overflow-y-auto px-3.5 py-4 space-y-1">
           {/* Role Section Title Header */}
           <div className="flex items-center justify-between px-3 py-1.5 mb-1">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">
               {roleConfig.sectionTitle}
             </span>
-            <span className="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 tracking-wider">
+            <span className="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-800/60 tracking-wider">
               {displayedRole}
             </span>
           </div>
@@ -269,21 +269,21 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
         </div>
 
         {/* Footer Profile Mini-card */}
-        <div className="p-3.5 border-t border-slate-100 bg-slate-50/60">
+        <div className="p-3.5 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-950/70">
           <div
             onClick={() => navigate(`${rolePrefix}/profile`)}
-            className="p-3 rounded-2xl bg-white border border-slate-200/70 shadow-xs mb-2 flex items-center gap-3 db-profile-card-anim cursor-pointer"
+            className="p-3 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 shadow-xs mb-2 flex items-center gap-3 db-profile-card-anim cursor-pointer hover:border-blue-400 dark:hover:border-blue-500/60 transition-colors"
           >
             <img
               src={traineeProfile?.photoUrl || user?.profile?.photoUrl || (currentMeta.name ? `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(currentMeta.name)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff` : currentUserProfile.avatarUrl)}
               alt={currentMeta.name}
-              className="w-9 h-9 rounded-xl object-cover border border-slate-200 db-profile-avatar-anim"
+              className="w-9 h-9 rounded-xl object-cover border border-slate-200 dark:border-slate-600 db-profile-avatar-anim"
             />
             <div className="flex-1 min-w-0">
-              <div className="font-bold text-xs text-slate-900 truncate">
+              <div className="font-bold text-xs text-slate-900 dark:text-white truncate">
                 {currentMeta.name}
               </div>
-              <div className="text-[10px] text-blue-600 font-semibold flex items-center gap-1">
+              <div className="text-[10px] text-blue-600 dark:text-sky-400 font-semibold flex items-center gap-1">
                 <Sparkles className="w-2.5 h-2.5" />
                 <span className="truncate">{currentMeta.subtitle}</span>
               </div>
@@ -292,7 +292,7 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
 
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-bold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-transparent hover:border-rose-200 dark:hover:border-rose-900/50 transition-all cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Sign Out</span>

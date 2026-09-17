@@ -133,20 +133,20 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
         <div className="relative">
           <button
             onClick={() => setShowNotifMenu(!showNotifMenu)}
-            className="w-10 h-10 rounded-2xl bg-slate-100/80 hover:bg-slate-200/80 text-slate-600 hover:text-slate-900 flex items-center justify-center transition-colors relative cursor-pointer"
+            className="w-10 h-10 rounded-2xl bg-slate-100/80 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white flex items-center justify-center transition-colors relative cursor-pointer"
             title={unreadCount > 0 ? `${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}` : 'No unread notifications'}
             aria-label="Open notifications menu"
           >
-            <Bell className={`w-4 h-4 ${unreadCount > 0 ? 'db-bell-shake-anim text-blue-600' : ''}`} />
+            <Bell className={`w-4 h-4 ${unreadCount > 0 ? 'db-bell-shake-anim text-blue-600 dark:text-cyan-400' : ''}`} />
             {unreadCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 min-w-[17px] h-[17px] px-1 rounded-full bg-rose-500 ring-2 ring-white text-[9px] font-black text-white flex items-center justify-center shadow-xs">
+              <span className="absolute top-1.5 right-1.5 min-w-[17px] h-[17px] px-1 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900 text-[9px] font-black text-white flex items-center justify-center shadow-xs">
                 {unreadCount > 9 ? '9+' : unreadCount}
               </span>
             )}
           </button>
 
           {showNotifMenu && (
-            <div className="absolute right-0 mt-2 w-84 sm:w-92 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-3 z-50 db-dropdown-anim">
+            <div className="absolute right-0 mt-2 w-84 sm:w-96 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-3 z-50 db-dropdown-anim">
               <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800 mb-2">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-slate-900 dark:text-white">Notifications</span>
@@ -170,13 +170,13 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
                 )}
               </div>
 
-              <div className="space-y-1.5 max-h-80 overflow-y-auto pr-1">
+              <div className="space-y-1.5 max-h-84 overflow-y-auto pr-1">
                 {notifications.length === 0 ? (
                   <div className="py-6 text-center text-xs text-slate-400">
                     No notifications yet.
                   </div>
                 ) : (
-                  notifications.slice(0, 6).map(n => (
+                  notifications.slice(0, 8).map(n => (
                     <div
                       key={n.id}
                       onClick={() => {
@@ -188,7 +188,11 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
                       }}
                       className={`p-2.5 rounded-xl transition-all text-xs cursor-pointer border ${
                         !n.isRead
-                          ? 'bg-blue-50/60 dark:bg-blue-950/30 border-blue-200/60 dark:border-blue-900/50 hover:bg-blue-50'
+                          ? n.badge?.includes('3 Hours') || n.badge?.includes('3h')
+                            ? 'bg-rose-50/50 dark:bg-rose-950/30 border-rose-200/80 dark:border-rose-900/60 hover:bg-rose-50/80'
+                            : n.badge?.includes('12h') || n.badge?.includes('Tomorrow')
+                            ? 'bg-amber-50/50 dark:bg-amber-950/30 border-amber-200/80 dark:border-amber-900/60 hover:bg-amber-50/80'
+                            : 'bg-blue-50/60 dark:bg-blue-950/30 border-blue-200/60 dark:border-blue-900/50 hover:bg-blue-50'
                           : 'bg-slate-50/70 dark:bg-slate-800/40 border-slate-100 dark:border-slate-800 hover:bg-slate-100/70 text-slate-500'
                       }`}
                     >
@@ -197,7 +201,13 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
                           {n.title}
                         </div>
                         {!n.isRead && (
-                          <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0 mt-1" />
+                          <span className={`w-2 h-2 rounded-full shrink-0 mt-1 ${
+                            n.badge?.includes('3 Hours') || n.badge?.includes('3h')
+                              ? 'bg-rose-500 animate-pulse'
+                              : n.badge?.includes('12h')
+                              ? 'bg-amber-500'
+                              : 'bg-blue-500'
+                          }`} />
                         )}
                       </div>
                       <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
@@ -206,7 +216,13 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
                       <div className="flex items-center justify-between mt-2 pt-1 border-t border-slate-100/60 dark:border-slate-800/60 text-[10px] text-slate-400">
                         <span>{new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                         {n.badge && (
-                          <span className="px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-bold">
+                          <span className={`px-1.5 py-0.5 rounded font-bold text-[9px] ${
+                            n.badge.includes('3 Hours') || n.badge.includes('3h')
+                              ? 'bg-rose-100 dark:bg-rose-900/50 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
+                              : n.badge.includes('12h') || n.badge.includes('Tomorrow')
+                              ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
+                              : 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
+                          }`}>
                             {n.badge}
                           </span>
                         )}

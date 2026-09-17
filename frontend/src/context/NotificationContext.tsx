@@ -2,9 +2,10 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import { useAuth } from './AuthContext';
 import { api, unwrap } from '../services/api';
 import {
-  Bell, CheckCircle2, Flame, Trophy, Award, Sparkles, X, Info, AlertTriangle, ArrowRight
+  Bell, CheckCircle2, Flame, Trophy, Award, Sparkles, X, Info, AlertTriangle, ArrowRight, Clock
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { initialCalendarEvents } from '../services/learnerService';
 
 export type NotificationType =
   | 'COURSE'
@@ -51,15 +52,51 @@ interface NotificationContextType {
 
 const NotificationContext = createContext<NotificationContextType>(null as any);
 
+function parseEventStartTime(dateStr: string, timeStr: string): Date {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  let hours = 9;
+  let minutes = 0;
+
+  const match = (timeStr || '').match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+  if (match) {
+    hours = parseInt(match[1], 10);
+    minutes = parseInt(match[2], 10);
+    const ampm = match[3] ? match[3].toUpperCase() : '';
+    if (ampm === 'PM' && hours < 12) hours += 12;
+    if (ampm === 'AM' && hours === 12) hours = 0;
+  }
+  return new Date(y, m - 1, d, hours, minutes, 0);
+}
+
 const DEFAULT_NOTIFICATIONS: Record<string, AppNotification[]> = {
   TRAINEE: [
+    {
+      id: 'evt-remind-3h-evt-today-01-2026-09-17',
+      title: '⏰ Starting in 3 Hours: Live Lab: Container Orchestration & Docker Telemetry',
+      message: 'Live Lab begins in 3 hours at 10:30 AM! Click here to open your calendar and access the live video room.',
+      type: 'COURSE',
+      isRead: false,
+      createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+      link: '/trainee/calendar',
+      badge: 'In 3 Hours',
+    },
+    {
+      id: 'evt-remind-12h-evt-01-2026-09-18',
+      title: '📅 Event Tomorrow (12h Reminder): Live Workshop: Zero-Trust IAM & Security Auditing',
+      message: 'Starts tomorrow at 11:00 AM (Digital Literacy & Cloud Systems). 12-hour reminder to review your lab pre-read materials.',
+      type: 'COURSE',
+      isRead: false,
+      createdAt: new Date(Date.now() - 1000 * 60 * 25).toISOString(),
+      link: '/trainee/calendar',
+      badge: '12h Reminder',
+    },
     {
       id: 'demo-notif-1',
       title: 'MoES Satellite Doppler Radar Masterclass',
       message: 'Interactive live session starting in 15 minutes. Join room to calibrate sensors.',
       type: 'COURSE',
       isRead: false,
-      createdAt: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+      createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
       link: '/trainee/courses',
       badge: 'Live Now',
     },
@@ -205,6 +242,52 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     // Merge remote database notifications (they take precedence)
     remoteNotifs.forEach(r => map.set(r.id, r));
 
+    // Automated Event Reminders:
+    // 1. 12 Hours Before Tomorrow's Event
+    // 2. 3 Hours Before Start Time
+    const now = new Date();
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
+
+    initialCalendarEvents.forEach(evt => {
+      if (evt.status === 'completed') return;
+
+      const eventStart = parseEventStartTime(evt.date, evt.time);
+      const msUntilEvent = eventStart.getTime() - now.getTime();
+      const hoursUntilEvent = msUntilEvent / (1000 * 60 * 60);
+      const isTomorrow = evt.date === tomorrowStr;
+
+      // Rule 1: 12 Hours Before Tomorrow's Event
+      const id12h = `evt-remind-12h-${evt.id}-${evt.date}`;
+      if (!map.has(id12h) && (isTomorrow || (hoursUntilEvent > 0 && hoursUntilEvent <= 12))) {
+        map.set(id12h, {
+          id: id12h,
+          title: `📅 Event Tomorrow (12h Reminder): ${evt.title}`,
+          message: `"${evt.title}" starts tomorrow at ${evt.time} (${evt.courseName || 'Capacity Connect'}). 12-hour reminder to review your materials.`,
+          type: 'COURSE',
+          isRead: false,
+          createdAt: new Date(Date.now() - 1000 * 60 * 20).toISOString(),
+          link: `/${userRole.toLowerCase()}/calendar`,
+          badge: '12h Reminder',
+        });
+      }
+
+      // Rule 2: 3 Hours Before Start Time
+      const id3h = `evt-remind-3h-${evt.id}-${evt.date}`;
+      if (!map.has(id3h) && (hoursUntilEvent > 0 && hoursUntilEvent <= 3)) {
+        map.set(id3h, {
+          id: id3h,
+          title: `⏰ Starting in 3 Hours: ${evt.title}`,
+          message: `"${evt.title}" starts in 3 hours at ${evt.time}! Click here to open your calendar and join the live session room.`,
+          type: 'COURSE',
+          isRead: false,
+          createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+          link: `/${userRole.toLowerCase()}/calendar`,
+          badge: 'In 3 Hours',
+        });
+      }
+    });
+
     const combined = Array.from(map.values()).sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
@@ -218,11 +301,11 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     loadNotifications();
   }, [loadNotifications]);
 
-  // Periodic check for new notifications every 45s
+  // Periodic check for new notifications & event countdowns every 30s
   useEffect(() => {
     const interval = setInterval(() => {
       loadNotifications();
-    }, 45000);
+    }, 30000);
     return () => clearInterval(interval);
   }, [loadNotifications]);
 
@@ -392,6 +475,12 @@ function ToastCard({
   const { notif } = toast;
 
   const getIcon = () => {
+    if (notif.badge?.includes('3 Hours') || notif.badge?.includes('3h')) {
+      return <Clock className="w-5 h-5 text-rose-400 animate-pulse" />;
+    }
+    if (notif.badge?.includes('12h') || notif.badge?.includes('Tomorrow')) {
+      return <Bell className="w-5 h-5 text-amber-400" />;
+    }
     switch (notif.type) {
       case 'CONTEST':
         return <Flame className="w-5 h-5 text-rose-400 animate-pulse" />;
@@ -407,6 +496,12 @@ function ToastCard({
   };
 
   const getBorder = () => {
+    if (notif.badge?.includes('3 Hours') || notif.badge?.includes('3h')) {
+      return 'border-rose-500/60 shadow-rose-500/30 ring-1 ring-rose-500/30';
+    }
+    if (notif.badge?.includes('12h') || notif.badge?.includes('Tomorrow')) {
+      return 'border-amber-500/60 shadow-amber-500/30 ring-1 ring-amber-500/30';
+    }
     switch (notif.type) {
       case 'CONTEST':
         return 'border-rose-500/50 shadow-rose-500/20';

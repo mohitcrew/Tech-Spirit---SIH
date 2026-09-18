@@ -91,6 +91,7 @@ export const LoginForm: React.FC = () => {
 
       const targetRole = (authenticatedUser?.role || ROLE_MAP[role] || 'TRAINEE').toLowerCase();
       window.setTimeout(() => {
+        // Trainees proceed to onboarding if incomplete. Admin and Trainer always bypass onboarding directly to dashboard.
         if (targetRole === 'trainee' && !authenticatedUser?.onboardingCompleted) {
           navigate('/onboarding');
         } else {

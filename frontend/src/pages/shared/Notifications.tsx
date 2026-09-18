@@ -77,18 +77,18 @@ export default function Notifications() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto pb-12 animate-fadeIn">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 p-6 sm:p-8 rounded-3xl text-white shadow-xl relative overflow-hidden">
+      <div className="page-header-banner bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 p-6 sm:p-8 rounded-3xl text-white shadow-xl relative overflow-hidden">
         <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3">
-              <Bell className="w-3.5 h-3.5" />
-              Live Notification Hub
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3 text-white" style={{ color: '#ffffff' }}>
+              <Bell className="w-3.5 h-3.5 text-white" />
+              <span className="text-white" style={{ color: '#ffffff' }}>Live Notification Hub</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white" style={{ color: '#ffffff' }}>
               Platform Alerts & Updates
             </h1>
-            <p className="text-slate-300 text-sm mt-1 max-w-xl">
+            <p className="text-slate-300 text-sm mt-1 max-w-xl" style={{ color: '#e2e8f0' }}>
               Stay synchronized with SIH 2026 contests, live competency sessions, evaluation feedback, and XP bonuses.
             </p>
           </div>
@@ -98,10 +98,11 @@ export default function Notifications() {
             <button
               onClick={handleRefresh}
               disabled={isRefreshing}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/10 transition-colors cursor-pointer"
+              className="btn-banner-action flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold border border-white/20 transition-colors cursor-pointer shadow-xs"
+              style={{ color: '#ffffff' }}
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-              <span>Refresh</span>
+              <RefreshCw className={`w-3.5 h-3.5 text-white ${isRefreshing ? 'animate-spin' : ''}`} style={{ color: '#ffffff' }} />
+              <span style={{ color: '#ffffff', fontWeight: 700 }}>Refresh</span>
             </button>
 
             {unreadCount > 0 && (

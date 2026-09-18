@@ -39,10 +39,11 @@ export const MotivationalBanner: React.FC<MotivationalBannerProps> = ({ onContin
 
         <button
           onClick={onContinue}
-          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white text-blue-700 hover:bg-blue-50 font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all flex-shrink-0 cursor-pointer db-prog-btn"
+          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white text-blue-700 hover:bg-blue-50 font-extrabold text-xs flex items-center justify-center gap-2 shadow-sm transition-all flex-shrink-0 cursor-pointer db-prog-btn"
+          style={{ color: '#1d4ed8', backgroundColor: '#ffffff' }}
         >
-          <span>Continue Learning</span>
-          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200" />
+          <span style={{ color: '#1d4ed8', fontWeight: 800 }}>Continue Learning</span>
+          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200" style={{ color: '#1d4ed8' }} />
         </button>
       </div>
     </div>

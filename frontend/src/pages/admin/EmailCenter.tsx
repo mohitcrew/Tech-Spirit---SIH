@@ -354,14 +354,14 @@ export function EmailCenter({ defaultTab }: { defaultTab?: string }) {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 p-6 rounded-2xl text-white shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div className="page-header-banner bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 p-6 rounded-2xl text-white shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-2">
-            <Shield className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#93c5fd' }}>
+            <Shield className="w-3.5 h-3.5" style={{ color: '#93c5fd' }} />
             EmailJS Central Communication Hub
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">Email Command Center</h1>
-          <p className="text-slate-300 text-sm mt-1 max-w-2xl">
+          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white" style={{ color: '#ffffff' }}>Email Command Center</h1>
+          <p className="text-slate-300 text-sm mt-1 max-w-2xl" style={{ color: '#cbd5e1' }}>
             Monitor real-time delivery telemetry, preview all 30+ responsive email scenarios, and manually dispatch transactional alerts.
           </p>
         </div>
@@ -370,15 +370,19 @@ export function EmailCenter({ defaultTab }: { defaultTab?: string }) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => refetchHealth()}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/10 transition cursor-pointer"
+            className="btn-banner-action flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-semibold border border-white/20 transition cursor-pointer shadow-xs"
+            style={{ color: '#ffffff' }}
           >
-            <RefreshCw className="w-3.5 h-3.5" /> Sync Telemetry
+            <RefreshCw className="w-3.5 h-3.5 text-white" style={{ color: '#ffffff' }} />
+            <span style={{ color: '#ffffff', fontWeight: 600 }}>Sync Telemetry</span>
           </button>
           <button
             onClick={() => handleTabChange('composer')}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-lg shadow-blue-500/30 transition cursor-pointer"
+            style={{ color: '#ffffff' }}
           >
-            <Send className="w-3.5 h-3.5" /> Compose Email
+            <Send className="w-3.5 h-3.5 text-white" style={{ color: '#ffffff' }} />
+            <span style={{ color: '#ffffff', fontWeight: 600 }}>Compose Email</span>
           </button>
         </div>
       </div>

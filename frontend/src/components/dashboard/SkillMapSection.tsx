@@ -103,7 +103,7 @@ export const SkillMapSection: React.FC<SkillMapSectionProps> = ({ onSelectSkill 
 
                 <div className="flex items-center justify-between text-[11px] text-slate-400">
                   <span className="font-semibold text-slate-600">{skill.level}</span>
-                  <span className="group-hover:text-blue-600 font-semibold flex items-center gap-0.5">
+                  <span className="text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 font-bold flex items-center gap-0.5 transition-colors cursor-pointer">
                     <span>View Courses</span>
                     <ChevronRight className="w-3 h-3" />
                   </span>

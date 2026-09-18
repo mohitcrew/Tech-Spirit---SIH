@@ -124,10 +124,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       TRAINER: 'Prof. Vikram Rao',
       ADMIN: 'Dr. Rajesh Verma',
     };
+    const roleFallbackIds: Record<UserRole, string> = {
+      TRAINEE: 'learner-001',
+      TRAINER: 'c35271a1-ae3c-4f49-bdbe-c2e81b8b323a',
+      ADMIN: 'admin-001',
+    };
+    const roleFallbackProfiles: Record<UserRole, Partial<UserProfile>> = {
+      TRAINEE: {
+        designation: 'Student Trainee',
+        department: 'Severe Weather Forecasting Division',
+        photoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=A%20Mohit&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff',
+      },
+      TRAINER: {
+        designation: 'Lead Instructor & AI Ethics Researcher',
+        department: 'Division of Earth & Atmospheric Informatics',
+        photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=160&auto=format&fit=crop&q=80',
+      },
+      ADMIN: {
+        designation: 'Chief Platform Director',
+        department: 'Ministry of Earth Sciences Governance',
+        photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
+      },
+    };
+
     const updatedUser: User = {
       ...(user || defaultDemoUser),
+      id: roleFallbackIds[role],
       role,
       name: role === 'TRAINEE' ? (user?.name && user.name !== 'Priya Sharma' ? user.name : 'A Mohit') : (user?.role === role && user?.name ? user.name : roleFallbackNames[role]),
+      profile: {
+        ...(user?.profile || {}),
+        ...roleFallbackProfiles[role],
+      },
     };
     localStorage.setItem('cc_token', 'demo_token_' + Date.now());
     localStorage.setItem('cc_user', JSON.stringify(updatedUser));

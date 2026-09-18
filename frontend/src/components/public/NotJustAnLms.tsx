@@ -27,7 +27,7 @@ export const NotJustAnLms: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
             Paradigm Shift
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
@@ -35,7 +35,7 @@ export const NotJustAnLms: React.FC = () => {
           </h2>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300">
             <strong className="text-slate-900 dark:text-white">Traditional LMS platforms track learning.</strong>{' '}
-            <span className="text-cyan-600 dark:text-cyan-300 font-bold">SkillSync connects learning to capability.</span>
+            <span className="text-blue-700 dark:text-cyan-300 font-bold">SkillSync connects learning to capability.</span>
           </p>
         </div>
 
@@ -79,7 +79,7 @@ export const NotJustAnLms: React.FC = () => {
           {/* Center Divider / Graphic arrow for desktop */}
           <div className="hidden lg:flex lg:col-span-1 flex-col items-center justify-center text-slate-400 dark:text-slate-600">
             <div className="h-full w-px bg-slate-200 dark:bg-slate-800" />
-            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-xs font-bold text-cyan-600 dark:text-cyan-400 my-4 shadow-sm">
+            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-xs font-bold text-blue-700 dark:text-cyan-400 my-4 shadow-sm">
               VS
             </div>
             <div className="h-full w-px bg-slate-200 dark:bg-slate-800" />
@@ -90,8 +90,8 @@ export const NotJustAnLms: React.FC = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-3xl pointer-events-none" />
 
             <div>
-              <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-bold text-xs uppercase tracking-wider mb-2">
-                <Cpu className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+              <div className="flex items-center gap-2 text-blue-700 dark:text-cyan-400 font-bold text-xs uppercase tracking-wider mb-2">
+                <Cpu className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
                 <span>The SkillSync Engine</span>
               </div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
@@ -107,7 +107,7 @@ export const NotJustAnLms: React.FC = () => {
                     key={idx}
                     className="p-3 rounded-2xl bg-white dark:bg-slate-950/70 border border-blue-200 dark:border-blue-500/30 flex items-start gap-2.5 shadow-sm"
                   >
-                    <div className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-blue-50 dark:bg-cyan-500/10 text-blue-700 dark:text-cyan-400 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
                       ✓
                     </div>
                     <div>
@@ -123,9 +123,9 @@ export const NotJustAnLms: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-8 p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-800 dark:text-cyan-200 flex items-center justify-between">
+            <div className="mt-8 p-4 rounded-2xl bg-blue-50 dark:bg-cyan-500/10 border border-blue-200 dark:border-cyan-500/20 text-xs text-blue-800 dark:text-cyan-200 flex items-center justify-between">
               <span className="font-semibold">Transforming passive LMS tracking into predictive capacity readiness</span>
-              <Sparkles className="w-4 h-4 text-cyan-600 dark:text-cyan-400 flex-shrink-0" />
+              <Sparkles className="w-4 h-4 text-blue-600 dark:text-cyan-400 flex-shrink-0" />
             </div>
           </div>
         </div>

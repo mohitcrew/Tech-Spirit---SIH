@@ -112,13 +112,13 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
               >
                 <Icon className={`w-5 h-5 ${act.color} transition-transform duration-200`} />
               </div>
-              <h3 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h3 className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 {act.label}
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">
+              <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400 mt-1 line-clamp-1">
                 {act.description}
               </p>
-              <div className="mt-2.5 flex items-center gap-1 text-[11px] font-semibold text-slate-400 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+              <div className="mt-2.5 flex items-center gap-1 text-[11px] font-bold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                 <span>Start</span>
                 <ChevronRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
               </div>

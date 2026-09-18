@@ -5,6 +5,8 @@ import { api, unwrap } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { Loading, PageTitle, StatCard } from '../../components/ui';
 
+import { trainerCourses, trainerAggregatedStats } from '../../data/trainerData';
+
 function statusVariant(status: string) {
   if (status === 'PUBLISHED') return 'badge-green';
   if (status === 'DRAFT') return 'badge-amber';
@@ -19,13 +21,15 @@ export default function TrainerDashboard() {
     queryFn: () => unwrap<any[]>(api.get('/courses')),
   });
 
-  const courses = (allCourses ?? []).filter(
+  const apiFiltered = (allCourses ?? []).filter(
     (c: any) => c.trainerId === user?.id || c.trainer?.id === user?.id
   );
 
+  const courses = apiFiltered.length > 0 ? apiFiltered : trainerCourses;
+
   const published = courses.filter((c: any) => c.status === 'PUBLISHED');
   const totalEnrolled = courses.reduce(
-    (acc: number, c: any) => acc + (c._count?.enrollments ?? 0),
+    (acc: number, c: any) => acc + (c._count?.enrollments ?? c.enrolledCount ?? 0),
     0
   );
 
@@ -36,7 +40,7 @@ export default function TrainerDashboard() {
         if (typeof a.passingScore === 'number') all.push(a.passingScore);
       });
     });
-    if (!all.length) return 0;
+    if (!all.length) return trainerAggregatedStats.avgDiagnosticScore;
     return Math.round(all.reduce((s, v) => s + v, 0) / all.length);
   })();
 
@@ -114,7 +118,7 @@ export default function TrainerDashboard() {
                     </td>
                     <td>{c.category}</td>
                     <td>{c.level}</td>
-                    <td>{c._count?.enrollments ?? 0}</td>
+                    <td>{c._count?.enrollments ?? c.enrolledCount ?? 0}</td>
                     <td>
                       <span className={`badge ${statusVariant(c.status)}`}>
                         {c.status}

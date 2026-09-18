@@ -11,11 +11,15 @@ import { CourseCard } from '../courses/CourseCard';
 interface CourseExplorerProps {
   onEnrollCourse?: (course: NormalizedCourse) => void;
   showAllInitially?: boolean;
+  title?: string;
+  subtitle?: string;
 }
 
 export const CourseExplorer: React.FC<CourseExplorerProps> = ({
   onEnrollCourse,
   showAllInitially = false,
+  title,
+  subtitle,
 }) => {
   const navigate = useNavigate();
   const [activeCatalogue, setActiveCatalogue] = useState<'all' | CatalogueType>('all');
@@ -66,20 +70,20 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
   const displayedCourses = showAllInitially ? filteredCourses : filteredCourses.slice(0, 8);
 
   return (
-    <section id="courses" className="py-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
+    <section id="courses" className={`bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850 ${showAllInitially ? 'pt-8 pb-16' : 'py-20'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
-            <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 inline-flex items-center gap-1.5">
+            <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20 inline-flex items-center gap-1.5">
               <Globe className="w-3.5 h-3.5" />
               <span>Real Excel Course Catalogue · 2,025 Verified Programmes</span>
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">
-              Learn Something That Moves You Forward
+              {title || "Learn Something That Moves You Forward"}
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-2xl">
-              Curated, competency-benchmarked curricula delivered by seasoned institutional faculty across General & Earth Sciences tracks.
+              {subtitle || "Curated, competency-benchmarked curricula delivered by seasoned institutional faculty across General & Earth Sciences tracks."}
             </p>
           </div>
 
@@ -102,7 +106,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
             className={`py-2 px-4 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 ${
               activeCatalogue === 'all'
                 ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -117,7 +121,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
             className={`py-2 px-4 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 ${
               activeCatalogue === 'general'
                 ? 'bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <span>General Catalogue (1,011)</span>
@@ -130,8 +134,8 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
             }}
             className={`py-2 px-4 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 ${
               activeCatalogue === 'earth_sciences'
-                ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-teal-700 dark:text-cyan-400 shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <span>Earth Sciences (1,014)</span>
@@ -204,7 +208,7 @@ export const CourseExplorer: React.FC<CourseExplorerProps> = ({
                   setSelectedMode('All');
                   setSearch('');
                 }}
-                className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline font-semibold px-2"
+                className="text-xs text-blue-600 dark:text-cyan-400 hover:underline font-semibold px-2"
               >
                 Reset
               </button>

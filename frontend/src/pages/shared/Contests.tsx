@@ -322,20 +322,20 @@ export default function Contests() {
   return (
     <div className="space-y-6 animate-fadeIn pb-16">
       {/* ── Top Hero Banner ──────────────────────────────────────────────── */}
-      <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white shadow-xl">
+      <div className="page-header-banner relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white shadow-xl">
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-cyan-400/20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-pink-500/20 blur-2xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-3 text-white" style={{ color: '#ffffff' }}>
               <Flame className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-              <span>National Capacity & Innovation Challenges</span>
+              <span className="text-white" style={{ color: '#ffffff' }}>National Capacity & Innovation Challenges</span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-white" style={{ color: '#ffffff' }}>
               SkillSync Competitions & Hackathons
             </h1>
-            <p className="text-xs sm:text-sm text-blue-100 mt-2 leading-relaxed">
+            <p className="text-xs sm:text-sm text-blue-100 mt-2 leading-relaxed" style={{ color: '#dbeafe' }}>
               Tackle real-world challenges posed by the Ministry of Earth Sciences (MoES), IMD, and partner institutions. 
               Build innovative prototypes, earn verifiable SkillSync XP, win incubation grants, and gain national recognition for Smart India Hackathon 2026.
             </p>
@@ -382,9 +382,12 @@ export default function Contests() {
                   setSelectedContest(CONTESTS_DATA[0]);
                   setIsRegisterOpen(true);
                 }}
-                className="px-3 py-1.5 rounded-xl bg-white text-blue-700 hover:bg-blue-50 font-bold text-xs shadow transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-blue-50 font-extrabold text-xs shadow-md transition-all cursor-pointer"
+                style={{ color: '#1d4ed8', backgroundColor: '#ffffff' }}
               >
-                {registeredContests['sih-moes-2026'] ? 'View Details' : 'Join Track'}
+                <span style={{ color: '#1d4ed8', fontWeight: 800 }}>
+                  {registeredContests['sih-moes-2026'] ? 'View Details' : 'Join Track'}
+                </span>
               </button>
             </div>
           </div>
@@ -394,7 +397,7 @@ export default function Contests() {
       {/* ── Search & Filter Controls ──────────────────────────────────────── */}
       <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Status Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0">
           {[
             { id: 'ALL', label: 'All Contests', count: CONTESTS_DATA.length },
             { id: 'LIVE', label: '🔥 Live Now', count: CONTESTS_DATA.filter(c => c.status === 'LIVE').length },

@@ -41,12 +41,12 @@ export const SkillSyncFooter: React.FC = () => {
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-4">Explore</h4>
             <ul className="space-y-2.5">
-              <li><Link to="/courses" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Courses</Link></li>
-              <li><Link to="/skills" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Skills</Link></li>
-              <li><Link to="/competencies" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Competencies</Link></li>
-              <li><Link to="/trainers" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Trainers</Link></li>
-              <li><Link to="/sectors" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Sectors</Link></li>
-              <li><Link to="/knowledge" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Knowledge Hub</Link></li>
+              <li><Link to="/courses" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Courses</Link></li>
+              <li><Link to="/skills" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Skills</Link></li>
+              <li><Link to="/competencies" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Competencies</Link></li>
+              <li><Link to="/trainers" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Trainers</Link></li>
+              <li><Link to="/sectors" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Sectors</Link></li>
+              <li><Link to="/knowledge" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Knowledge Hub</Link></li>
             </ul>
           </div>
 
@@ -54,12 +54,12 @@ export const SkillSyncFooter: React.FC = () => {
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-4">Platform</h4>
             <ul className="space-y-2.5">
-              <li><a href="/#not-just-lms" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Competency Intelligence</a></li>
-              <li><a href="/#loop" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Intelligence Loop</a></li>
-              <li><a href="/#radar" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Opportunity Radar</a></li>
-              <li><a href="/#organizational" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Capacity Analytics</a></li>
-              <li><a href="/#trainer-experience" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Trainer Studio</a></li>
-              <li><Link to="/ai" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors flex items-center gap-1"><span>SkillSync AI</span> <Sparkles className="w-3 h-3 text-cyan-600 dark:text-cyan-400" /></Link></li>
+              <li><a href="/#not-just-lms" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Competency Intelligence</a></li>
+              <li><a href="/#loop" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Intelligence Loop</a></li>
+              <li><a href="/#radar" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Opportunity Radar</a></li>
+              <li><a href="/#organizational" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Capacity Analytics</a></li>
+              <li><a href="/#trainer-experience" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Trainer Studio</a></li>
+              <li><Link to="/ai" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors flex items-center gap-1"><span>SkillSync AI</span> <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" /></Link></li>
             </ul>
           </div>
 
@@ -67,12 +67,12 @@ export const SkillSyncFooter: React.FC = () => {
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-4">Account & Connect</h4>
             <ul className="space-y-2.5">
-              <li><Link to="/login" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Sign In</Link></li>
-              <li><Link to="/register" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Create Free Account</Link></li>
-              <li><Link to="/register?role=trainer" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Trainer Registration</Link></li>
-              <li><a href="/#how-it-works" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">How It Works</a></li>
-              <li><a href="/#features" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Key Features</a></li>
-              <li><a href="/#about" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">About SkillSync</a></li>
+              <li><Link to="/login" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Sign In</Link></li>
+              <li><Link to="/register" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Create Free Account</Link></li>
+              <li><Link to="/register?role=trainer" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Trainer Registration</Link></li>
+              <li><a href="/#how-it-works" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">How It Works</a></li>
+              <li><a href="/#features" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Key Features</a></li>
+              <li><a href="/#about" className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">About SkillSync</a></li>
             </ul>
           </div>
         </div>

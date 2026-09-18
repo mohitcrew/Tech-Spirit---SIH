@@ -5,11 +5,11 @@ import { knowledgeResources } from '../../data/skillsyncData';
 
 export const KnowledgeHubPreview: React.FC = () => {
   return (
-    <section id="knowledge" className="py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
+    <section id="knowledge" className="pt-10 pb-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
-            <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+            <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
               Institutional Library
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">
@@ -22,7 +22,7 @@ export const KnowledgeHubPreview: React.FC = () => {
 
           <Link
             to="/knowledge"
-            className="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-xs font-bold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-all flex items-center gap-1.5 self-start md:self-end shadow-sm"
+            className="px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-xs font-bold text-blue-700 dark:text-cyan-400 hover:text-blue-800 dark:hover:text-cyan-300 transition-all flex items-center gap-1.5 self-start md:self-end shadow-sm"
           >
             <span>Explore Knowledge Hub</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -43,7 +43,7 @@ export const KnowledgeHubPreview: React.FC = () => {
                   </span>
                 </div>
 
-                <h3 className="font-extrabold text-sm text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors line-clamp-2 mb-2">
+                <h3 className="font-extrabold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors line-clamp-2 mb-2">
                   {res.title}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
@@ -55,7 +55,7 @@ export const KnowledgeHubPreview: React.FC = () => {
                 <span className="text-slate-500 font-mono text-[10px]">{res.downloadsCount} accesses</span>
                 <button
                   onClick={() => alert(`Accessing "${res.title}" from the Knowledge Hub`)}
-                  className="p-1.5 rounded-lg bg-slate-100 hover:bg-blue-600 hover:text-white dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-white text-slate-600 dark:text-slate-300 transition-colors border border-slate-200 dark:border-transparent"
+                  className="download-btn p-2 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-200/80 hover:border-transparent dark:bg-slate-800 dark:hover:bg-blue-600 dark:text-slate-300 dark:hover:text-white dark:border-slate-700/60 transition-all cursor-pointer shadow-xs"
                   title="Download / View Resource"
                 >
                   <Download className="w-3.5 h-3.5" />

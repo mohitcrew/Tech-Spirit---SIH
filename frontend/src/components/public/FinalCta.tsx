@@ -12,7 +12,7 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onExploreCourses, onRegister
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-r from-blue-600/10 via-cyan-500/10 to-purple-600/10 dark:from-blue-600/20 dark:via-cyan-500/20 dark:to-purple-600/20 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-750 text-xs font-bold text-cyan-700 dark:text-cyan-300 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 dark:bg-slate-850 border border-blue-200/80 dark:border-slate-750 text-xs font-bold text-blue-700 dark:text-cyan-300 shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
           <span>Start Your Competency Journey Today</span>
         </div>
@@ -28,10 +28,10 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onExploreCourses, onRegister
         <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
           <button
             onClick={onExploreCourses}
-            className="px-6 py-3.5 rounded-2xl bg-white dark:bg-white text-slate-950 hover:bg-slate-50 dark:hover:bg-slate-100 font-extrabold text-xs sm:text-sm shadow-xl transition-all hover:scale-102 flex items-center gap-2 border border-slate-200 dark:border-transparent"
+            className="px-6 py-3.5 rounded-2xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 font-extrabold text-xs sm:text-sm shadow-xl transition-all hover:scale-102 flex items-center gap-2 border border-slate-200 dark:border-slate-700"
           >
-            <BookOpen className="w-4 h-4 text-blue-600" />
-            <span>Explore Courses</span>
+            <BookOpen className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
+            <span className="text-slate-900 dark:text-white">Explore Courses</span>
           </button>
 
           <button

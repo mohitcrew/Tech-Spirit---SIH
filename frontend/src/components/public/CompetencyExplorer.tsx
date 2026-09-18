@@ -8,10 +8,10 @@ interface CompetencyExplorerProps {
 
 export const CompetencyExplorer: React.FC<CompetencyExplorerProps> = ({ onAnalyzeGap }) => {
   return (
-    <section id="competencies" className="py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
+    <section id="competencies" className="pt-10 pb-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
             Competency Architecture
           </span>
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
@@ -38,7 +38,7 @@ export const CompetencyExplorer: React.FC<CompetencyExplorerProps> = ({ onAnalyz
                   </span>
                 </div>
 
-                <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors mb-2">
+                <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors mb-2">
                   {comp.title}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">

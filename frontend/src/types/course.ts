@@ -20,6 +20,8 @@ export interface NormalizedCourse {
   courseImage: string;
   eligibility: string;
   dates: string;
+  isCustom?: boolean;
+  status?: 'Published' | 'Draft' | 'Archived';
 }
 
 export interface CourseFilters {

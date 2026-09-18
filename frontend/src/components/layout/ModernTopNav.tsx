@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Search, Bell, HelpCircle, Menu, Flame, Star, ChevronDown, Check, UserRound, Shield, LogOut, Sun, Moon
@@ -29,6 +29,25 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
   const [showNotifMenu, setShowNotifMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/trainee/learning?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const { data: traineeProfile } = useQuery({
     queryKey: ['traineeProfile', user?.email],
@@ -40,41 +59,46 @@ export const ModernTopNav: React.FC<ModernTopNavProps> = ({
   const displayAvatar = traineeProfile?.photoUrl || user?.profile?.photoUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(displayName)}&backgroundColor=0284c7,2563eb,7c3aed&textColor=ffffff`;
   const firstName = displayName.split(' ')[0];
 
-
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 sm:px-8 flex items-center justify-between gap-4">
-      {/* Left: Mobile Hamburger & Search Bar */}
-      <div className="flex items-center gap-3 sm:gap-4 flex-1 max-w-xl">
+      {/* Left: Mobile Hamburger & Enlarged Global Search Bar */}
+      <div className="flex items-center gap-3 sm:gap-4 flex-1 max-w-2xl lg:max-w-3xl">
         <button
           onClick={onToggleSidebar}
-          className="lg:hidden w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
+          className="lg:hidden w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 transition-colors cursor-pointer shrink-0"
           title="Toggle Navigation Menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* Global Search Input */}
-        <div className="relative w-full max-w-md db-top-search-anim">
-          <Search className="w-4 h-4 text-slate-400 dark:text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+        {/* Global Search Input Bar (Enlarged) */}
+        <form onSubmit={handleSearch} className="relative w-full max-w-xl lg:max-w-2xl db-top-search-anim">
+          <button
+            type="submit"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer p-1 rounded-lg hover:bg-slate-200/60 dark:hover:bg-slate-700/60"
+            title="Search"
+            aria-label="Search"
+          >
+            <Search className="w-5 h-5" />
+          </button>
           <input
+            ref={searchInputRef}
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Search courses, skills, live workshops... (⌘K)"
-            className="w-full bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700 rounded-2xl pl-10 pr-12 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-all"
+            placeholder="Search courses, workshops or any others..."
+            className="w-full bg-slate-100/90 dark:bg-slate-800/90 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 rounded-2xl pl-12 pr-14 py-2.5 sm:py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-blue-500/20 transition-all shadow-xs"
           />
-          <kbd className="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-400 dark:text-slate-400 shadow-2xs db-kbd-badge">
+          <kbd
+            onClick={() => searchInputRef.current?.focus()}
+            className="hidden sm:inline-flex items-center absolute right-3.5 top-1/2 -translate-y-1/2 bg-white dark:bg-slate-700/80 border border-slate-200 dark:border-slate-600 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium text-slate-400 dark:text-slate-300 shadow-2xs cursor-pointer hover:border-slate-300 dark:hover:border-slate-500 db-kbd-badge"
+            title="Press ⌘K or Ctrl+K to focus search"
+          >
             ⌘K
           </kbd>
-        </div>
-      </div>
-
-      {/* Center: Subtle Demo Mode Indicator */}
-      <div className="hidden xl:flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 rounded-full text-[11px] font-semibold tracking-wide shadow-2xs">
-        <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-        Demo Environment &bull; Synthetic Data
+        </form>
       </div>
 
       {/* Right Actions */}

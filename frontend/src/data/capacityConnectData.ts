@@ -78,6 +78,7 @@ export interface LeaderboardUser {
   avatarColor: string;
   isCurrentUser?: boolean;
   highlightText: string;
+  prize?: string;
 }
 
 export interface BadgeItem {
@@ -434,6 +435,7 @@ export const leaderboardUsers: LeaderboardUser[] = [
     avatarColor: 'bg-blue-600',
     isCurrentUser: true,
     highlightText: 'Top learner this week · 7-day streak',
+    prize: '₹2,500 Grant + Gold Distinction',
   },
   {
     rank: 2,
@@ -444,6 +446,7 @@ export const leaderboardUsers: LeaderboardUser[] = [
     avatarColor: 'bg-emerald-600',
     isCurrentUser: false,
     highlightText: 'Completed Digital Skills Capstone',
+    prize: '₹1,500 Grant + Silver Distinction',
   },
   {
     rank: 3,
@@ -454,6 +457,7 @@ export const leaderboardUsers: LeaderboardUser[] = [
     avatarColor: 'bg-purple-600',
     isCurrentUser: false,
     highlightText: 'Community Champion',
+    prize: '₹1,000 Grant + Bronze Distinction',
   },
   {
     rank: 4,
@@ -464,6 +468,7 @@ export const leaderboardUsers: LeaderboardUser[] = [
     avatarColor: 'bg-amber-600',
     isCurrentUser: false,
     highlightText: 'Quiz Master distinction',
+    prize: '250 Bonus XP + Honor Roll',
   },
 ];
 

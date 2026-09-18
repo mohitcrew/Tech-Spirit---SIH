@@ -38,7 +38,7 @@ export const OpportunityRadar: React.FC<OpportunityRadarProps> = ({ onExploreCou
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-bold text-cyan-600 dark:text-cyan-400 mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-cyan-500/10 border border-blue-200 dark:border-cyan-500/20 text-xs font-bold text-blue-700 dark:text-cyan-400 mb-3">
               <Compass className="w-3.5 h-3.5" />
               <span>Training Opportunity Radar</span>
             </div>
@@ -50,7 +50,7 @@ export const OpportunityRadar: React.FC<OpportunityRadarProps> = ({ onExploreCou
             </p>
           </div>
 
-          <span className="text-[11px] font-mono text-slate-500 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl self-start md:self-end">
+          <span className="text-[11px] font-mono text-slate-600 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl self-start md:self-end">
             * Illustrative Prototype Recommendations
           </span>
         </div>
@@ -69,7 +69,7 @@ export const OpportunityRadar: React.FC<OpportunityRadarProps> = ({ onExploreCou
                   <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">{opp.cohortDate}</span>
                 </div>
 
-                <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors mb-2">
+                <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors mb-2">
                   {opp.title}
                 </h3>
                 <span className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-md font-medium mb-4 inline-block border border-slate-200 dark:border-transparent">
@@ -92,10 +92,10 @@ export const OpportunityRadar: React.FC<OpportunityRadarProps> = ({ onExploreCou
               <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
                 <button
                   onClick={() => onExploreCourse(opp.title)}
-                  className="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-white text-blue-600 dark:text-blue-400 text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-slate-200 dark:border-transparent"
+                  className="opportunity-btn w-full py-2.5 px-4 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white border border-blue-200/80 hover:border-transparent dark:bg-slate-800 dark:hover:bg-blue-600 dark:text-blue-400 dark:hover:text-white dark:border-slate-700/60 font-bold text-xs flex items-center justify-center gap-1.5 transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent shadow-xs cursor-pointer"
                 >
-                  <span>Explore Program</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span className="font-bold">Explore Program</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
             </div>

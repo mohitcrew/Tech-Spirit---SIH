@@ -58,7 +58,7 @@ export const ExploreGrid: React.FC = () => {
     <section className="py-20 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
-          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
             Discovery Matrix
           </span>
           <h2 className="text-3xl font-black text-slate-900 dark:text-white">
@@ -88,7 +88,7 @@ export const ExploreGrid: React.FC = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors mb-2">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors mb-2">
                     {c.title}
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -96,7 +96,7 @@ export const ExploreGrid: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="pt-5 mt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500 dark:group-hover:text-cyan-300">
+                <div className="pt-5 mt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-blue-700 dark:text-cyan-400 group-hover:text-blue-800 dark:group-hover:text-cyan-300">
                   <span>Explore {c.title}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>

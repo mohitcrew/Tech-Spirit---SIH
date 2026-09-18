@@ -72,7 +72,7 @@ export default function Profile() {
   return (
     <div className="space-y-6 animate-fadeIn pb-16">
       {/* Top Banner Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="page-header-banner p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="relative">
             <img
@@ -85,12 +85,12 @@ export default function Profile() {
             </div>
           </div>
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2 text-white" style={{ color: '#ffffff' }}>
               <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>SkillSync Verified Citizen Profile</span>
+              <span className="text-white" style={{ color: '#ffffff' }}>SkillSync Verified Citizen Profile</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white">{formData.name}</h1>
-            <p className="text-xs sm:text-sm text-blue-100 mt-0.5">
+            <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ color: '#ffffff' }}>{formData.name}</h1>
+            <p className="text-xs sm:text-sm text-blue-100 mt-0.5" style={{ color: '#dbeafe' }}>
               {formData.professional.currentRole} • {formData.professional.currentOrganization}
             </p>
           </div>
@@ -98,36 +98,58 @@ export default function Profile() {
 
         {/* Profile Completion Widget */}
         <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/20">
-          <div className="relative w-16 h-16 flex items-center justify-center">
+          <div className="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-              <path
-                className="text-white/20"
-                strokeWidth="3.5"
-                stroke="currentColor"
+              <defs>
+                <linearGradient id="profileReadinessGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#f59e0b" />
+                  <stop offset="100%" stopColor="#fbbf24" />
+                </linearGradient>
+              </defs>
+              {/* Background Track (translucent) */}
+              <circle
+                cx="18"
+                cy="18"
+                r="15.9155"
                 fill="none"
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                stroke="rgba(255, 255, 255, 0.2)"
+                strokeWidth="3.2"
+                style={{ stroke: 'rgba(255, 255, 255, 0.2)' }}
               />
-              <path
-                className="text-amber-400"
-                strokeDasharray={`${completion.percent}, 100`}
-                strokeWidth="3.5"
-                strokeLinecap="round"
-                stroke="currentColor"
+              {/* Shaded Progress Ring (shaded exactly according to percent) */}
+              <circle
+                cx="18"
+                cy="18"
+                r="15.9155"
                 fill="none"
-                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                stroke="url(#profileReadinessGrad)"
+                strokeWidth="3.2"
+                strokeLinecap="round"
+                strokeDasharray={`${completion.percent} 100`}
+                strokeDashoffset="0"
+                style={{
+                  stroke: 'url(#profileReadinessGrad)',
+                  strokeDasharray: `${completion.percent} 100`,
+                  strokeDashoffset: 0,
+                  transition: 'stroke-dasharray 0.8s ease',
+                }}
               />
             </svg>
-            <span className="absolute text-sm font-black text-white">{completion.percent}%</span>
+            <span className="absolute text-sm font-black text-white" style={{ color: '#ffffff' }}>
+              {completion.percent}%
+            </span>
           </div>
           <div className="text-left">
-            <div className="text-xs font-bold uppercase tracking-wider text-amber-300">Profile Readiness</div>
-            <div className="text-xs text-blue-100 mt-0.5">
+            <div className="text-xs font-black uppercase tracking-wider text-amber-300" style={{ color: '#fcd34d' }}>
+              Profile Readiness
+            </div>
+            <div className="text-xs text-blue-100 mt-0.5" style={{ color: '#dbeafe' }}>
               {completion.missingFields.length === 0
                 ? 'All sections complete!'
                 : `${completion.missingFields.length} pending recommendations`}
             </div>
-            <div className="text-[11px] font-semibold text-emerald-300 flex items-center gap-1 mt-1">
-              <Trophy className="w-3.5 h-3.5" />
+            <div className="text-[11px] font-bold text-emerald-300 flex items-center gap-1 mt-1" style={{ color: '#6ee7b7' }}>
+              <Trophy className="w-3.5 h-3.5 text-emerald-300" />
               <span>{xp.toLocaleString()} SkillSync XP</span>
             </div>
           </div>

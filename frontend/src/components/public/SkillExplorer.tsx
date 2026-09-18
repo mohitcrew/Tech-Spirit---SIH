@@ -13,17 +13,17 @@ export const SkillExplorer: React.FC = () => {
     : publicSkills.filter(s => s.category === selectedCategory);
 
   return (
-    <section id="skills" className="py-20 bg-slate-900/40 text-white border-b border-slate-850">
+    <section id="skills" className="pt-10 pb-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
             Granular Skill Dictionary
           </span>
-          <h2 className="text-3xl font-black text-white">
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white">
             Explore Skills Required Across Roles
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
             Click any skill chip to reveal related professional roles, underlying competencies, and recommended learning pathways.
           </p>
         </div>
@@ -37,7 +37,7 @@ export const SkillExplorer: React.FC = () => {
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 selectedCategory === cat
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-105'
-                  : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800'
+                  : 'bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800 shadow-xs'
               }`}
             >
               {cat}
@@ -48,15 +48,15 @@ export const SkillExplorer: React.FC = () => {
         {/* 2-Column Interactive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left: Skill Chips Grid */}
-          <div className="lg:col-span-7 flex flex-wrap gap-2.5 p-6 rounded-3xl bg-slate-950 border border-slate-800 shadow-xl">
+          <div className="lg:col-span-7 flex flex-wrap gap-2.5 p-6 rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-md">
             {filteredSkills.map(skill => (
               <button
                 key={skill.id}
                 onClick={() => setActiveSkill(skill)}
                 className={`px-3.5 py-2 rounded-2xl text-xs font-semibold transition-all flex items-center gap-2 border ${
                   activeSkill?.id === skill.id
-                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-md shadow-cyan-500/20 scale-105'
-                    : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-850'
+                    ? 'bg-blue-50 dark:bg-cyan-500/20 border-blue-500 dark:border-cyan-500 text-blue-700 dark:text-cyan-300 shadow-md shadow-blue-500/20 scale-105'
+                    : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-slate-850'
                 }`}
               >
                 <span>{skill.name}</span>
@@ -87,7 +87,7 @@ export const SkillExplorer: React.FC = () => {
               {/* Related Roles */}
               <div>
                 <h4 className="font-bold text-slate-800 dark:text-slate-300 mb-2 flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                  <UserCheck className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
                   <span>Target Roles Requiring {activeSkill.name}:</span>
                 </h4>
                 <div className="flex flex-wrap gap-1.5">

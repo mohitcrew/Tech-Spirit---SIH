@@ -29,7 +29,7 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
       title: 'Trainer Matching',
       desc: 'Connect with verified domain specialists and schedule structured peer review workshops and 1-on-1 mentorship.',
       icon: Users,
-      color: 'text-cyan-400 bg-cyan-500/10',
+      color: 'text-blue-600 dark:text-cyan-400 bg-blue-50 dark:bg-cyan-500/10',
     },
     {
       title: 'Integrated AI Assistant',
@@ -55,7 +55,7 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
     <section id="features" className="py-20 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-bold text-cyan-500 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
             Core Capabilities
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
@@ -96,7 +96,7 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
           {/* Student-Friendly Block */}
           <div className="p-8 rounded-3xl bg-gradient-to-br from-blue-50/80 via-white to-white dark:from-blue-950/40 dark:via-slate-900 dark:to-slate-900 border border-blue-200 dark:border-blue-500/30 flex flex-col justify-between shadow-xl">
             <div>
-              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block border border-blue-500/20">
+              <span className="role-pill-student px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block border border-blue-200 dark:border-blue-800">
                 For Students & Early-Career Learners
               </span>
               <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2">
@@ -108,15 +108,15 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
 
               <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300 mb-8">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-cyan-400 flex-shrink-0" />
                   <span>Discover exact skills demanded by high-growth roles</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-cyan-400 flex-shrink-0" />
                   <span>Receive adaptive recommendations that skip what you already know</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-500 dark:text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-cyan-400 flex-shrink-0" />
                   <span>Earn verified competency credentials for career portfolios</span>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export const WhySkillSync: React.FC<WhySkillSyncProps> = ({
           {/* Trainer-Friendly Block */}
           <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-50/80 via-white to-white dark:from-purple-950/40 dark:via-slate-900 dark:to-slate-900 border border-purple-200 dark:border-purple-500/30 flex flex-col justify-between shadow-xl">
             <div>
-              <span className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block border border-purple-500/20">
+              <span className="role-pill-trainer px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-xs font-bold uppercase tracking-wider mb-4 inline-block border border-purple-200 dark:border-purple-800">
                 For Educators, Mentors & Trainers
               </span>
               <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2">

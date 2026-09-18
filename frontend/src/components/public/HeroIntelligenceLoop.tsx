@@ -77,7 +77,7 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
   ];
 
   return (
-    <section className="relative overflow-hidden bg-slate-950 text-white pt-12 pb-24 border-b border-slate-850">
+    <section className="relative overflow-hidden bg-white dark:bg-slate-950 text-slate-900 dark:text-white pt-12 pb-24 border-b border-slate-200 dark:border-slate-850">
       {/* Background Subtle Living Atmospheric Glows */}
       <div
         style={{
@@ -100,10 +100,10 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
             style={{
               transform: `translateY(-${Math.min(scrollY * 0.05, 12)}px)`,
             }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-750 text-xs font-bold text-cyan-300 shadow-sm backdrop-blur-md hero-badge-anim"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 dark:bg-slate-900/90 border border-blue-200/80 dark:border-slate-700 text-xs font-bold text-blue-700 dark:text-cyan-300 shadow-xs backdrop-blur-md hero-badge-anim"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>✦ Intelligent Learning & Capacity Platform</span>
+            <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
+            <span className="text-blue-700 dark:text-cyan-300 font-extrabold tracking-wide">✦ Intelligent Learning & Capacity Platform</span>
           </div>
 
           {/* 2. Hero Heading Controlled 3-Line Symmetrical Assembly */}
@@ -146,7 +146,7 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
             style={{
               opacity: Math.max(1 - (scrollY / 850) * 0.3, 0.7),
             }}
-            className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto hero-desc-anim"
+            className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto hero-desc-anim"
           >
             SkillSync connects your goals, skills, competencies, learning opportunities, trainers, and progress into one intelligent capacity-building experience.
           </p>
@@ -160,10 +160,10 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
           >
             <button
               onClick={onExploreClick}
-              className="px-6 py-3.5 rounded-2xl bg-white text-slate-950 hover:bg-slate-100 font-extrabold text-xs sm:text-sm shadow-xl flex items-center gap-2 group hero-btn-explore-anim cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 font-extrabold text-xs sm:text-sm shadow-xl flex items-center gap-2 group hero-btn-explore-anim cursor-pointer border border-slate-200 dark:border-slate-700"
             >
-              <span>Explore SkillSync</span>
-              <ArrowRight className="w-4 h-4 btn-arrow-explore" />
+              <span className="text-slate-900 dark:text-white">Explore SkillSync</span>
+              <ArrowRight className="w-4 h-4 btn-arrow-explore text-slate-900 dark:text-white group-hover:translate-x-0.5 transition-transform" />
             </button>
 
             <button
@@ -178,7 +178,7 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
           <div className="pt-2 hero-link-ai-anim">
             <button
               onClick={onOpenAi}
-              className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center gap-1 group cursor-pointer"
+              className="text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-cyan-400 dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-1 group cursor-pointer"
             >
               <span>Try AI Assistant</span>
               <ArrowRight className="w-3 h-3 ai-link-arrow-pulse" />
@@ -192,7 +192,7 @@ export const HeroIntelligenceLoop: React.FC<HeroIntelligenceLoopProps> = ({
           <div className="p-6 sm:p-10 rounded-3xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-750 backdrop-blur-xl shadow-2xl relative">
             {/* Step 1 & Step 2: Badge and Heading reveals */}
             <div className="text-center mb-8">
-              <span className={`inline-block text-[10px] font-extrabold uppercase tracking-widest text-cyan-500 dark:text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 ${
+              <span className={`inline-block text-[10px] font-extrabold uppercase tracking-widest text-blue-700 dark:text-cyan-400 bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20 ${
                 isSectionVisible ? 'loop-badge-anim' : 'opacity-0'
               }`}>
                 The SkillSync Intelligence Loop

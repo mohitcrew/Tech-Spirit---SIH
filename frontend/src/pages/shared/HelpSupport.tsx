@@ -48,16 +48,16 @@ export default function HelpSupport() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-800 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="page-header-banner p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-800 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2">
-            <LifeBuoy className="w-3.5 h-3.5" />
-            <span>Support Center</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2 text-white" style={{ color: '#ffffff' }}>
+            <LifeBuoy className="w-3.5 h-3.5 text-white" />
+            <span className="text-white" style={{ color: '#ffffff' }}>Support Center</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black">
+          <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ color: '#ffffff' }}>
             Help & Technical Support
           </h1>
-          <p className="text-xs sm:text-sm text-blue-100 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-blue-100 mt-1 max-w-xl" style={{ color: '#dbeafe' }}>
             Frequently asked questions, system troubleshooting guides, and direct assistance ticketing for SIH 2026 fellows.
           </p>
         </div>

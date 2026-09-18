@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, User, Award, Globe, Compass, ArrowRight, Layers } from 'lucide-react';
+import { Clock, User, Award, Globe, Compass, ArrowRight, Layers, Edit3, Trash2, Shield } from 'lucide-react';
 import { NormalizedCourse } from '../../types/course';
 import { resolveCourseImage, getCourseFallbackImage } from '../../utils/courseImageHelper';
 
@@ -10,6 +10,9 @@ interface CourseCardProps {
   matchPercentage?: number;
   recommendationReason?: string;
   onViewCourse?: (course: NormalizedCourse) => void;
+  isAdmin?: boolean;
+  onEditCourse?: (course: NormalizedCourse) => void;
+  onDeleteCourse?: (course: NormalizedCourse) => void;
 }
 
 export const CourseCard: React.FC<CourseCardProps> = ({
@@ -18,6 +21,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   matchPercentage,
   recommendationReason,
   onViewCourse,
+  isAdmin = false,
+  onEditCourse,
+  onDeleteCourse,
 }) => {
   const levelClass =
     course.level.toLowerCase() === 'easy'
@@ -53,11 +59,19 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
           {/* Top badges */}
           <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-            <span
-              className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide border backdrop-blur-md bg-white/90 dark:bg-slate-900/90 ${catalogueBadgeClass}`}
-            >
-              {course.catalogue === 'earth_sciences' ? 'Earth Sciences' : 'General'}
-            </span>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span
+                className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide border backdrop-blur-md bg-white/90 dark:bg-slate-900/90 ${catalogueBadgeClass}`}
+              >
+                {course.catalogue === 'earth_sciences' ? 'Earth Sciences' : 'General'}
+              </span>
+              {course.isCustom && (
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold tracking-wide bg-amber-500 text-slate-950 backdrop-blur-md flex items-center gap-1 shadow-sm">
+                  <span>⭐</span>
+                  <span>Custom</span>
+                </span>
+              )}
+            </div>
 
             <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-md">
               {course.courseId}
@@ -162,11 +176,49 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <Link
           to={detailsUrl}
           onClick={() => onViewCourse?.(course)}
-          className="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-blue-600 dark:bg-slate-800 dark:hover:bg-blue-600 text-slate-700 hover:text-white dark:text-slate-200 dark:hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all group-hover:bg-blue-600 group-hover:text-white shadow-xs"
+          className="course-card-btn w-full py-2.5 px-4 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white border border-blue-200/80 hover:border-transparent dark:bg-slate-800 dark:hover:bg-blue-600 dark:text-slate-200 dark:hover:text-white dark:border-slate-700/60 font-bold text-xs flex items-center justify-center gap-1.5 transition-all group-hover:bg-blue-600 group-hover:text-white shadow-xs"
         >
-          <span>View Course</span>
+          <span className="font-bold">View Course</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </Link>
+
+        {/* Admin Controls - Strictly visible only when isAdmin is true */}
+        {isAdmin && (
+          <div className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1">
+              <Shield className="w-3 h-3 text-indigo-500" />
+              Admin
+            </span>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onEditCourse?.(course);
+                }}
+                className="px-2 py-1 text-[11px] font-semibold rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-600 dark:bg-slate-800 dark:hover:bg-blue-900/30 dark:text-slate-300 text-slate-700 transition-colors flex items-center gap-1 border border-slate-200 dark:border-slate-700"
+                title="Edit Course Details"
+              >
+                <Edit3 className="w-3 h-3 text-blue-500" />
+                <span>Edit</span>
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onDeleteCourse?.(course);
+                }}
+                className="px-2 py-1 text-[11px] font-semibold rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 dark:bg-slate-800 dark:hover:bg-rose-950/40 dark:text-slate-300 text-slate-600 transition-colors flex items-center gap-1 border border-slate-200 dark:border-slate-700"
+                title="Delete or Archive Course"
+              >
+                <Trash2 className="w-3 h-3 text-rose-500" />
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

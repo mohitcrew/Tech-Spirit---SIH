@@ -53,16 +53,16 @@ export default function Community() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="page-header-banner p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2">
-            <Users className="w-3.5 h-3.5" />
-            <span>Learner Network</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2 text-white" style={{ color: '#ffffff' }}>
+            <Users className="w-3.5 h-3.5 text-white" />
+            <span className="text-white" style={{ color: '#ffffff' }}>Learner Network</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black">
+          <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ color: '#ffffff' }}>
             Community Discussions & Cohort Hub
           </h1>
-          <p className="text-xs sm:text-sm text-indigo-100 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-indigo-100 mt-1 max-w-xl" style={{ color: '#e0e7ff' }}>
             Ask questions, collaborate on capstone assignments, and exchange technical insights with fellows and faculty.
           </p>
         </div>

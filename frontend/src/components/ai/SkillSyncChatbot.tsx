@@ -145,13 +145,20 @@ export const SkillSyncChatbot: React.FC<SkillSyncChatbotProps> = ({
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-40 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-bold text-xs shadow-xl shadow-blue-500/35 hover:scale-105 transition-all flex items-center gap-2 group active:scale-95"
+          aria-label="Open SkillSync AI Assistant - Ask Doubts"
+          className="fixed bottom-6 right-6 z-40 group h-12 flex items-center rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-bold text-xs shadow-xl shadow-blue-500/35 p-3 hover:pr-4.5 transition-all duration-300 ease-out active:scale-95 cursor-pointer relative select-none"
         >
-          <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:rotate-12 transition-transform">
+          <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 group-hover:rotate-12 transition-transform duration-300">
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
           </div>
-          <span>✨ Ask SkillSync</span>
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+
+          <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white/90 group-hover:hidden animate-pulse pointer-events-none" />
+
+          <div className="max-w-0 opacity-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:opacity-100 group-hover:ml-2.5 flex items-center gap-2 transition-all duration-300 ease-out">
+            <span className="tracking-wide font-extrabold text-xs text-white">Ask SkillSync</span>
+            <span className="px-1.5 py-0.5 rounded-md bg-white/20 text-[10px] font-bold text-cyan-100 tracking-tight">Doubts</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+          </div>
         </button>
       )}
 

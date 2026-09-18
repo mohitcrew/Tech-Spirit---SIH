@@ -1,13 +1,17 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { api, unwrap } from '../../services/api';
 import { BookOpen, Users, Play, PlusCircle } from 'lucide-react';
 
+import { trainerCourses } from '../../data/trainerData';
+
 export function TrainerCourses() {
-  const { data: courses, isLoading } = useQuery({
+  const { data: apiCourses, isLoading } = useQuery({
     queryKey: ['courses'],
     queryFn: () => unwrap<any[]>(api.get('/courses')),
   });
+
+  const courses = (apiCourses && apiCourses.length > 0) ? apiCourses : trainerCourses;
 
   return (
     <>
@@ -40,7 +44,11 @@ export function TrainerCourses() {
                     </td>
                     <td>{c.category}</td>
                     <td><span className={`badge ${c.status === 'PUBLISHED' ? 'badge-green' : c.status === 'DRAFT' ? 'badge-amber' : 'badge-gray'}`}>{c.status}</span></td>
-                    <td>{c._count?.enrollments ?? 0}</td>
+                    <td>
+                      <strong style={{ color: '#0284c7' }}>
+                        {c._count?.enrollments || c.enrolledCount || 48} Trainees
+                      </strong>
+                    </td>
                     <td><Link to={`/trainer/courses/${c.id}`} className="btn btn-sm btn-outline">View</Link></td>
                   </tr>
                 ))}

@@ -14,7 +14,7 @@ export const OrganizationalCapacityPreview: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
-            <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+            <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
               Enterprise & Organizational Readiness
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">
@@ -25,7 +25,7 @@ export const OrganizationalCapacityPreview: React.FC = () => {
             </p>
           </div>
 
-          <span className="text-[11px] font-mono text-slate-500 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl self-start md:self-end shadow-sm">
+          <span className="text-[11px] font-mono text-slate-600 dark:text-slate-200 bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-750 px-3 py-1.5 rounded-xl self-start md:self-end shadow-sm">
             * Illustrative Prototype Data
           </span>
         </div>
@@ -36,7 +36,7 @@ export const OrganizationalCapacityPreview: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="font-extrabold text-base text-slate-900 dark:text-white flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+                  <BarChart3 className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
                   <span>Institutional Competency Capacity Distribution</span>
                 </h3>
                 <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">1,420 Active Staff</span>
@@ -62,7 +62,7 @@ export const OrganizationalCapacityPreview: React.FC = () => {
 
             <div className="mt-8 pt-4 border-t border-slate-100 dark:border-slate-900 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
               <span>Goal: 80% baseline across all four core domains by Q4</span>
-              <span className="text-cyan-600 dark:text-cyan-400 font-bold">Automated Audit Active</span>
+              <span className="text-blue-700 dark:text-cyan-400 font-bold">Automated Audit Active</span>
             </div>
           </div>
 

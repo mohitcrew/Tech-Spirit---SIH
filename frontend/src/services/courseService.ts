@@ -98,6 +98,41 @@ function parseWorkbookBuffer(
   return results;
 }
 
+/**
+ * Helper to parse an uploaded Excel or CSV file from the browser file picker
+ */
+export async function parseExcelUpload(file: File): Promise<Partial<NormalizedCourse>[]> {
+  const buffer = await file.arrayBuffer();
+  const wb = XLSX.read(buffer, { type: 'array' });
+  const sheetName = wb.SheetNames.includes('All Courses') ? 'All Courses' : wb.SheetNames[0];
+  const sheet = wb.Sheets[sheetName];
+  if (!sheet) return [];
+
+  const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet);
+  return rows.map((row) => {
+    const rawId = row['Course ID'] || row['ID'] || row['id'] || '';
+    const name = row['Course name'] || row['Title'] || row['Course Name'] || row['name'] || '';
+    const catalogueStr = String(row['Catalogue'] || row['Track'] || '').toLowerCase();
+    const catalogue: CatalogueType = catalogueStr.includes('earth') ? 'earth_sciences' : 'general';
+
+    return {
+      courseId: String(rawId || '').trim(),
+      name: String(name || '').trim(),
+      title: String(name || '').trim(),
+      description: String(row['Description'] || row['description'] || '').trim(),
+      sector: String(row['Sector'] || row['sector'] || 'Information Technology').trim(),
+      domain: String(row['Domain'] || row['domain'] || 'Software Systems').trim(),
+      skills: parseDelimitedList(row['Skills'] || row['skills']),
+      competencies: parseDelimitedList(row['Competencies'] || row['competencies']),
+      level: (String(row['Level'] || row['level'] || 'Intermediate').trim()) as any,
+      duration: String(row['Duration'] || row['duration'] || '4 Weeks').trim(),
+      trainer: String(row['Trainer'] || row['trainer'] || 'Faculty').trim(),
+      trainingMode: (String(row['Training mode'] || row['Training Mode'] || row['trainingMode'] || 'Instructor-led').trim()) as any,
+      catalogue,
+    };
+  });
+}
+
 class CourseService {
   /**
    * Load courses from in-memory cache, browser Excel fetch, or bundled dataset.
@@ -150,7 +185,171 @@ class CourseService {
 
     const result = await activeLoadingPromise;
     activeLoadingPromise = null;
-    return result;
+
+    // Apply persistent admin additions, edits, and removals
+    const deletedIds = new Set(this.getDeletedCourseIds());
+    const updatedMap = this.getUpdatedCourses();
+    const customCourses = this.getCustomCourses().filter(c => !deletedIds.has(c.id) && !deletedIds.has(c.courseId));
+
+    let merged = result.filter(c => !deletedIds.has(c.id) && !deletedIds.has(c.courseId));
+    merged = merged.map(c => {
+      const update = updatedMap[c.id] || updatedMap[c.courseId];
+      return update ? { ...c, ...update } : c;
+    });
+
+    const finalCourses = [...customCourses, ...merged];
+    memoryCoursesCache = finalCourses;
+    return finalCourses;
+  }
+
+  /**
+   * Retrieve all custom courses added by administrators from localStorage.
+   */
+  getCustomCourses(): NormalizedCourse[] {
+    try {
+      const saved = localStorage.getItem('skillsync_custom_courses');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  /**
+   * Retrieve all course updates applied by administrators from localStorage.
+   */
+  getUpdatedCourses(): Record<string, Partial<NormalizedCourse>> {
+    try {
+      const saved = localStorage.getItem('skillsync_updated_courses');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  /**
+   * Retrieve all deleted/archived course IDs from localStorage.
+   */
+  getDeletedCourseIds(): string[] {
+    try {
+      const saved = localStorage.getItem('skillsync_deleted_courses');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  /**
+   * Add a new course to the catalogue (Admin only).
+   */
+  addCourse(courseData: Partial<NormalizedCourse>): NormalizedCourse {
+    const customCourses = this.getCustomCourses();
+    const courseId = courseData.courseId?.trim() || `C${Math.floor(1000 + Math.random() * 9000)}`;
+    const id = `ADMIN-${courseId}`;
+    const name = courseData.name?.trim() || courseData.title?.trim() || 'Untitled Programme';
+    const catalogue = courseData.catalogue || 'general';
+    const catalogueName = catalogue === 'earth_sciences' ? 'Earth Sciences' : 'General Catalogue';
+
+    const newCourse: NormalizedCourse = {
+      id,
+      courseId,
+      catalogue,
+      catalogueName,
+      name,
+      title: name,
+      description: courseData.description?.trim() || 'Comprehensive capacity building curriculum designed for ministry workflows.',
+      sector: courseData.sector?.trim() || 'Information Technology',
+      domain: courseData.domain?.trim() || 'Software Systems',
+      skills: Array.isArray(courseData.skills) ? courseData.skills : parseDelimitedList(courseData.skills),
+      competencies: Array.isArray(courseData.competencies) ? courseData.competencies : parseDelimitedList(courseData.competencies),
+      level: courseData.level || 'Intermediate',
+      duration: courseData.duration?.trim() || '4 Weeks',
+      durationHours: courseData.durationHours || parseDurationHours(courseData.duration || '4'),
+      trainer: courseData.trainer?.trim() || 'Executive Faculty',
+      trainingMode: courseData.trainingMode || 'Instructor-led',
+      courseImage: courseData.courseImage?.trim() || '',
+      eligibility: courseData.eligibility?.trim() || 'Open to all verified officers & trainees',
+      dates: courseData.dates?.trim() || 'Active & Rolling Enrollment',
+      isCustom: true,
+      status: (courseData.status as any) || 'Published',
+    };
+
+    customCourses.unshift(newCourse);
+    localStorage.setItem('skillsync_custom_courses', JSON.stringify(customCourses));
+
+    if (memoryCoursesCache) {
+      memoryCoursesCache = [newCourse, ...memoryCoursesCache];
+    }
+
+    return newCourse;
+  }
+
+  /**
+   * Update an existing course in the catalogue (Admin only).
+   */
+  updateCourse(id: string, updates: Partial<NormalizedCourse>): NormalizedCourse | null {
+    // 1. Check custom courses first
+    const customCourses = this.getCustomCourses();
+    const customIdx = customCourses.findIndex(c => c.id === id || c.courseId === id);
+    if (customIdx !== -1) {
+      const updated = {
+        ...customCourses[customIdx],
+        ...updates,
+        name: updates.name || updates.title || customCourses[customIdx].name,
+        title: updates.name || updates.title || customCourses[customIdx].title,
+      };
+      customCourses[customIdx] = updated;
+      localStorage.setItem('skillsync_custom_courses', JSON.stringify(customCourses));
+      memoryCoursesCache = null;
+      return updated;
+    }
+
+    // 2. Overwrite standard catalogue course via updatedMap
+    const updatedMap = this.getUpdatedCourses();
+    updatedMap[id] = {
+      ...(updatedMap[id] || {}),
+      ...updates,
+      title: updates.name || updates.title || (updatedMap[id]?.name ?? undefined),
+    };
+    localStorage.setItem('skillsync_updated_courses', JSON.stringify(updatedMap));
+    memoryCoursesCache = null;
+    return null;
+  }
+
+  /**
+   * Delete or archive a course from the catalogue (Admin only).
+   */
+  deleteCourse(id: string): boolean {
+    // Remove from custom courses if present
+    let customCourses = this.getCustomCourses();
+    const prevLen = customCourses.length;
+    customCourses = customCourses.filter(c => c.id !== id && c.courseId !== id);
+    if (customCourses.length !== prevLen) {
+      localStorage.setItem('skillsync_custom_courses', JSON.stringify(customCourses));
+    }
+
+    // Add to deleted IDs
+    const deletedIds = this.getDeletedCourseIds();
+    if (!deletedIds.includes(id)) {
+      deletedIds.push(id);
+      localStorage.setItem('skillsync_deleted_courses', JSON.stringify(deletedIds));
+    }
+
+    memoryCoursesCache = null;
+    return true;
+  }
+
+  /**
+   * Import multiple courses into the catalog (Admin only).
+   */
+  importCourses(courses: Partial<NormalizedCourse>[]): number {
+    let count = 0;
+    for (const c of courses) {
+      if (c.name || c.title) {
+        this.addCourse(c);
+        count++;
+      }
+    }
+    return count;
   }
 
   /**

@@ -128,7 +128,7 @@ aside nav a.active svg, aside nav a:hover svg { opacity: 1; }
 
 /* ── Main ─────────────────────────────────── */
 main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-header {
+.shell > main > header {
   height: 64px; background: #fff;
   border-bottom: 1px solid #e1e7ed;
   display: flex; justify-content: space-between; align-items: center;
@@ -248,7 +248,49 @@ thead { border-bottom: 2px solid #e3e9ef; }
 th { padding: 11px 14px; text-align: left; font-size: 11.5px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
 td { padding: 13px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: middle; }
 tr:last-child td { border-bottom: 0; }
-tr:hover td { background: #f8fafc; }
+html.light tr:hover td { background: #f8fafc; }
+html.dark tr:hover td,
+:root[data-theme="dark"] tr:hover td,
+.dark tr:hover td {
+  background-color: #1e293b !important;
+  color: inherit !important;
+}
+
+/* ── Dark Mode Table Foundations ──────────── */
+html.dark table,
+:root[data-theme="dark"] table,
+.dark table {
+  color: #f8fafc !important;
+}
+
+html.dark thead,
+:root[data-theme="dark"] thead,
+.dark thead {
+  border-color: #1e293b !important;
+}
+
+html.dark th,
+:root[data-theme="dark"] th,
+.dark th {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark td,
+:root[data-theme="dark"] td,
+.dark td {
+  border-color: #1e293b !important;
+  color: #f1f5f9;
+}
+
+html.dark tbody tr:hover,
+:root[data-theme="dark"] tbody tr:hover,
+.dark tbody tr:hover,
+html.dark tr:hover,
+:root[data-theme="dark"] tr:hover,
+.dark tr:hover {
+  background-color: #1e293b !important;
+}
 .table-avatar { width: 32px; height: 32px; border-radius: 50%; background: #1677a8; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
 
 /* ── Forms ────────────────────────────────── */
@@ -411,7 +453,7 @@ textarea { resize: vertical; min-height: 100px; }
   .auth-wrap { grid-template-columns: 1fr; }
   .auth-hero { display: none; }
   .features-grid { grid-template-columns: 1fr; }
-  header .header-left { display: none; }
+  .shell > main > header .header-left { display: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -498,34 +540,34 @@ html.light .bg-slate-900\/20 {
 }
 
 /* 2. Gradients in Light Mode (No dark bands on scroll) */
-html.light [class*="from-slate-950"] {
+html.light [class*="from-slate-950"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-from: #F8FAFC var(--tw-gradient-from-position) !important;
 }
-html.light [class*="via-slate-950"] {
+html.light [class*="via-slate-950"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-via: #F8FAFC var(--tw-gradient-via-position) !important;
 }
-html.light [class*="to-slate-950"] {
+html.light [class*="to-slate-950"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-to: #F8FAFC var(--tw-gradient-to-position) !important;
 }
-html.light [class*="from-slate-900"] {
+html.light [class*="from-slate-900"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-from: #FFFFFF var(--tw-gradient-from-position) !important;
 }
-html.light [class*="via-slate-900"] {
+html.light [class*="via-slate-900"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-via: #FFFFFF var(--tw-gradient-via-position) !important;
 }
-html.light [class*="to-slate-900"] {
+html.light [class*="to-slate-900"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-to: #FFFFFF var(--tw-gradient-to-position) !important;
 }
-html.light [class*="from-blue-950"] {
+html.light [class*="from-blue-950"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-from: #EFF6FF var(--tw-gradient-from-position) !important;
 }
-html.light [class*="to-blue-950"] {
+html.light [class*="to-blue-950"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-to: #EFF6FF var(--tw-gradient-to-position) !important;
 }
-html.light [class*="from-indigo-950"] {
+html.light [class*="from-indigo-950"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-from: #EEF2FF var(--tw-gradient-from-position) !important;
 }
-html.light [class*="to-indigo-950"] {
+html.light [class*="to-indigo-950"]:not(.text-white):not(.preserve-gradient) {
   --tw-gradient-to: #EEF2FF var(--tw-gradient-to-position) !important;
 }
 
@@ -554,8 +596,8 @@ html.light h1,
 html.light h2,
 html.light h3,
 html.light h4,
-html.light .text-white,
-html.light .text-slate-100 {
+html.light .text-white:not(.page-header-banner *):not(.role-progression-spotlight *):not(.btn-banner-action *):not(.btn-banner-action):not([class*="bg-gradient"][class~="text-white"] *),
+html.light .text-slate-100:not(.page-header-banner *):not(.role-progression-spotlight *):not(.btn-banner-action *):not(.btn-banner-action):not([class*="bg-gradient"][class~="text-white"] *) {
   color: #0F172A !important;
 }
 html.light .text-slate-200 {
@@ -583,26 +625,28 @@ html.light .hover\:bg-slate-800\/80:hover {
 }
 
 /* Exception: Text inside saturated action buttons/badges MUST remain white */
-html.light [class*="bg-gradient-to-r"] .text-white,
-html.light [class*="bg-gradient-to-tr"] .text-white,
-html.light [class*="bg-gradient-to-br"] .text-white,
-html.light [class*="bg-gradient-to-r"] span,
-html.light [class*="bg-gradient-to-tr"] span,
-html.light [class*="bg-gradient-to-br"] span,
-html.light [class*="bg-black"] span,
-html.light [class*="bg-black"] .text-white,
-html.light button[class*="bg-gradient"],
-html.light a[class*="bg-gradient"],
-html.light button[class*="bg-blue-"],
-html.light a[class*="bg-blue-"],
-html.light button[class*="bg-indigo-"],
-html.light a[class*="bg-indigo-"],
+html.light button[class*="bg-gradient"] .text-white,
+html.light a[class*="bg-gradient"] .text-white,
+html.light button[class*="bg-gradient"] span,
+html.light a[class*="bg-gradient"] span,
 html.light button.bg-blue-600,
 html.light a.bg-blue-600,
+html.light button.bg-blue-700,
+html.light a.bg-blue-700,
 html.light button.bg-blue-500,
 html.light a.bg-blue-500,
 html.light button.bg-indigo-600,
 html.light a.bg-indigo-600,
+html.light button.bg-indigo-700,
+html.light a.bg-indigo-700,
+html.light button.bg-purple-600,
+html.light a.bg-purple-600,
+html.light button.bg-purple-700,
+html.light a.bg-purple-700,
+html.light button.bg-purple-500,
+html.light a.bg-purple-500,
+html.light button.bg-violet-600,
+html.light a.bg-violet-600,
 html.light button.bg-cyan-600,
 html.light a.bg-cyan-600,
 html.light button.bg-emerald-600,
@@ -613,13 +657,559 @@ html.light a.bg-rose-600 {
 }
 html.light button.bg-blue-600 *,
 html.light a.bg-blue-600 *,
+html.light button.bg-blue-700 *,
+html.light a.bg-blue-700 *,
 html.light button.bg-blue-500 *,
 html.light a.bg-blue-500 *,
 html.light button.bg-indigo-600 *,
 html.light a.bg-indigo-600 *,
-html.light button[class*="bg-gradient"] *,
-html.light a[class*="bg-gradient"] * {
+html.light button.bg-purple-600 *,
+html.light a.bg-purple-600 *,
+html.light button.bg-purple-700 *,
+html.light a.bg-purple-700 *,
+html.light button.bg-purple-500 *,
+html.light a.bg-purple-500 *,
+html.light button.bg-violet-600 *,
+html.light a.bg-violet-600 * {
   color: #ffffff !important;
+}
+
+/* Saturated Spotlight Banners: Guaranteed high-contrast white text in both light & dark modes */
+.role-progression-spotlight,
+html.light .role-progression-spotlight,
+html.dark .role-progression-spotlight {
+  background: linear-gradient(135deg, #3b0764 0%, #1e1b4b 55%, #2e1065 100%) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  color: #ffffff !important;
+}
+
+.role-progression-spotlight h1,
+.role-progression-spotlight h2,
+.role-progression-spotlight h3,
+.role-progression-spotlight h4,
+html.light .role-progression-spotlight h1,
+html.light .role-progression-spotlight h2,
+html.light .role-progression-spotlight h3,
+html.light .role-progression-spotlight h4 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.role-progression-spotlight p,
+html.light .role-progression-spotlight p {
+  color: #e9d5ff !important;
+}
+
+.role-progression-spotlight button,
+.role-progression-spotlight button *,
+html.light .role-progression-spotlight button,
+html.light .role-progression-spotlight button * {
+  color: #ffffff !important;
+}
+
+.db-progress-banner-anim h3,
+html.light .db-progress-banner-anim h3 {
+  color: #ffffff !important;
+}
+
+/* Learning Header Banner & Quick Stats Card: Guaranteed high contrast in both light & dark modes */
+.learning-header-banner,
+html.light .learning-header-banner,
+html.dark .learning-header-banner {
+  color: #ffffff !important;
+}
+
+.learning-header-banner h1,
+html.light .learning-header-banner h1,
+html.dark .learning-header-banner h1 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.learning-header-banner p,
+html.light .learning-header-banner p {
+  color: #e0f2fe !important;
+}
+
+/* Page Header Banners (Knowledge, Courses, Skills, Learning Paths, Leaderboard, etc.) */
+.page-header-banner,
+html.light .page-header-banner,
+html.dark .page-header-banner {
+  color: #ffffff !important;
+}
+
+.page-header-banner h1,
+.page-header-banner h2,
+.page-header-banner h3,
+html.light .page-header-banner h1,
+html.light .page-header-banner h2,
+html.light .page-header-banner h3,
+html.dark .page-header-banner h1,
+html.dark .page-header-banner h2,
+html.dark .page-header-banner h3 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.page-header-banner p,
+html.light .page-header-banner p,
+html.dark .page-header-banner p {
+  color: #e0f2fe !important;
+}
+
+.page-header-banner [class*="bg-white/10"],
+.page-header-banner [class*="bg-white/10"] *,
+.page-header-banner [class*="bg-white/15"],
+.page-header-banner [class*="bg-white/15"] *,
+.page-header-banner [class*="bg-white/20"],
+.page-header-banner [class*="bg-white/20"] *,
+.page-header-banner [class*="bg-white/30"],
+.page-header-banner [class*="bg-white/30"] *,
+.btn-banner-action,
+.btn-banner-action *,
+html.light .btn-banner-action,
+html.light .btn-banner-action *,
+html.dark .btn-banner-action,
+html.dark .btn-banner-action * {
+  color: #ffffff !important;
+}
+
+/* SOLID WHITE BUTTONS inside banners (e.g. "Join Track", "View Details", "Continue Learning"):
+   Must ALWAYS have deep blue or dark text so they are crystal clear and readable */
+.page-header-banner button.bg-white,
+.page-header-banner button.bg-white *,
+.page-header-banner button[class*="bg-white"]:not([class*="bg-white/"]),
+.page-header-banner button[class*="bg-white"]:not([class*="bg-white/"]) *,
+.page-header-banner a.bg-white,
+.page-header-banner a.bg-white *,
+.page-header-banner a[class*="bg-white"]:not([class*="bg-white/"]),
+.page-header-banner a[class*="bg-white"]:not([class*="bg-white/"]) *,
+html.light .page-header-banner button.bg-white,
+html.light .page-header-banner button.bg-white *,
+html.light .page-header-banner button[class*="bg-white"]:not([class*="bg-white/"]),
+html.light .page-header-banner button[class*="bg-white"]:not([class*="bg-white/"]) *,
+html.dark .page-header-banner button.bg-white,
+html.dark .page-header-banner button.bg-white *,
+html.dark .page-header-banner button[class*="bg-white"]:not([class*="bg-white/"]),
+html.dark .page-header-banner button[class*="bg-white"]:not([class*="bg-white/"]) * {
+  color: #1d4ed8 !important;
+  background-color: #ffffff !important;
+}
+
+/* AMBER / ACCENT BUTTONS in banners (e.g. "+ Add Course"): Must have dark slate text */
+.page-header-banner button[class*="bg-amber-"],
+.page-header-banner button[class*="bg-amber-"] *,
+.page-header-banner button[class*="bg-yellow-"],
+.page-header-banner button[class*="bg-yellow-"] *,
+html.light .page-header-banner button[class*="bg-amber-"],
+html.light .page-header-banner button[class*="bg-amber-"] *,
+html.dark .page-header-banner button[class*="bg-amber-"],
+html.dark .page-header-banner button[class*="bg-amber-"] * {
+  color: #020617 !important;
+}
+
+.page-header-banner button svg,
+html.light .page-header-banner button svg,
+.btn-banner-action svg,
+html.light .btn-banner-action svg {
+  stroke: currentColor;
+}
+
+/* Global Saturated Gradient Banners: High contrast white text in Light Mode for saturated banners only */
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]),
+html.light [class*="bg-gradient-to-br"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) {
+  color: #ffffff !important;
+}
+
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h1,
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h2,
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h3,
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h4,
+html.light [class*="bg-gradient-to-br"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h1,
+html.light [class*="bg-gradient-to-br"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h2,
+html.light [class*="bg-gradient-to-br"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h3,
+html.light [class*="bg-gradient-to-br"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) h4 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) p,
+html.light [class*="bg-gradient-to-br"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner):not([class*="from-purple-100"]):not([class*="from-indigo-50"]):not([class*="from-blue-50"]):not([class*="from-slate-50"]):not([class*="from-slate-100"]) p {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner) [class*="text-cyan-100"],
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner) [class*="text-blue-100"],
+html.light [class*="bg-gradient-to-r"][class~="text-white"]:not(.admin-executive-banner):not(.trainer-executive-banner) [class*="text-purple-100"] {
+  color: #e0f2fe !important;
+}
+
+/* Explicit high-contrast rules for Executive Banners (Admin & Trainer) */
+.admin-executive-banner,
+.trainer-executive-banner {
+  color: #0f172a;
+}
+
+html.light .admin-executive-banner,
+html.light .trainer-executive-banner,
+:root[data-theme="light"] .admin-executive-banner,
+:root[data-theme="light"] .trainer-executive-banner {
+  color: #0f172a !important;
+}
+
+html.light .admin-executive-banner h1,
+html.light .trainer-executive-banner h1,
+:root[data-theme="light"] .admin-executive-banner h1,
+:root[data-theme="light"] .trainer-executive-banner h1 {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+html.light .admin-executive-banner p,
+html.light .trainer-executive-banner p,
+:root[data-theme="light"] .admin-executive-banner p,
+:root[data-theme="light"] .trainer-executive-banner p {
+  color: #334155 !important;
+  text-shadow: none !important;
+}
+
+html.light .admin-executive-banner .btn-secondary-banner,
+html.light .admin-executive-banner .btn-secondary-banner *,
+html.light .trainer-executive-banner .btn-secondary-banner,
+html.light .trainer-executive-banner .btn-secondary-banner *,
+:root[data-theme="light"] .admin-executive-banner .btn-secondary-banner,
+:root[data-theme="light"] .admin-executive-banner .btn-secondary-banner *,
+:root[data-theme="light"] .trainer-executive-banner .btn-secondary-banner,
+:root[data-theme="light"] .trainer-executive-banner .btn-secondary-banner * {
+  color: #0f172a !important;
+}
+
+html.dark .admin-executive-banner h1,
+html.dark .trainer-executive-banner h1,
+:root[data-theme="dark"] .admin-executive-banner h1,
+:root[data-theme="dark"] .trainer-executive-banner h1 {
+  color: #ffffff !important;
+}
+
+html.dark .admin-executive-banner p,
+html.dark .trainer-executive-banner p,
+:root[data-theme="dark"] .admin-executive-banner p,
+:root[data-theme="dark"] .trainer-executive-banner p {
+  color: #cbd5e1 !important;
+}
+
+html.dark .admin-executive-banner .btn-secondary-banner,
+html.dark .admin-executive-banner .btn-secondary-banner *,
+html.dark .trainer-executive-banner .btn-secondary-banner,
+html.dark .trainer-executive-banner .btn-secondary-banner *,
+:root[data-theme="dark"] .admin-executive-banner .btn-secondary-banner,
+:root[data-theme="dark"] .admin-executive-banner .btn-secondary-banner *,
+:root[data-theme="dark"] .trainer-executive-banner .btn-secondary-banner,
+:root[data-theme="dark"] .trainer-executive-banner .btn-secondary-banner * {
+  color: #ffffff !important;
+}
+
+/* Master Admin Control Bar: Guaranteed contrast in Light & Dark mode */
+html.light .master-admin-control-bar,
+:root[data-theme="light"] .master-admin-control-bar {
+  background: linear-gradient(90deg, #eef2ff 0%, #f0fdf4 50%, #faf5ff 100%) !important;
+  border-bottom: 1px solid #c7d2fe !important;
+  color: #0f172a !important;
+}
+
+html.light .master-admin-control-bar .admin-switcher-container {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *),
+html.light .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *) *,
+:root[data-theme="light"] .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *),
+:root[data-theme="light"] .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *) * {
+  color: #0f172a !important;
+}
+
+html.light .master-admin-control-bar .btn-admin-nav-inactive,
+html.light .master-admin-control-bar .btn-admin-nav-inactive span,
+:root[data-theme="light"] .master-admin-control-bar .btn-admin-nav-inactive,
+:root[data-theme="light"] .master-admin-control-bar .btn-admin-nav-inactive span {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+html.light .master-admin-control-bar .btn-admin-nav-inactive:hover {
+  background-color: #f1f5f9 !important;
+  color: #000000 !important;
+}
+
+html.light .master-admin-control-bar .btn-admin-nav-active,
+html.light .master-admin-control-bar .btn-admin-nav-active span,
+html.light .master-admin-control-bar .btn-admin-nav-active svg,
+:root[data-theme="light"] .master-admin-control-bar .btn-admin-nav-active,
+:root[data-theme="light"] .master-admin-control-bar .btn-admin-nav-active span,
+:root[data-theme="light"] .master-admin-control-bar .btn-admin-nav-active svg {
+  color: #ffffff !important;
+}
+
+html.light .master-admin-control-bar .active-role-badge {
+  background-color: #e0e7ff !important;
+  color: #3730a3 !important;
+  border: 1px solid #a5b4fc !important;
+}
+
+html.dark .master-admin-control-bar,
+:root[data-theme="dark"] .master-admin-control-bar {
+  background: linear-gradient(90deg, #0f172a 0%, #1e1b4b 50%, #2e1065 100%) !important;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.3) !important;
+  color: #ffffff !important;
+}
+
+html.dark .master-admin-control-bar .admin-switcher-container {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  border-color: rgba(51, 65, 85, 0.8) !important;
+}
+
+html.dark .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *),
+html.dark .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *) *,
+:root[data-theme="dark"] .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *),
+:root[data-theme="dark"] .master-admin-control-bar span:not(.active-role-badge):not(.btn-admin-nav-active):not(.btn-admin-nav-active *) * {
+  color: #f1f5f9;
+}
+
+html.dark .master-admin-control-bar .btn-admin-nav-inactive,
+html.dark .master-admin-control-bar .btn-admin-nav-inactive span,
+:root[data-theme="dark"] .master-admin-control-bar .btn-admin-nav-inactive,
+:root[data-theme="dark"] .master-admin-control-bar .btn-admin-nav-inactive span {
+  color: #cbd5e1 !important;
+}
+
+html.dark .master-admin-control-bar .btn-admin-nav-inactive:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+html.dark .master-admin-control-bar .active-role-badge {
+  background-color: rgba(99, 102, 241, 0.25) !important;
+  color: #a5f3fc !important;
+  border: 1px solid rgba(165, 243, 252, 0.3) !important;
+}
+
+/* Quick Stats Card in Learning Page */
+.learning-stats-card,
+html.light .learning-stats-card {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.15), 0 4px 6px -2px rgba(15, 23, 42, 0.05) !important;
+}
+
+html.dark .learning-stats-card {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: none !important;
+}
+
+.learning-stats-card .stat-label,
+html.light .learning-stats-card .stat-label {
+  color: #475569 !important;
+  font-weight: 800 !important;
+}
+
+html.dark .learning-stats-card .stat-label {
+  color: #bfdbfe !important;
+  font-weight: 700 !important;
+}
+
+.learning-stats-card .stat-divider,
+html.light .learning-stats-card .stat-divider {
+  border-color: #e2e8f0 !important;
+}
+
+html.dark .learning-stats-card .stat-divider {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.learning-stats-card .stat-num-enrolled,
+html.light .learning-stats-card .stat-num-enrolled {
+  color: #0f172a !important;
+}
+
+html.dark .learning-stats-card .stat-num-enrolled {
+  color: #ffffff !important;
+}
+
+.learning-stats-card .stat-num-progress,
+html.light .learning-stats-card .stat-num-progress {
+  color: #2563eb !important;
+}
+
+html.dark .learning-stats-card .stat-num-progress {
+  color: #67e8f9 !important;
+}
+
+.learning-stats-card .stat-num-completed,
+html.light .learning-stats-card .stat-num-completed {
+  color: #059669 !important;
+}
+
+html.dark .learning-stats-card .stat-num-completed {
+  color: #6ee7b7 !important;
+}
+
+/* Course card gradient headers & thumbnail pills: Guaranteed white high-contrast text in all themes */
+.course-gradient-thumb,
+.course-gradient-thumb *,
+html.light .course-gradient-thumb,
+html.light .course-gradient-thumb *,
+html.dark .course-gradient-thumb,
+html.dark .course-gradient-thumb *,
+.course-modal-gradient,
+.course-modal-gradient *,
+html.light .course-modal-gradient,
+html.light .course-modal-gradient * {
+  color: #FFFFFF !important;
+}
+
+.course-thumb-category,
+html.light .course-thumb-category,
+html.dark .course-thumb-category {
+  background-color: rgba(255, 255, 255, 0.28) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.05em;
+}
+
+.course-thumb-level,
+html.light .course-thumb-level,
+html.dark .course-thumb-level {
+  background-color: rgba(0, 0, 0, 0.38) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Leaderboard Prize Badges: High Contrast in Light & Dark Mode */
+.leaderboard-prize-rank-1 {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(254, 215, 170, 0.85) 100%) !important;
+  border: 1px solid #FCD34D !important;
+  color: #78350F !important;
+}
+.leaderboard-prize-rank-1 .prize-tag { color: #92400E !important; }
+.leaderboard-prize-rank-1 .prize-name { color: #78350F !important; }
+.leaderboard-prize-rank-1 svg { color: #D97706 !important; }
+
+html.dark .leaderboard-prize-rank-1 {
+  background: linear-gradient(135deg, rgba(120, 53, 15, 0.55) 0%, rgba(146, 64, 14, 0.38) 100%) !important;
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  color: #FEF3C7 !important;
+}
+html.dark .leaderboard-prize-rank-1 .prize-tag { color: #FBBF24 !important; }
+html.dark .leaderboard-prize-rank-1 .prize-name { color: #FFFFFF !important; }
+html.dark .leaderboard-prize-rank-1 svg { color: #F59E0B !important; }
+
+.leaderboard-prize-rank-2 {
+  background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%) !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+.leaderboard-prize-rank-2 .prize-tag { color: #475569 !important; }
+.leaderboard-prize-rank-2 .prize-name { color: #0F172A !important; }
+.leaderboard-prize-rank-2 svg { color: #64748B !important; }
+
+html.dark .leaderboard-prize-rank-2 {
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%) !important;
+  border-color: #475569 !important;
+  color: #F8FAFC !important;
+}
+html.dark .leaderboard-prize-rank-2 .prize-tag { color: #94A3B8 !important; }
+html.dark .leaderboard-prize-rank-2 .prize-name { color: #FFFFFF !important; }
+html.dark .leaderboard-prize-rank-2 svg { color: #CBD5E1 !important; }
+
+.leaderboard-prize-rank-3 {
+  background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%) !important;
+  border: 1px solid #FDBA74 !important;
+  color: #7C2D12 !important;
+}
+.leaderboard-prize-rank-3 .prize-tag { color: #9A3412 !important; }
+.leaderboard-prize-rank-3 .prize-name { color: #7C2D12 !important; }
+.leaderboard-prize-rank-3 svg { color: #EA580C !important; }
+
+html.dark .leaderboard-prize-rank-3 {
+  background: linear-gradient(135deg, rgba(124, 45, 18, 0.55) 0%, rgba(154, 52, 18, 0.38) 100%) !important;
+  border-color: rgba(234, 88, 12, 0.6) !important;
+  color: #FFEDD5 !important;
+}
+html.dark .leaderboard-prize-rank-3 .prize-tag { color: #FB923C !important; }
+html.dark .leaderboard-prize-rank-3 .prize-name { color: #FFFFFF !important; }
+html.dark .leaderboard-prize-rank-3 svg { color: #F97316 !important; }
+
+.leaderboard-prize-default {
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%) !important;
+  border: 1px solid #BFDBFE !important;
+  color: #1E3A8A !important;
+}
+.leaderboard-prize-default .prize-tag { color: #2563EB !important; }
+.leaderboard-prize-default .prize-name { color: #1E3A8A !important; }
+.leaderboard-prize-default svg { color: #3B82F6 !important; }
+
+html.dark .leaderboard-prize-default {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.5) 0%, rgba(30, 64, 175, 0.3) 100%) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  color: #DBEAFE !important;
+}
+html.dark .leaderboard-prize-default .prize-tag { color: #60A5FA !important; }
+html.dark .leaderboard-prize-default .prize-name { color: #FFFFFF !important; }
+html.dark .leaderboard-prize-default svg { color: #38BDF8 !important; }
+
+/* Explicit course card & opportunity button styles for crystal-clear light & dark mode contrast */
+html.light .course-card-btn,
+html.light .opportunity-btn,
+html.light .download-btn {
+  background-color: #EFF6FF !important;
+  color: #1D4ED8 !important;
+  border: 1px solid #BFDBFE !important;
+}
+html.light .course-card-btn span,
+html.light .course-card-btn svg,
+html.light .opportunity-btn span,
+html.light .opportunity-btn svg,
+html.light .download-btn svg,
+html.light .download-btn span {
+  color: #1D4ED8 !important;
+}
+html.light .course-card-btn:hover,
+html.light .group:hover .course-card-btn,
+html.light .opportunity-btn:hover,
+html.light .group:hover .opportunity-btn,
+html.light .download-btn:hover {
+  background-color: #2563EB !important;
+  color: #FFFFFF !important;
+  border-color: #2563EB !important;
+}
+html.light .course-card-btn:hover span,
+html.light .course-card-btn:hover svg,
+html.light .group:hover .course-card-btn span,
+html.light .group:hover .course-card-btn svg,
+html.light .opportunity-btn:hover span,
+html.light .opportunity-btn:hover svg,
+html.light .group:hover .opportunity-btn span,
+html.light .group:hover .opportunity-btn svg,
+html.light .download-btn:hover svg,
+html.light .download-btn:hover span {
+  color: #FFFFFF !important;
+}
+
+/* Explicit role badge pill styles for high-contrast visibility in light mode */
+html.light .role-pill-student {
+  background-color: #EFF6FF !important;
+  color: #1D4ED8 !important;
+  border: 1px solid #BFDBFE !important;
+}
+html.light .role-pill-trainer {
+  background-color: #FAF5FF !important;
+  color: #7E22CE !important;
+  border: 1px solid #E9D5FF !important;
 }
 
 /* Gradient Headings: Preserve text transparency & clip on both themes */
@@ -693,7 +1283,7 @@ html.dark body,
 /* Dark mode overrides for portal components */
 html.dark .cc-card,
 html.dark .card,
-html.dark header,
+html.dark .shell > main > header,
 html.dark aside,
 html.dark .modern-top-nav,
 html.dark .modern-sidebar {
@@ -718,6 +1308,9 @@ html.dark .border-slate-100 {
   border-color: #1E293B !important;
 }
 
+html.dark .text-slate-950 {
+  color: #F8FAFC !important;
+}
 html.dark .text-slate-900 {
   color: #F8FAFC !important;
 }
@@ -730,6 +1323,9 @@ html.dark .text-slate-700 {
 html.dark .text-slate-600 {
   color: #94A3B8 !important;
 }
+html.dark .text-slate-500 {
+  color: #CBD5E1 !important;
+}
 
 html.dark .hover\:bg-slate-50:hover {
   background-color: #1F2937 !important;
@@ -739,6 +1335,65 @@ html.dark .hover\:bg-slate-100:hover {
 }
 html.dark .hover\:bg-slate-200:hover {
   background-color: #374151 !important;
+}
+html.dark .hover\:bg-slate-50\/80:hover,
+html.dark [class*="hover:bg-slate-50"]:hover {
+  background-color: #1E293B !important;
+}
+html.dark tr:hover td,
+:root[data-theme="dark"] tr:hover td,
+.dark tr:hover td {
+  background-color: #1E293B !important;
+}
+
+/* ── Page Title & Cards Dark Mode ──────────── */
+html.dark .page-title-text h1,
+:root[data-theme="dark"] .page-title-text h1 {
+  color: #F8FAFC !important;
+}
+
+html.dark .page-title-text p,
+:root[data-theme="dark"] .page-title-text p {
+  color: #94A3B8 !important;
+}
+
+html.dark .card-header h2,
+html.dark .card-title,
+:root[data-theme="dark"] .card-header h2,
+:root[data-theme="dark"] .card-title {
+  color: #F8FAFC !important;
+}
+
+/* ── Form Controls Dark Mode ───────────────── */
+html.dark label,
+:root[data-theme="dark"] label {
+  color: #CBD5E1 !important;
+}
+
+html.dark input,
+html.dark select,
+html.dark textarea,
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] textarea {
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
+  color: #F8FAFC !important;
+}
+
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus,
+:root[data-theme="dark"] input:focus,
+:root[data-theme="dark"] select:focus,
+:root[data-theme="dark"] textarea:focus {
+  border-color: #38BDF8 !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+}
+
+html.dark .form-hint,
+:root[data-theme="dark"] .form-hint {
+  color: #94A3B8 !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -976,8 +1631,8 @@ html.light .nav-item-home:hover {
   }
 }
 @keyframes ssHeroBadgeGlow {
-  0%, 80%, 100% { border-color: rgba(51, 65, 85, 0.7); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
-  90% { border-color: rgba(56, 189, 248, 0.45); box-shadow: 0 0 12px rgba(6, 182, 212, 0.2); }
+  0%, 80%, 100% { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+  90% { box-shadow: 0 0 14px rgba(6, 182, 212, 0.35); }
 }
 .hero-badge-anim {
   opacity: 0;
@@ -1238,10 +1893,14 @@ html.light .nav-item-home:hover {
 }
 .global-ai-btn-inner {
   animation: ssAiBtnFloat 6s ease-in-out infinite 1600ms;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transition: transform 200ms ease, box-shadow 200ms ease, padding 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  color: #ffffff !important;
 }
 .global-ai-btn-inner:hover {
-  transform: translateY(-3px) scale(1.02);
+  transform: translateY(-3px) scale(1.03);
+}
+.global-ai-btn-inner * {
+  color: #ffffff !important;
 }
 
 /* AI Assistant Panel Open */
@@ -2147,3 +2806,112 @@ html.light .nav-item-home:hover {
 .animate-slideInRight {
   animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* ── No Scrollbar Utility ─────────────────────────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* ── Styled Range Slider Controls (Prevents browser-default black bars) ──── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #cbd5e1;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+html.dark input[type="range"] {
+  background: #334155;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0284c7;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+html.dark input[type="range"]::-webkit-slider-thumb {
+  background: #06b6d4;
+  border-color: #0f172a;
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0284c7;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+html.dark input[type="range"]::-moz-range-thumb {
+  background: #06b6d4;
+  border-color: #0f172a;
+}
+
+/* ── Dark Mode Scrollbars ─────────────────────────────────────────────────── */
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ── Light Mode High-Contrast Overrides (Only in Light Mode) ─────────────── */
+html.light .hero-badge-anim,
+html:not(.dark) .hero-badge-anim {
+  background-color: rgba(239, 246, 255, 0.95) !important;
+  border-color: rgba(191, 219, 254, 0.9) !important;
+}
+
+html.light .hero-badge-anim span,
+html:not(.dark) .hero-badge-anim span {
+  color: #1d4ed8 !important;
+}
+
+html.light .hero-badge-anim svg,
+html:not(.dark) .hero-badge-anim svg {
+  color: #d97706 !important;
+}
+
+html.light [class*="text-cyan-"]:not(.text-transparent),
+html:not(.dark) [class*="text-cyan-"]:not(.text-transparent) {
+  color: #1d4ed8 !important;
+}
+
+html.light [class*="hover:text-cyan-"]:hover:not(.text-transparent),
+html:not(.dark) [class*="hover:text-cyan-"]:hover:not(.text-transparent) {
+  color: #1e40af !important;
+}
+
+html.light [class*="bg-cyan-500/10"],
+html:not(.dark) [class*="bg-cyan-500/10"],
+html.light [class*="bg-cyan-50"],
+html:not(.dark) [class*="bg-cyan-50"] {
+  background-color: rgba(239, 246, 255, 0.95) !important;
+}
+
+html.light [class*="border-cyan-500/20"],
+html:not(.dark) [class*="border-cyan-500/20"],
+html.light [class*="border-cyan-200"],
+html:not(.dark) [class*="border-cyan-200"] {
+  border-color: rgba(191, 219, 254, 0.9) !important;
+}
+

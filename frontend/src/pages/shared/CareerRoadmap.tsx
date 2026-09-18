@@ -56,16 +56,16 @@ export default function CareerRoadmapView() {
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       {/* Top Banner Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="page-header-banner p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2 text-white" style={{ color: '#ffffff' }}>
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>AI-Synthesized Career Engine</span>
+            <span className="text-white" style={{ color: '#ffffff' }}>AI-Synthesized Career Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black">
+          <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ color: '#ffffff' }}>
             Personalized Career Roadmap: {roadmap.targetRole}
           </h1>
-          <p className="text-xs sm:text-sm text-purple-100 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-purple-100 mt-1 max-w-xl" style={{ color: '#f3e8ff' }}>
             Targeting {roadmap.targetRole} at {roadmap.dreamCompany} • {roadmap.targetTimeline} structured curriculum
           </p>
           <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-black/20 text-[11px] text-purple-200">

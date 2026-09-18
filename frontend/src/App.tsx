@@ -43,10 +43,12 @@ const OnboardingFlow = lazy(() => import('./pages/auth/OnboardingFlow'));
 const Contests = lazy(() => import('./pages/shared/Contests'));
 const Notifications = lazy(() => import('./pages/shared/Notifications'));
 const Settings = lazy(() => import('./pages/shared/SettingsPage'));
+const TrainingSessions = lazy(() => import('./pages/shared/TrainingSessions'));
 
 // ── Trainer-specific ──────────────────────────────────────────────────────
 const CreateCourse = lazy(() => import('./pages/trainer/CreateCourse').then(m => ({ default: m.CreateCourse })));
 const Trainees = lazy(() => import('./pages/trainer/Trainees'));
+const TrainerAssessments = lazy(() => import('./pages/trainer/TrainerAssessments'));
 
 // ── Admin-specific ────────────────────────────────────────────────────────
 const AdminUsers = lazy(() => import('./pages/admin/Users').then(m => ({ default: m.AdminUsers })));
@@ -77,13 +79,18 @@ function NotFound() {
 function Protected() {
   const { user, loading } = useAuth();
   const location = useLocation();
-  const part = location.pathname.split('/')[1];
+  const part = location.pathname.split('/')[1]?.toLowerCase();
   if (loading) return <div />;
   if (!user) return <Navigate to="/login" />;
+  
+  // Only Trainees undergo onboarding; Admins and Trainers never see the onboarding page.
   if (user.role === 'TRAINEE' && !user.onboardingCompleted) {
     return <Navigate to="/onboarding" replace />;
   }
-  if (part && part !== user.role.toLowerCase()) {
+
+  // Admins have master control over all portals (trainee, trainer, admin).
+  // Other roles are kept within their respective namespaces.
+  if (user.role !== 'ADMIN' && part && part !== user.role.toLowerCase()) {
     return <Navigate to={`/${user.role.toLowerCase()}/dashboard`} />;
   }
   return <PortalLayout />;
@@ -115,8 +122,16 @@ export default function App() {
 
         {/* ── Authentication ────────────────────────────────────────── */}
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/onboarding" element={<SuspenseWrap><OnboardingFlow /></SuspenseWrap>} />
+        <Route
+          path="/onboarding"
+          element={
+            user?.role === 'ADMIN' ? (
+              <Navigate to="/admin/dashboard" replace />
+            ) : (
+              <SuspenseWrap><OnboardingFlow /></SuspenseWrap>
+            )
+          }
+        />
         <Route path="/trainer/onboarding" element={<SuspenseWrap><TrainerOnboarding /></SuspenseWrap>} />
 
         {/* ── Personalized Shortcuts ─────────────────────────────────── */}
@@ -137,12 +152,16 @@ export default function App() {
         <Route path="/admin/email/compose" element={<Navigate to="/admin/email-center?tab=composer" replace />} />
         <Route path="/admin/email/history" element={<Navigate to="/admin/email-center?tab=history" replace />} />
         <Route path="/admin/email/settings" element={<Navigate to="/admin/email-center?tab=settings" replace />} />
+        <Route path="/sessions" element={<Navigate to={`${rolePrefix}/sessions`} replace />} />
+        <Route path="/training-sessions" element={<Navigate to={`${rolePrefix}/sessions`} replace />} />
 
         {/* ── Protected Portal Routes ───────────────────────────────── */}
         <Route element={<Protected />}>
           {/* Dashboard */}
           <Route path=":role/dashboard" element={<SuspenseWrap><Dashboard /></SuspenseWrap>} />
           <Route path=":role/contests" element={<SuspenseWrap><Contests /></SuspenseWrap>} />
+          <Route path=":role/sessions" element={<SuspenseWrap><TrainingSessions /></SuspenseWrap>} />
+          <Route path=":role/training-sessions" element={<SuspenseWrap><TrainingSessions /></SuspenseWrap>} />
 
           {/* Courses */}
           <Route path=":role/courses" element={<SuspenseWrap><Courses /></SuspenseWrap>} />
@@ -157,7 +176,7 @@ export default function App() {
 
           {/* Assessments */}
           <Route path=":role/assessments/:id" element={<SuspenseWrap><Assessment /></SuspenseWrap>} />
-          <Route path=":role/assessments" element={<SuspenseWrap><NotFound /></SuspenseWrap>} />
+          <Route path=":role/assessments" element={<SuspenseWrap><TrainerAssessments /></SuspenseWrap>} />
 
           {/* Results & Certificates */}
           <Route path=":role/results" element={<SuspenseWrap><Results /></SuspenseWrap>} />

@@ -115,7 +115,7 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
               className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900 nav-item-explore transition-colors cursor-pointer"
             >
               <span>Explore</span>
-              <ChevronDown className={`w-3.5 h-3.5 nav-arrow-explore transition-transform ${exploreDropdownOpen ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : ''}`} />
+              <ChevronDown className={`w-3.5 h-3.5 nav-arrow-explore transition-transform ${exploreDropdownOpen ? 'rotate-180 text-blue-600 dark:text-cyan-400' : ''}`} />
             </button>
 
             {exploreDropdownOpen && (
@@ -139,7 +139,7 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
                         <Icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">
                           {item.label}
                         </div>
                         <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">
@@ -176,9 +176,9 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
 
           <button
             onClick={handleOpenAi}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-cyan-600 dark:text-cyan-300 hover:text-cyan-700 dark:hover:text-cyan-200 hover:bg-cyan-50 dark:hover:bg-cyan-500/10 nav-item-ai transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-blue-700 dark:text-cyan-300 hover:text-blue-800 dark:hover:text-cyan-200 hover:bg-blue-50 dark:hover:bg-cyan-500/10 nav-item-ai transition-colors cursor-pointer"
           >
-            <Sparkles className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400 nav-ai-sparkle" />
+            <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400 nav-ai-sparkle" />
             <span className="nav-ai-text">AI Assistant</span>
           </button>
         </div>
@@ -210,16 +210,16 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
           </Link>
 
           {user ? (
-            <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
+            <div className="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
               <Link
                 to={`/${user.role.toLowerCase()}/dashboard`}
-                className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-750 hover:border-slate-600 text-slate-200 hover:text-white text-xs font-bold nav-item-dashboard transition-colors flex items-center gap-1.5"
+                className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-750 hover:border-slate-300 dark:hover:border-slate-600 text-slate-800 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white text-xs font-bold nav-item-dashboard transition-colors flex items-center gap-1.5"
               >
                 <span>Dashboard ({user.role})</span>
               </Link>
               <button
                 onClick={logout}
-                className="px-2.5 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-rose-400 hover:bg-slate-900 nav-item-signout transition-colors cursor-pointer"
+                className="px-2.5 py-2 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-900 nav-item-signout transition-colors cursor-pointer"
                 title="Sign out of current portal session"
               >
                 Sign Out
@@ -229,7 +229,7 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
             <>
               <button
                 onClick={() => handleAuthClick('login')}
-                className="px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 nav-item-dashboard transition-colors cursor-pointer"
+                className="px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 nav-item-dashboard transition-colors cursor-pointer"
               >
                 Sign In
               </button>
@@ -305,7 +305,7 @@ export const SkillSyncNavbar: React.FC<SkillSyncNavbarProps> = ({
                 setMobileMenuOpen(false);
                 handleOpenAi();
               }}
-              className="text-left text-xs font-bold text-cyan-300 py-1.5 flex items-center gap-1.5 cursor-pointer"
+              className="text-left text-xs font-bold text-blue-600 dark:text-cyan-300 py-1.5 flex items-center gap-1.5 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Ask SkillSync AI</span>

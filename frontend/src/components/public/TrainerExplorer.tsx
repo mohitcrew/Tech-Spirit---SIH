@@ -14,11 +14,11 @@ export const TrainerExplorer: React.FC<TrainerExplorerProps> = ({ onConnectTrain
     : publicTrainers.filter(t => t.expertise.some(e => e.toLowerCase().includes(selectedExpertise.toLowerCase())));
 
   return (
-    <section id="trainers" className="py-20 bg-white dark:bg-slate-900/60 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
+    <section id="trainers" className="pt-10 pb-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
           <div>
-            <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+            <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
               Faculty & Mentorship Network
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">
@@ -46,7 +46,7 @@ export const TrainerExplorer: React.FC<TrainerExplorerProps> = ({ onConnectTrain
                     className="w-14 h-14 rounded-2xl object-cover border-2 border-blue-500/40 shadow-md flex-shrink-0"
                   />
                   <div>
-                    <h3 className="font-extrabold text-base text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+                    <h3 className="font-extrabold text-base text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors">
                       {trainer.name}
                     </h3>
                     <p className="text-xs text-blue-600 dark:text-blue-400 font-medium leading-tight mt-0.5">

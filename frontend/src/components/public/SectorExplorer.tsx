@@ -4,16 +4,16 @@ import { sectorsData } from '../../data/skillsyncData';
 
 export const SectorExplorer: React.FC = () => {
   return (
-    <section id="sectors" className="py-20 bg-slate-950 text-white border-b border-slate-850">
+    <section id="sectors" className="pt-10 pb-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
             Sector-Configurable Architecture
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white">
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
             One Platform. Multiple Professional Domains.
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
             SkillSync's modular competency engine separates platform orchestration from domain ontologies, enabling seamless adaptation to diverse organizational sectors.
           </p>
         </div>
@@ -23,11 +23,7 @@ export const SectorExplorer: React.FC = () => {
           {sectorsData.map(sec => (
             <div
               key={sec.id}
-              className={`p-6 rounded-3xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden ${
-                sec.status === 'Prototype Available'
-                  ? 'bg-blue-50/70 dark:bg-gradient-to-b dark:from-blue-950/60 dark:to-slate-900 border-2 border-blue-400 dark:border-blue-500/40 shadow-xl'
-                  : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm'
-              }`}
+              className="p-6 rounded-3xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400/80 dark:hover:border-blue-500/50 shadow-sm hover:shadow-md"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">

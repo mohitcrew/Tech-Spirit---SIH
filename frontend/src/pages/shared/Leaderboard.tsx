@@ -39,16 +39,16 @@ export default function Leaderboard() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="page-header-banner p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2">
-            <Trophy className="w-3.5 h-3.5" />
-            <span>Capacity Leaderboard</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2 text-white" style={{ color: '#ffffff' }}>
+            <Trophy className="w-3.5 h-3.5 text-white" />
+            <span className="text-white" style={{ color: '#ffffff' }}>Capacity Leaderboard</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black">
+          <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ color: '#ffffff' }}>
             Learner Rankings & Achievements
           </h1>
-          <p className="text-xs sm:text-sm text-amber-100 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-amber-100 mt-1 max-w-xl" style={{ color: '#fef3c7' }}>
             Celebrate active competency development, learning milestones, and quiz accomplishments across your cohort.
           </p>
         </div>

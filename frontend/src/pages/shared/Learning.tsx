@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
   BookOpen, Clock, CheckCircle2, Play, AlertCircle, BarChart3,
   Filter, Search, Calendar, ChevronRight, Award, Sparkles, BookMarked
@@ -9,9 +9,18 @@ import { learnerService } from '../../services/learnerService';
 import { Course } from '../../data/capacityConnectData';
 
 export default function MyLearning() {
+  const [searchParams] = useSearchParams();
+  const initialQuery = searchParams.get('q') || searchParams.get('search') || '';
   const [filterStatus, setFilterStatus] = useState<'All' | 'In Progress' | 'Completed' | 'Not Started'>('All');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+
+  useEffect(() => {
+    const q = searchParams.get('q') || searchParams.get('search');
+    if (q !== null) {
+      setSearchQuery(q);
+    }
+  }, [searchParams]);
 
   const { data: courses = [], isLoading, error } = useQuery({
     queryKey: ['myLearningCourses'],
@@ -32,33 +41,45 @@ export default function MyLearning() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-cyan-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="learning-header-banner p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-cyan-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Learner Workspace</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2 text-white" style={{ color: '#ffffff' }}>
+            <BookOpen className="w-3.5 h-3.5 text-white" />
+            <span className="text-white" style={{ color: '#ffffff' }}>Learner Workspace</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black">
+          <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ color: '#ffffff' }}>
             My Learning & Enrolled Courses
           </h1>
-          <p className="text-xs sm:text-sm text-blue-100 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-blue-100 mt-1 max-w-xl" style={{ color: '#dbeafe' }}>
             Track active modules, complete assignments on time, and resume your learning exactly where you paused.
           </p>
         </div>
 
         {/* Quick Stats Grid */}
-        <div className="grid grid-cols-3 gap-3 bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-center">
+        <div className="learning-stats-card grid grid-cols-3 gap-3 bg-white/95 dark:bg-white/10 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl border border-white/60 dark:border-white/20 shadow-lg dark:shadow-none text-center">
           <div>
-            <div className="text-[10px] text-blue-200 uppercase font-bold">Enrolled</div>
-            <div className="text-xl font-black mt-0.5">{courses.length}</div>
+            <div className="stat-label text-[10px] sm:text-xs text-slate-600 dark:text-blue-200 uppercase font-extrabold tracking-wider">
+              Enrolled
+            </div>
+            <div className="stat-num-enrolled text-xl sm:text-2xl font-black mt-0.5 text-slate-900 dark:text-white">
+              {courses.length}
+            </div>
           </div>
-          <div className="border-x border-white/20 px-3">
-            <div className="text-[10px] text-blue-200 uppercase font-bold">In Progress</div>
-            <div className="text-xl font-black text-cyan-300 mt-0.5">{inProgressCount}</div>
+          <div className="stat-divider border-x border-slate-200 dark:border-white/20 px-3 sm:px-4">
+            <div className="stat-label text-[10px] sm:text-xs text-slate-600 dark:text-blue-200 uppercase font-extrabold tracking-wider">
+              In Progress
+            </div>
+            <div className="stat-num-progress text-xl sm:text-2xl font-black mt-0.5 text-blue-600 dark:text-cyan-300">
+              {inProgressCount}
+            </div>
           </div>
           <div>
-            <div className="text-[10px] text-blue-200 uppercase font-bold">Completed</div>
-            <div className="text-xl font-black text-emerald-300 mt-0.5">{completedCount}</div>
+            <div className="stat-label text-[10px] sm:text-xs text-slate-600 dark:text-blue-200 uppercase font-extrabold tracking-wider">
+              Completed
+            </div>
+            <div className="stat-num-completed text-xl sm:text-2xl font-black mt-0.5 text-emerald-600 dark:text-emerald-300">
+              {completedCount}
+            </div>
           </div>
         </div>
       </div>
@@ -119,7 +140,7 @@ export default function MyLearning() {
 
       {/* Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
+        <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar">
           {(['All', 'In Progress', 'Completed'] as const).map(status => (
             <button
               key={status}
@@ -180,24 +201,33 @@ export default function MyLearning() {
           >
             <div>
               {/* Thumbnail Header */}
-              <div className={`h-28 rounded-2xl bg-gradient-to-r ${course.thumbnailGradient} p-4 text-white flex flex-col justify-between relative overflow-hidden mb-4 shadow-md`}>
+              <div className={`course-gradient-thumb h-28 rounded-2xl bg-gradient-to-r ${course.thumbnailGradient} p-4 text-white flex flex-col justify-between relative overflow-hidden mb-4 shadow-md`}>
                 <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/20 backdrop-blur-md uppercase">
+                  <span
+                    className="course-thumb-category px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white/25 border border-white/35 backdrop-blur-md uppercase text-white shadow-xs"
+                    style={{ color: '#ffffff' }}
+                  >
                     {course.category}
                   </span>
-                  <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold backdrop-blur-sm ${
-                    course.status === 'Completed' ? 'bg-emerald-500/80 text-white' : 'bg-black/30 text-white'
-                  }`}>
+                  <span
+                    className={`course-thumb-level px-2 py-0.5 rounded-md text-[10px] font-bold backdrop-blur-sm border ${
+                      course.status === 'Completed' ? 'bg-emerald-500/90 border-emerald-400/40 text-white' : 'bg-black/35 border-white/20 text-white'
+                    }`}
+                    style={{ color: '#ffffff' }}
+                  >
                     {course.status}
                   </span>
                 </div>
 
-                <div className="flex items-end justify-between text-xs text-white">
-                  <span className="font-semibold flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" />
+                <div className="flex items-end justify-between text-xs text-white" style={{ color: '#ffffff' }}>
+                  <span className="font-semibold flex items-center gap-1 text-white" style={{ color: '#ffffff' }}>
+                    <Clock className="w-3.5 h-3.5 text-white" />
                     {course.estimatedTime}
                   </span>
-                  <span className="font-mono text-[10px] bg-white/20 px-2 py-0.5 rounded">
+                  <span
+                    className="font-mono text-[10px] bg-white/25 border border-white/30 px-2 py-0.5 rounded text-white font-bold"
+                    style={{ color: '#ffffff' }}
+                  >
                     {course.completedModules}/{course.totalModules} Units
                   </span>
                 </div>

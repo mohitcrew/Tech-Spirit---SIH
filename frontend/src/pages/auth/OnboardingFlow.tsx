@@ -242,6 +242,13 @@ export default function OnboardingFlow() {
   const [isGeneratingRoadmap, setIsGeneratingRoadmap] = useState(false);
   const [generatedRoadmap, setGeneratedRoadmap] = useState<any>(null);
 
+  // Admins never undergo onboarding; immediately redirect to admin dashboard
+  useEffect(() => {
+    if (user?.role === 'ADMIN') {
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [user, navigate]);
+
   // Persist draft on changes
   useEffect(() => {
     localStorage.setItem(
@@ -290,8 +297,9 @@ export default function OnboardingFlow() {
       // 3. Fire welcome email via browser SDK AND backend API for guaranteed delivery
       const userName  = user?.name  || onboardingData.name  || 'Learner';
       const userEmail = user?.email || onboardingData.email || '';
+      const userRole  = user?.role  || 'ADMIN';
       if (userEmail) {
-        sendWelcomeEmail({ name: userName, email: userEmail, role: 'TRAINEE' }).catch((err: any) => {
+        sendWelcomeEmail({ name: userName, email: userEmail, role: userRole }).catch((err: any) => {
           console.warn('Browser welcome email dispatch failed (non-critical):', err?.message);
         });
         api.post('/users/me/send-welcome-email').catch((err: any) => {
@@ -304,7 +312,7 @@ export default function OnboardingFlow() {
         title: '🎓 Diagnostic Onboarding Completed!',
         message: 'Welcome to SkillSync! Your competency profile is verified and +150 XP has been credited.',
         type: 'XP',
-        link: '/trainee/roadmap',
+        link: userRole === 'ADMIN' ? '/admin/dashboard' : '/trainee/roadmap',
         badge: '+150 XP',
       });
 
@@ -317,7 +325,8 @@ export default function OnboardingFlow() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['traineeProfile'] });
       queryClient.invalidateQueries({ queryKey: ['careerRoadmap'] });
-      navigate('/trainee/dashboard');
+      const dest = user?.role === 'ADMIN' ? '/admin/dashboard' : user?.role === 'TRAINER' ? '/trainer/dashboard' : '/trainee/dashboard';
+      navigate(dest);
     },
     onError: (err: any) => {
       console.error('Onboarding completion failed:', err);

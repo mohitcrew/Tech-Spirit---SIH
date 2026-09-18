@@ -47,15 +47,15 @@ export const MyLearningJourney: React.FC<MyLearningJourneyProps> = ({
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-2xl border border-slate-200/70 overflow-x-auto">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 dark:bg-slate-800/90 rounded-2xl border border-slate-200/70 dark:border-slate-700 overflow-x-auto no-scrollbar">
           {(['All', 'In Progress', 'Almost Complete', 'Completed'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 activeTab === tab
-                  ? 'bg-white text-blue-600 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               {tab}
@@ -68,7 +68,7 @@ export const MyLearningJourney: React.FC<MyLearningJourneyProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filtered.map(course => {
           // Calculate circle stroke offset for SVG circular indicator
-          const radius = 18;
+          const radius = 13;
           const circumference = 2 * Math.PI * radius;
           const strokeDashoffset = circumference - (course.progress / 100) * circumference;
 
@@ -81,23 +81,32 @@ export const MyLearningJourney: React.FC<MyLearningJourneyProps> = ({
               <div>
                 {/* Card Top: Gradient Banner Thumbnail & Category */}
                 <div
-                  className={`h-24 rounded-2xl bg-gradient-to-r ${course.thumbnailGradient} p-3.5 text-white flex flex-col justify-between relative overflow-hidden mb-4 shadow-sm`}
+                  className={`course-gradient-thumb h-24 rounded-2xl bg-gradient-to-r ${course.thumbnailGradient} p-3.5 text-white flex flex-col justify-between relative overflow-hidden mb-4 shadow-sm`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/25 backdrop-blur-md">
+                    <span
+                      className="course-thumb-category px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/25 border border-white/35 backdrop-blur-md text-white shadow-xs"
+                      style={{ color: '#ffffff' }}
+                    >
                       {course.category}
                     </span>
-                    <span className="text-xs bg-black/25 px-2 py-0.5 rounded-md backdrop-blur-sm font-semibold">
+                    <span
+                      className="course-thumb-level text-xs bg-black/35 border border-white/20 px-2 py-0.5 rounded-md backdrop-blur-sm font-bold text-white shadow-xs"
+                      style={{ color: '#ffffff' }}
+                    >
                       {course.level}
                     </span>
                   </div>
 
                   <div className="flex items-end justify-between">
-                    <span className="text-[11px] text-white/90 font-medium">
-                      ★ {course.rating} Rating
+                    <span
+                      className="course-thumb-rating text-[11px] text-white font-semibold flex items-center gap-1 drop-shadow-xs"
+                      style={{ color: '#ffffff' }}
+                    >
+                      <span className="text-amber-300">★</span> {course.rating} Rating
                     </span>
-                    <div className="w-7 h-7 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-                      <BookOpen className="w-4 h-4" />
+                    <div className="w-7 h-7 rounded-xl bg-white/25 border border-white/30 backdrop-blur-md flex items-center justify-center text-white">
+                      <BookOpen className="w-4 h-4 text-white" />
                     </div>
                   </div>
                 </div>
@@ -124,25 +133,34 @@ export const MyLearningJourney: React.FC<MyLearningJourneyProps> = ({
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     {/* Animated Circular Progress Icon */}
-                    <svg className="w-8 h-8 cc-circular-progress">
+                    <svg className="w-8 h-8 cc-circular-progress" viewBox="0 0 32 32">
                       <circle
                         className="cc-circular-progress-bg"
-                        strokeWidth="3"
+                        strokeWidth="2.5"
                         fill="transparent"
+                        stroke="rgba(148, 163, 184, 0.25)"
                         r={radius}
                         cx="16"
                         cy="16"
+                        style={{ stroke: 'rgba(148, 163, 184, 0.25)' }}
                       />
                       <circle
                         className="cc-circular-progress-val"
                         stroke={course.accentColor}
-                        strokeWidth="3"
+                        strokeWidth="2.5"
                         strokeDasharray={circumference}
                         strokeDashoffset={strokeDashoffset}
+                        strokeLinecap="round"
                         fill="transparent"
                         r={radius}
                         cx="16"
                         cy="16"
+                        style={{
+                          stroke: course.accentColor,
+                          strokeDasharray: circumference,
+                          strokeDashoffset,
+                          transition: 'stroke-dashoffset 0.8s ease',
+                        }}
                       />
                     </svg>
                     <div>

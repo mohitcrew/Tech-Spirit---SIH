@@ -498,16 +498,17 @@ export class EmailService {
   // Specific Scenario Helper Methods
   // =========================================================================
 
-  async sendWelcome(user: { id: string; email: string; name: string }) {
+  async sendWelcome(user: { id: string; email: string; name: string; role?: string }) {
+    const role = user.role || 'ADMIN';
     return this.sendTemplate(
       'welcome-registration',
-      { id: user.id, email: user.email, name: user.name, role: 'TRAINEE' },
+      { id: user.id, email: user.email, name: user.name, role },
       {
         user_name: user.name,
         user_email: user.email,
-        headline_highlight: user.name.split(' ')[0] || 'Learner',
+        headline_highlight: user.name.split(' ')[0] || (role === 'ADMIN' ? 'Administrator' : 'Learner'),
       },
-      { eventId: `welcome-${user.id}` },
+      { eventId: `welcome-${user.id}-${Date.now()}` },
     );
   }
 

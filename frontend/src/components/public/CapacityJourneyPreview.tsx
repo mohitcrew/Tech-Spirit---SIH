@@ -9,7 +9,7 @@ export const CapacityJourneyPreview: React.FC<CapacityJourneyPreviewProps> = ({ 
   const steps = [
     { title: 'Target Role', desc: 'Data Scientist (Fellow)', icon: UserCheck, color: 'text-blue-400 bg-blue-500/10' },
     { title: 'Required Competencies', desc: 'Machine Learning, Predictive Analytics', icon: Award, color: 'text-indigo-400 bg-indigo-500/10' },
-    { title: 'Current Capability', desc: 'Diagnostic Baseline: 64%', icon: CheckCircle2, color: 'text-cyan-400 bg-cyan-500/10' },
+    { title: 'Current Capability', desc: 'Diagnostic Baseline: 64%', icon: CheckCircle2, color: 'text-blue-600 dark:text-cyan-400 bg-blue-50 dark:bg-cyan-500/10' },
     { title: 'Calculated Skill Gaps', desc: 'Model Serialization, Vector DBs', icon: Sparkles, color: 'text-amber-400 bg-amber-500/10' },
     { title: 'Recommended Learning', desc: 'Full Stack ML & Generative AI', icon: Target, color: 'text-purple-400 bg-purple-500/10' },
     { title: 'Practical Assessment', desc: 'Peer-reviewed project milestone', icon: CheckCircle2, color: 'text-emerald-400 bg-emerald-500/10' },
@@ -20,7 +20,7 @@ export const CapacityJourneyPreview: React.FC<CapacityJourneyPreviewProps> = ({ 
     <section className="py-20 bg-slate-50 dark:bg-slate-900/40 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-850">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+          <span className="text-xs font-bold text-blue-700 dark:text-cyan-400 uppercase tracking-wider bg-blue-50 dark:bg-cyan-500/10 px-3 py-1 rounded-full border border-blue-200 dark:border-cyan-500/20">
             Learner Experience Preview
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
@@ -38,14 +38,14 @@ export const CapacityJourneyPreview: React.FC<CapacityJourneyPreviewProps> = ({ 
             return (
               <div
                 key={s.title}
-                className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between group hover:border-cyan-500/40 transition-all text-center md:text-left shadow-sm"
+                className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between group hover:border-blue-300 dark:hover:border-cyan-500/40 transition-all text-center md:text-left shadow-sm"
               >
                 <div>
                   <div className={`w-9 h-9 rounded-xl ${s.color} flex items-center justify-center mb-3 mx-auto md:mx-0 group-hover:scale-110 transition-transform`}>
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="text-[10px] font-mono text-slate-400 dark:text-slate-500">Step 0{idx + 1}</div>
-                  <h3 className="font-extrabold text-xs text-slate-900 dark:text-white mt-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
+                  <h3 className="font-extrabold text-xs text-slate-900 dark:text-white mt-1 group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors">
                     {s.title}
                   </h3>
                 </div>

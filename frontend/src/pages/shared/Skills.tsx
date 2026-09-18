@@ -52,16 +52,16 @@ export default function Skills() {
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       {/* Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-700 to-cyan-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="page-header-banner p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-700 to-cyan-700 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2">
-            <Target className="w-3.5 h-3.5" />
-            <span>Capability Intelligence</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-2 text-white" style={{ color: '#ffffff' }}>
+            <Target className="w-3.5 h-3.5 text-white" />
+            <span className="text-white" style={{ color: '#ffffff' }}>Capability Intelligence</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black">
+          <h1 className="text-2xl sm:text-3xl font-black text-white" style={{ color: '#ffffff' }}>
             Skills Profile & Gap Diagnostics
           </h1>
-          <p className="text-xs sm:text-sm text-emerald-100 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-emerald-100 mt-1 max-w-xl" style={{ color: '#d1fae5' }}>
             Compare your verified diagnostic proficiency against benchmarks required for {targetRole}.
           </p>
         </div>
@@ -161,7 +161,7 @@ export default function Skills() {
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
             {(['All', 'Critical', 'Moderate', 'Target Met'] as const).map(f => (
               <button
                 key={f}
